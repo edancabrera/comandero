@@ -1,9 +1,19 @@
 import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from 'react';
 
 import productos from '../../data/productos.json'
 
 const Articulos = () => {
+  const [search, setSearch] = useState("");
+
+  const filteredProducts = productos.filter((producto) => {
+    const texto = search.toLowerCase();
+    return (
+      producto.nombre.toLowerCase().includes(texto)
+    );
+  });
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -12,6 +22,8 @@ const Articulos = () => {
         placeholder='Buscar'
         placeholderTextColor="#ccc"
         style={styles.searchBar}
+        value={search}
+        onChangeText={setSearch}
       />
 
       {/* Header de la tabla */}
@@ -22,7 +34,7 @@ const Articulos = () => {
 
       {/* Tabla */}
       <FlatList 
-        data={productos}
+        data={filteredProducts}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={styles.row}>
