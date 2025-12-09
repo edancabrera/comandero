@@ -27,6 +27,16 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
     ]
   ]
 
+  const handlePress = (value) => {
+    if(value === -1){
+        setNumeroEmpleado(numeroEmpleado.slice(0, -1));
+    } else if (value === 10){
+        //Opción de envío
+    } else {
+        setNumeroEmpleado(prev => prev + value);
+    }
+  }
+
   return (
     <View style={styles.container}>
       {numpadContent.map((row, rowIndex) => (
@@ -34,6 +44,7 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
             {row.map((button) => (
                 <Pressable
                     key={button.id}
+                    onPress={() => handlePress(button.value)}
                     style={({ pressed }) => [
                         styles.button,
                         pressed && styles.buttonPressed
