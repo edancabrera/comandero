@@ -2,7 +2,7 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const Numpad = () => {
+const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
 
     const numpadContent = [
     [
