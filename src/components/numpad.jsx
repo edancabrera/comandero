@@ -1,8 +1,10 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
+    const router = useRouter();
 
     const numpadContent = [
     [
@@ -32,6 +34,7 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
         setNumeroEmpleado(numeroEmpleado.slice(0, -1));
     } else if (value === 10){
         //Opción de envío
+        router.push('/dashboard');
     } else {
         if(numeroEmpleado.length < 6){
             setNumeroEmpleado(prev => prev + value);
