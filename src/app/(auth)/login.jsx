@@ -1,11 +1,14 @@
 import { StyleSheet, Text, View, Image, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useState } from "react";
 
 import Numpad from "../../components/numpad";
 
 import Logo from "../../../assets/crovrestaurante.png";
 
 const login = () => {
+    const [numeroEmpleado, setNumeroEmpleado] = useState("");
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={{flex:0.6, alignItems: 'center'}}>
@@ -15,10 +18,11 @@ const login = () => {
           placeholder="Numero de empleado"
           editable={false}
           style={styles.input}
+          value={numeroEmpleado}
         />
       </View>
       <View style={{flex:0.4}}>
-        <Numpad />
+        <Numpad numeroEmpleado={numeroEmpleado} setNumeroEmpleado={setNumeroEmpleado} />
       </View>
     </SafeAreaView>
   );
