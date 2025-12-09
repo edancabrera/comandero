@@ -30,9 +30,9 @@ const Articulos = () => {
         data={productos}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View>
-            <Text >{item.nombre}</Text>
-            <Text>${item.precio}</Text>
+          <View style={styles.row}>
+            <Text style={[styles.cell, {flex: 2}]} >{item.nombre}</Text>
+            <Text style={[styles.cell]} >${item.precio}</Text>
           </View>
         )}
       />
@@ -53,7 +53,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     borderRadius: 10,
     marginBottom: 15,
-    fontSize: 16
+    fontSize: 16,
+    width: '80%',
+    alignSelf: 'center'
   },
   header: {
     flexDirection: 'row',
@@ -61,10 +63,26 @@ const styles = StyleSheet.create({
     borderBottomWidth: 2,
     borderColor: "#ffffff88",
     marginBottom:6,
+    width: '80%',
+    alignSelf: 'center'
   },
   headerText: {
     color: "white",
     fontWeight: "bold",
     fontSize: 15,
+  },
+  row: {
+    flexDirection: "row",
+    backgroundColor: "#faa80f",
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+    marginBottom: 8,
+    width: '80%',
+    alignSelf: 'center'
+  },
+  cell: {
+    fontSize: 15,
+    color: "black",
   }
 })
