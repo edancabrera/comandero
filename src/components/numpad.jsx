@@ -33,7 +33,9 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
     } else if (value === 10){
         //Opción de envío
     } else {
-        setNumeroEmpleado(prev => prev + value);
+        if(numeroEmpleado.length < 6){
+            setNumeroEmpleado(prev => prev + value);
+        }
     }
   }
 
@@ -45,6 +47,8 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
                 <Pressable
                     key={button.id}
                     onPress={() => handlePress(button.value)}
+                    onLongPress={() => {if (button.id === '#backspace'){setNumeroEmpleado(""); }} }
+                    delayLongPress={300}
                     style={({ pressed }) => [
                         styles.button,
                         pressed && styles.buttonPressed
