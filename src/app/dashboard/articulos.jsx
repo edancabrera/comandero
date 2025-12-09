@@ -1,6 +1,8 @@
-import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native'
+import { StyleSheet, Text, View, TextInput, FlatList, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from 'react';
+
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import productos from '../../data/productos.json'
 
@@ -25,6 +27,9 @@ const Articulos = () => {
         value={search}
         onChangeText={setSearch}
       />
+      <Pressable onPress={()=>setSearch('')}>
+        <MaterialIcons name="cleaning-services" size={24} color="#fff" />
+      </Pressable>
 
       {/* Header de la tabla */}
       <View style={styles.header}>
