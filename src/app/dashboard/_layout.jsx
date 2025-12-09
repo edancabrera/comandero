@@ -1,5 +1,6 @@
 import { StyleSheet } from 'react-native'
 import { Tabs } from 'expo-router'
+import { Ionicons } from "@expo/vector-icons";
 
 const dashbaordLayout = () => {
   return (
@@ -18,8 +19,24 @@ const dashbaordLayout = () => {
             }
         }}
     >
-        <Tabs.Screen name = "mesas"/>
-        <Tabs.Screen name = "articulos"/>
+        <Tabs.Screen 
+            name = "mesas"
+            options={{
+                title: "Mesas",
+                tabBarIcon: ({ color, size }) => (
+                <Ionicons name="grid" color={color} size={size} />
+          ),
+            }}
+        />
+        <Tabs.Screen 
+            name = "articulos"
+            options={{
+                title: "Ver precios",
+                tabBarIcon: ({ color, size }) => (
+                <Ionicons name="pricetag" color={color} size={size} />
+          ),
+            }}
+        />
     </Tabs>
   )
 }
