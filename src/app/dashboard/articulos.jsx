@@ -1,14 +1,9 @@
 import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 
-const Articulos = () => {
-  const productos = [
-    { id: "1", clave: "A001", nombre: "Coca-Cola 600ml", precio: 18 },
-    { id: "2", clave: "A002", nombre: "Pepsi 600ml", precio: 17 },
-    { id: "3", clave: "B055", nombre: "Agua Ciel 1L", precio: 14 },
-    { id: "4", clave: "M020", nombre: "Jugo Del Valle", precio: 22 },
-  ];
+import productos from '../../data/productos.json'
 
+const Articulos = () => {
   return (
     <SafeAreaView style={styles.container}>
 
@@ -36,7 +31,6 @@ const Articulos = () => {
           </View>
         )}
       />
-
 
     </SafeAreaView>
   )
