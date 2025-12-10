@@ -19,17 +19,19 @@ const Articulos = () => {
   return (
     <SafeAreaView style={styles.container}>
 
-      {/* Barra de búsqueda */}
-      <TextInput 
-        placeholder='Buscar'
-        placeholderTextColor="#ccc"
-        style={styles.searchBar}
-        value={search}
-        onChangeText={setSearch}
-      />
-      <Pressable onPress={()=>setSearch('')}>
-        <MaterialIcons name="cleaning-services" size={24} color="#fff" />
-      </Pressable>
+      {/* Barra de búsqueda  y botón para borrar*/}
+      <View style={{flexDirection: 'row', width: '80%', alignSelf:'center'}}>
+        <TextInput 
+          placeholder='Buscar'
+          placeholderTextColor="#ccc"
+          style={styles.searchBar}
+          value={search}
+          onChangeText={setSearch}
+        />
+        <Pressable onPress={()=>setSearch('')} >
+          <MaterialIcons name="cleaning-services" size={24} color="#fff" style={{margin:10}}  />
+        </Pressable>
+      </View>
 
       {/* Header de la tabla */}
       <View style={styles.header}>
@@ -65,8 +67,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginBottom: 15,
     fontSize: 16,
-    width: '80%',
-    alignSelf: 'center'
+    flex: 1
   },
   header: {
     flexDirection: 'row',
