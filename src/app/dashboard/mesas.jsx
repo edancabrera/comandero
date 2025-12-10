@@ -1,16 +1,20 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, ScrollView } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import Areas from '../../components/areas'
+import { useState } from 'react';
 
 const Mesas = () => {
+  const [selectedArea, setSelectedArea] = useState(null)
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.layoutMesas}>
-        <Text>Aquí se mostrarán las mesas correspondientes a cada área</Text>
-      </View>
+
+      <ScrollView style={styles.layoutMesas}>
+        {/* Insertar map para renderizar las mesas */}
+      </ScrollView>
+
       <View style={styles.layoutAreas}>
-        <Areas />
+        <Areas onSelectArea={setSelectedArea}/>
       </View>
     </SafeAreaView>
   )

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
 
 import areas from '../data/areas.json';
 
-const Areas = () => {
+const Areas = ({ onSelectArea }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Areas</Text>
