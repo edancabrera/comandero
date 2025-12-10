@@ -1,0 +1,89 @@
+[
+    {
+      "id": 1,
+      "nombre": "Bar & Lounge",
+      "numero_mesas":24,
+      "mesas": [
+        {
+            "id": 1,
+            "nombre": "Mesa 1",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        },
+        {
+            "id": 2,
+            "nombre": "Mesa 2",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        },
+        {
+            "id": 3,
+            "nombre": "Mesa 3",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        }
+      ],
+      "activo":1
+    },
+    {
+      "id": 2,
+      "nombre": "pool",
+      "numero_mesas":10,
+      "mesas": [
+        {
+            "id": 1,
+            "nombre": "Mesa 1",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        },
+        {
+            "id": 2,
+            "nombre": "Mesa 2",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        },
+        {
+            "id": 3,
+            "nombre": "Mesa 3",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        }
+      ],
+      "activo":1
+    },
+    {
+      "id": 3,
+      "nombre": "Huesped",
+      "numero_mesas":16,
+      "mesas": [
+        {
+            "id": 1,
+            "nombre": "Mesa 1",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        },
+        {
+            "id": 2,
+            "nombre": "Mesa 2",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        },
+        {
+            "id": 3,
+            "nombre": "Mesa 3",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        }
+      ],
+      "activo":1
+    }
+  ]
