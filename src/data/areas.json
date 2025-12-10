@@ -75,7 +75,7 @@
     },
     {
       "id": 2,
-      "nombre": "pool",
+      "nombre": "Pool",
       "numero_mesas":10,
       "mesas": [
         {

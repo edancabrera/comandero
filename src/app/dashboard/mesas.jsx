@@ -1,9 +1,13 @@
+import { useState } from 'react';
+
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
+
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import Areas from '../../components/areas'
-import { useState } from 'react';
+import StatusInfo from '../../components/statusInfo';
+
 
 const Mesas = () => {
   const [selectedArea, setSelectedArea] = useState(null);
@@ -13,11 +17,11 @@ const Mesas = () => {
         case 'DISPONIBLE':
           return "#12ff12";
         case 'OCUPADO':
-          return "#ff4d4d";
+          return "#fe1616";
         case 'POR LIBERARSE':
-          return "#ffeb3b";
+          return "#fbfb1b";
         case 'MESA UNIDA':
-          return "#3b82f6";
+          return "#79caf5";
         default:
           return "#12ff12"
       }
@@ -57,6 +61,7 @@ const Mesas = () => {
 
       <View style={styles.layoutAreas}>
         <Areas onSelectArea={setSelectedArea}/>
+        <StatusInfo></StatusInfo>
       </View>
     </SafeAreaView>
   )
