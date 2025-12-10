@@ -22,7 +22,7 @@
             "id": 3,
             "nombre": "Mesa 3",
             "activo": 1,
-            "estatus": "DISPONIBLE",
+            "estatus": "OCUPADO",
             "id_mesa_principal": null
         }
         ,
@@ -46,7 +46,7 @@
             "id": 6,
             "nombre": "Mesa 6",
             "activo": 1,
-            "estatus": "DISPONIBLE",
+            "estatus": "POR LIBERARSE",
             "id_mesa_principal": null
         },
         {
@@ -89,7 +89,7 @@
             "id": 2,
             "nombre": "Mesa 2",
             "activo": 1,
-            "estatus": "DISPONIBLE",
+            "estatus": "POR LIBERARSE",
             "id_mesa_principal": null
         },
         {
@@ -132,7 +132,7 @@
             "id": 3,
             "nombre": "Mesa 3",
             "activo": 1,
-            "estatus": "DISPONIBLE",
+            "estatus": "OCUPADO",
             "id_mesa_principal": null
         }
       ],

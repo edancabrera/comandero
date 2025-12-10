@@ -6,7 +6,23 @@ import Areas from '../../components/areas'
 import { useState } from 'react';
 
 const Mesas = () => {
-  const [selectedArea, setSelectedArea] = useState(null)
+  const [selectedArea, setSelectedArea] = useState(null);
+
+    const getMesasButtonBackgroundColor = (estatus) => {
+      switch(estatus){
+        case 'DISPONIBLE':
+          return "#12ff12";
+        case 'OCUPADO':
+          return "#ff4d4d";
+        case 'POR LIBERARSE':
+          return "#ffeb3b";
+        case 'MESA UNIDA':
+          return "#3b82f6";
+        default:
+          return "#12ff12"
+      }
+    }
+
   return (
     <SafeAreaView style={styles.container}>
 
@@ -22,7 +38,7 @@ const Mesas = () => {
           <>
             <View style={styles.mesasButtonsContainer}>
             {selectedArea.mesas.map((mesa)=>(
-              <Pressable key={mesa.id} style={styles.mesasButton}>
+              <Pressable key={mesa.id} style={[styles.mesasButton, {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)}]}>
                 <MaterialIcons name="table-bar" size={32} color="#cf8a5e" />
                 <Text style={styles.mesasButtonText}>{mesa.nombre}</Text>
               </Pressable>
@@ -71,7 +87,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap'
   },
   mesasButton:{
-    backgroundColor: "#12ff12",
     padding: 20,
     borderRadius: 5,
     margin: 5,
