@@ -28,7 +28,7 @@ const StatusInfo = () => {
     <View>
       <Text style={{alignSelf: 'center', fontWeight: 'bold', }}>Estados</Text>
       {statusExistentes.map((status, index) => (
-        <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+        <View key={index} style={{flexDirection: 'row', justifyContent: 'space-between'}}>
         <Text>{status.estado}</Text>
         <MaterialCommunityIcons name="square-rounded" size={24} color={status.color} />
       </View>
