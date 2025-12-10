@@ -10,6 +10,7 @@ const Areas = ({ onSelectArea }) => {
         {areas.map((area)=>(
             <Pressable 
                 key={area.id}
+                onPress={() => onSelectArea(area)}
                 style={styles.areaButton}
             >
                 <Text style={styles.areaButtonText}>{area.nombre}</Text>
