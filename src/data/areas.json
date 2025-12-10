@@ -25,6 +25,30 @@
             "estatus": "DISPONIBLE",
             "id_mesa_principal": null
         }
+        ,
+        {
+            "id": 4,
+            "nombre": "Mesa 4",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        }
+        ,
+        {
+            "id": 5,
+            "nombre": "Mesa 5",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        }
+        ,
+        {
+            "id": 6,
+            "nombre": "Mesa 6",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        }
       ],
       "activo":1
     },
@@ -50,6 +74,13 @@
         {
             "id": 3,
             "nombre": "Mesa 3",
+            "activo": 1,
+            "estatus": "DISPONIBLE",
+            "id_mesa_principal": null
+        },
+        {
+            "id": 4,
+            "nombre": "Mesa 4",
             "activo": 1,
             "estatus": "DISPONIBLE",
             "id_mesa_principal": null
