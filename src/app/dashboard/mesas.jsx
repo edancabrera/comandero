@@ -18,7 +18,7 @@ const Mesas = () => {
           return "#12ff12";
         case 'OCUPADO':
           return "#fe1616";
-        case 'POR LIBERARSE':
+        case 'COBRANDO':
           return "#fbfb1b";
         case 'MESA UNIDA':
           return "#79caf5";
