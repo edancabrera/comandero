@@ -10,19 +10,30 @@ const Mesas = () => {
   return (
     <SafeAreaView style={styles.container}>
 
-      <ScrollView style={styles.layoutMesas}>
+      <ScrollView 
+        style={styles.layoutMesas}
+        stickyHeaderIndices={[0]}
+      >
+        <View style={styles.stickyHeader}>
+          <Text style={styles.mesasTitle}>{selectedArea?.nombre}</Text>
+        </View>
+        
         {selectedArea ? (
           <>
-          <Text>{selectedArea.nombre}</Text>
-          {selectedArea.mesas.map((mesa)=>(
-            <Pressable key={mesa.id}>
-              <MaterialIcons name="table-bar" size={24} color="black" />
-              <Text>{mesa.nombre}</Text>
-            </Pressable>
-          ))}
+            <View style={styles.mesasButtonsContainer}>
+            {selectedArea.mesas.map((mesa)=>(
+              <Pressable key={mesa.id} style={styles.mesasButton}>
+                <MaterialIcons name="table-bar" size={32} color="#cf8a5e" />
+                <Text style={styles.mesasButtonText}>{mesa.nombre}</Text>
+              </Pressable>
+            ))}
+            </View>
           </>
         ):(
-          <Text>Selecciona un área para ver sus mesas</Text>
+          <View style={{alignItems: 'center'}}>
+            <Text style={styles.mesasTitle}>Selecciona un área para ver sus mesas</Text>
+          </View>
+          
         )
 
         }
@@ -41,12 +52,36 @@ const styles = StyleSheet.create({
   container: {
     flex:1,
     flexDirection: 'row',
-    backgroundColor: "#2596be",
+    backgroundColor: "#2596be"
   },
   layoutMesas :{
     flex:0.8,
-
-    backgroundColor:'white'
+  },
+  stickyHeader: {
+    backgroundColor: '#2596be',
+    paddingVertical: 5
+  },
+  mesasTitle:{
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#fff'
+  },
+  mesasButtonsContainer: {
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  mesasButton:{
+    backgroundColor: "#12ff12",
+    padding: 20,
+    borderRadius: 5,
+    margin: 5,
+    alignItems: 'center',
+    width: 150
+  },
+  mesasButtonText:{
+    color: '#000',
+    fontWeight: 'bold',
+    fontSize: 16
   },
   layoutAreas: {
     flex:0.2,
