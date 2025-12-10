@@ -25,13 +25,11 @@ const styles = StyleSheet.create({
     backgroundColor: "#2596be",
   },
   layoutMesas :{
-    flex:0.6,
+    flex:0.8,
 
     backgroundColor:'white'
   },
   layoutAreas: {
-    flex:0.4,
-
-    backgroundColor:'red'
+    flex:0.2,
   }
 })
