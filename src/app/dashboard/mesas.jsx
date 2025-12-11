@@ -42,7 +42,11 @@ const Mesas = () => {
           <>
             <View style={styles.mesasButtonsContainer}>
             {selectedArea.mesas.map((mesa)=>(
-              <Pressable key={mesa.id} style={[styles.mesasButton, {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)}]}>
+              <Pressable 
+                key={mesa.id} 
+                style={[styles.mesasButton, {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)}]}
+                onPress={{/* Agregar función para navegar a la pantalla Comandero */}}
+              >
                 <MaterialIcons name="table-bar" size={32} color="#cf8a5e" />
                 <Text style={styles.mesasButtonText}>{mesa.nombre}</Text>
               </Pressable>
