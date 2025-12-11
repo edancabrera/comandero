@@ -4,16 +4,16 @@ import { useState } from 'react';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-import productos from '../../data/productos.json'
+import categoria_platillo from '../../data/categoria_platillo.json'
 
 const Articulos = () => {
   const [search, setSearch] = useState("");
 
-  const filteredProducts = productos.filter((producto) => {
+  const filteredProducts = categoria_platillo.flatMap((categoria) => 
+    categoria.producto.filter((producto) => producto.mostrar_en_el_menu === 1)
+  ).filter((producto) => {
     const texto = search.toLowerCase();
-    return (
-      producto.nombre.toLowerCase().includes(texto)
-    );
+    return producto.nombre.toLowerCase().includes(texto);
   });
 
   return (
@@ -42,11 +42,11 @@ const Articulos = () => {
       {/* Tabla */}
       <FlatList 
         data={filteredProducts}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.idproducto.toString()}
         renderItem={({ item }) => (
           <View style={styles.row}>
             <Text style={[styles.cell, {flex: 2}]} >{item.nombre}</Text>
-            <Text style={[styles.cell]} >${item.precio}</Text>
+            <Text style={[styles.cell]} >${item.precio1}</Text>
           </View>
         )}
       />

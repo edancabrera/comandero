@@ -1,0 +1,180 @@
+[
+    {
+        "id": 2,
+        "nombre": "CLASSIC COCKTAILS",
+        "menu": "BEBIDA",
+        "activo": 1,
+        "producto": [
+            {
+                "idproducto": 44,
+                "codigo": "0002",
+                "nombre": "MARGARITA",
+                "costo": 40,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 150,
+                "mostrar_en_el_menu":1
+            },
+            {
+                "idproducto": 47,
+                "codigo": "0005",
+                "nombre": "COSMO",
+                "costo": 40,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 150,
+                "mostrar_en_el_menu":1
+            },
+            {
+                "idproducto": 49,
+                "codigo": "0007",
+                "nombre": "PALOMA",
+                "costo": 40,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 150,
+                "mostrar_en_el_menu":1
+            }
+        ]
+    },
+    {
+        "id": 3,
+        "nombre": "HIGHBALL COCKTAILS",
+        "menu": "BEBIDA",
+        "activo": 1,
+        "producto": [
+            {
+                "idproducto": 57,
+                "codigo": "0015",
+                "nombre": "TOM COLLINS",
+                "costo": 40,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 150,
+                "mostrar_en_el_menu":1
+            },
+            {
+                "idproducto": 63,
+                "codigo": "0021",
+                "nombre": "SCREWDRIVER",
+                "costo": 40,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 150,
+                "mostrar_en_el_menu":1
+            },
+            {
+                "idproducto": 60,
+                "codigo": "0018",
+                "nombre": "CUBA LIBRE",
+                "costo": 40,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 150,
+                "mostrar_en_el_menu":1
+            }
+        ]
+    },
+    {
+        "id": 4,
+        "nombre": "WINE",
+        "menu": "BEBIDA",
+        "activo": 1,
+        "producto": [
+            {
+                "idproducto": 80,
+                "codigo": "0038",
+                "nombre": "VINO TINTO",
+                "costo": 100,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 200,
+                "mostrar_en_el_menu":1
+            },
+            {
+                "idproducto": 81,
+                "codigo": "0039",
+                "nombre": "VINO BLANCO",
+                "costo": 100,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 200,
+                "mostrar_en_el_menu":1
+            }
+        ]
+    },
+    {
+        "id": 15,
+        "nombre": "TAPAS",
+        "menu": "COMIDA",
+        "activo": 1,
+        "producto": [
+            {
+                "idproducto": 144,
+                "codigo": "0102",
+                "nombre": "TAPAS",
+                "costo": 30,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 120,
+                "mostrar_en_el_menu":1
+            },
+            {
+                "idproducto": 149,
+                "codigo": "0107",
+                "nombre": "MIXTO",
+                "costo": 40,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 200,
+                "mostrar_en_el_menu":1
+            }
+        ]
+    },
+    {
+        "id": 17,
+        "nombre": "ZARANDEADOS",
+        "menu": "COMIDA",
+        "activo": 1,
+        "producto": [
+            {
+                "idproducto": 150,
+                "codigo": "0108",
+                "nombre": "TILAPIA",
+                "costo": 10,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 150,
+                "mostrar_en_el_menu":1
+            }
+        ]
+    },
+    {
+        "id": 18,
+        "nombre": "TACOS",
+        "menu": "CENA",
+        "activo": 1,
+        "producto": [
+            {
+                "idproducto": 151,
+                "codigo": "0109",
+                "nombre": "TACO DE ASADA",
+                "costo": 10,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 30,
+                "mostrar_en_el_menu":1
+            },
+            {
+                "idproducto": 152,
+                "codigo": "0110",
+                "nombre": "TACO DE TRIPA",
+                "costo": 10,
+                "activo": 1,
+                "platillo": 1,
+                "precio1": 35,
+                "mostrar_en_el_menu":1
+            }
+        ]
+    }
+]
