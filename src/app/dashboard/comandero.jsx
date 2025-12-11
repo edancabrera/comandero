@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import ListaMenus from '../../components/comanderoComponents/listaMenus';
+
 const Comandero = () => {
   return (
     <SafeAreaView style={styles.container}>
@@ -8,7 +10,7 @@ const Comandero = () => {
         {/*Columna izquierda*/}
         <View style={styles.leftColumnContainer}>
             <Text>Mesa x Area x</Text>
-            {/*Aqui va la lista de menus*/}
+            <ListaMenus />
             <Pressable style={styles.cobrarButton}>
                 <Text>Cobrar Cuenta</Text>
             </Pressable>
