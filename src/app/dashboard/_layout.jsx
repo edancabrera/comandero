@@ -40,7 +40,8 @@ const dashbaordLayout = () => {
         <Tabs.Screen
             name='comandero'
             options={{
-                href: null
+                href: null,
+                tabBarStyle: {display: 'none'}
             }}
         />
     </Tabs>
