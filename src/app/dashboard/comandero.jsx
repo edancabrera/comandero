@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -5,14 +7,23 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import ListaMenus from '../../components/comanderoComponents/listaMenus';
 
+import categoria_platillo from '../../data/categoria_platillo.json'
+
 const Comandero = () => {
+    const [selectedMenu, setSelectedMenu] = useState(null);
+
+  // Filtrar categorías según el menú seleccionado
+  const categoriasFiltradas = selectedMenu
+    ? categoria_platillo.filter(categoria => categoria.menu === selectedMenu)
+    : [];
+
   return (
     <SafeAreaView style={styles.container}>
 
         {/*Columna izquierda*/}
         <View style={styles.leftColumnContainer}>
             <Text style={{margin: 5, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>Mesa x Area x</Text>
-            <ListaMenus />
+            <ListaMenus onSelectMenu={setSelectedMenu}/>
             <Pressable style={styles.cobrarButton}>
                 <MaterialCommunityIcons name="account-cash-outline" size={24} color="#000" />
                 <Text>Cobrar Cuenta</Text>
@@ -21,6 +32,30 @@ const Comandero = () => {
         
         {/*Columna central*/}
         <View style={styles.centralColumnContainer}>
+
+            {selectedMenu === null ? (
+                <Text>Selecciona un menú</Text>
+            ):(
+            <View style={{flex: 1}}>
+                <View style={{flex:.5}}>
+                    {
+                        categoriasFiltradas.map(categoria => (
+                            <Pressable
+                                key={categoria.id}
+                                style={{padding:10}}
+                            >
+                                <Text>{categoria.nombre}</Text>
+                            </Pressable>
+                    ))}
+                </View>
+                <View style={{flex: .5, backgroundColor: 'purple'}}>
+                    <Text style={{color: '#fff'}}>Area para mostar los platillos</Text>
+                </View>
+            </View>
+                
+            )
+
+            }
 
         </View>
 

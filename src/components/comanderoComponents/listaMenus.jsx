@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 
 import categoria_platillo from '../../data/categoria_platillo.json'
 
-const ListaMenus = () => {
+const ListaMenus = ({onSelectMenu}) => {
     const obtenerMenusUnicos = () => {
         const menus = categoria_platillo.map(item => item.menu);
         return [...new Set(menus)];
@@ -18,7 +18,11 @@ const ListaMenus = () => {
             <Text style={{fontWeight: 'bold'}}>Menus</Text>
         </View>
       {menus.map(menu => (
-        <Pressable key={menu} style={styles.menuButton}>
+        <Pressable 
+            key={menu} 
+            style={styles.menuButton}
+            onPress={()=> onSelectMenu(menu)}
+        >
             <Text style={styles.menuButtonText}>{menu}</Text>
         </Pressable>
       ))
