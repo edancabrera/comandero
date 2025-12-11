@@ -2,6 +2,7 @@ import { useState } from 'react';
 
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from 'expo-router';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
@@ -11,6 +12,8 @@ import StatusInfo from '../../components/statusInfo';
 
 const Mesas = () => {
   const [selectedArea, setSelectedArea] = useState(null);
+
+  const router = useRouter();
 
     const getMesasButtonBackgroundColor = (estatus) => {
       switch(estatus){
@@ -45,7 +48,7 @@ const Mesas = () => {
               <Pressable 
                 key={mesa.id} 
                 style={[styles.mesasButton, {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)}]}
-                onPress={{/* Agregar función para navegar a la pantalla Comandero */}}
+                onPress={() => router.push('dashboard/comandero')}
               >
                 <MaterialIcons name="table-bar" size={32} color="#cf8a5e" />
                 <Text style={styles.mesasButtonText}>{mesa.nombre}</Text>
