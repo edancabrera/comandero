@@ -1,6 +1,8 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+
 import ListaMenus from '../../components/comanderoComponents/listaMenus';
 
 const Comandero = () => {
@@ -9,9 +11,10 @@ const Comandero = () => {
 
         {/*Columna izquierda*/}
         <View style={styles.leftColumnContainer}>
-            <Text>Mesa x Area x</Text>
+            <Text style={{margin: 5, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>Mesa x Area x</Text>
             <ListaMenus />
             <Pressable style={styles.cobrarButton}>
+                <MaterialCommunityIcons name="account-cash-outline" size={24} color="#000" />
                 <Text>Cobrar Cuenta</Text>
             </Pressable>
         </View>
@@ -43,11 +46,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     centralColumnContainer: {
-        flex:0.4,
+        flex:0.5,
         backgroundColor:'red'
     },
     rightColumnContainer: {
-        flex:0.4,
+        flex:0.3,
         backgroundColor: 'white'
     },
     cobrarButton: {
@@ -55,5 +58,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         alignItems: 'center',
         backgroundColor: '#faa80f',
+        margin: 5
     }
 })

@@ -10,11 +10,16 @@ const ListaMenus = () => {
     const menus = obtenerMenusUnicos();
 
   return (
-    <ScrollView>
-      <Text>Menus</Text>
+    <ScrollView 
+        style= {{margin: 5}}
+        stickyHeaderIndices={[0]}
+    >
+        <View style={{backgroundColor: '#2596be'}}>
+            <Text style={{fontWeight: 'bold'}}>Menus</Text>
+        </View>
       {menus.map(menu => (
-        <Pressable key={menu}>
-            <Text>{menu}</Text>
+        <Pressable key={menu} style={styles.menuButton}>
+            <Text style={styles.menuButtonText}>{menu}</Text>
         </Pressable>
       ))
       }
@@ -25,4 +30,16 @@ const ListaMenus = () => {
 
 export default ListaMenus
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+    menuButton: {
+        backgroundColor: "#faa80f",
+        padding: 25,
+        borderRadius: 5,
+        marginTop: 10,
+        alignItems: 'center'
+    },
+    menuButtonText: {
+        color: '#fff',
+        fontWeight: 'bold'
+    }
+})
