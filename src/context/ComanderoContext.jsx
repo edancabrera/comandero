@@ -9,6 +9,7 @@ export const ComanderoProvider = ({children}) => {
     const [areaSeleccionada, setAreaSeleccionada] = useState(null); //objeto con la información de la area seleccionada
     const [mesaSeleccionada, setMesaSeleccionada] = useState(null); // objeto con la infromación de la mesa seleccionada
     const [menuSeleccionado, setMenuSeleccionado] = useState(null); // cadena con la información del menú seleccionado
+    const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null); //objeto con la información de la categoría seleccionada
 
     //Funciones para manipular el estado
     const seleccionarArea = (area) => {
@@ -22,6 +23,11 @@ export const ComanderoProvider = ({children}) => {
 
     const seleccionarMenu = (menu) => {
         setMenuSeleccionado(menu);
+        setCategoriaSeleccionada=(null);//Cada que seleccionamos un meú, se resetea la categoría seleccionada
+    }
+
+    const seleccionarCategoria = (categoria) => {
+        setCategoriaSeleccionada=(categoria);
     }
 
     //Memoización del value para evitar re-renders
@@ -31,8 +37,10 @@ export const ComanderoProvider = ({children}) => {
         mesaSeleccionada,
         seleccionarMesa,
         menuSeleccionado, 
-        seleccionarMenu
-    }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado])
+        seleccionarMenu,
+        categoriaSeleccionada,
+        seleccionarCategoria
+    }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada])
 
     return (
         <ComanderoContext.Provider value={value}>
