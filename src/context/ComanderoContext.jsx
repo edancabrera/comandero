@@ -23,11 +23,11 @@ export const ComanderoProvider = ({children}) => {
 
     const seleccionarMenu = (menu) => {
         setMenuSeleccionado(menu);
-        setCategoriaSeleccionada=(null);//Cada que seleccionamos un meú, se resetea la categoría seleccionada
+        setCategoriaSeleccionada(null);//Cada que seleccionamos un meú, se resetea la categoría seleccionada
     }
 
     const seleccionarCategoria = (categoria) => {
-        setCategoriaSeleccionada=(categoria);
+        setCategoriaSeleccionada(categoria);
     }
 
     //Memoización del value para evitar re-renders
