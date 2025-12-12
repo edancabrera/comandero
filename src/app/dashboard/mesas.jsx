@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useComandero } from '../../context/ComanderoContext';
 
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,9 +11,10 @@ import StatusInfo from '../../components/statusInfo';
 
 
 const Mesas = () => {
-  const [selectedArea, setSelectedArea] = useState(null);
 
   const router = useRouter();
+
+  const { areaSeleccionada, seleccionarMesa } = useComandero();
 
     const getMesasButtonBackgroundColor = (estatus) => {
       switch(estatus){
@@ -38,17 +39,20 @@ const Mesas = () => {
         stickyHeaderIndices={[0]}
       >
         <View style={styles.stickyHeader}>
-          <Text style={styles.mesasTitle}>{selectedArea?.nombre}</Text>
+          <Text style={styles.mesasTitle}>{areaSeleccionada?.nombre}</Text>
         </View>
         
-        {selectedArea ? (
+        {areaSeleccionada ? (
           <>
             <View style={styles.mesasButtonsContainer}>
-            {selectedArea.mesas.map((mesa)=>(
+            {areaSeleccionada.mesas.map((mesa)=>(
               <Pressable 
                 key={mesa.id} 
                 style={[styles.mesasButton, {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)}]}
-                onPress={() => router.push('dashboard/comandero')}
+                onPress={() => {
+                  seleccionarMesa(mesa);
+                  router.push('dashboard/comandero');
+                }}
               >
                 <MaterialIcons name="table-bar" size={32} color="#cf8a5e" />
                 <Text style={styles.mesasButtonText}>{mesa.nombre}</Text>
@@ -67,7 +71,7 @@ const Mesas = () => {
       </ScrollView>
 
       <View style={styles.layoutAreas}>
-        <Areas onSelectArea={setSelectedArea}/>
+        <Areas />
         <StatusInfo></StatusInfo>
       </View>
     </SafeAreaView>

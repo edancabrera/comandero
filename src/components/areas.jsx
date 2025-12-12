@@ -1,8 +1,11 @@
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
 
+import { useComandero } from '../context/ComanderoContext';
+
 import areas from '../data/areas.json';
 
-const Areas = ({ onSelectArea }) => {
+const Areas = () => {
+    const { seleccionarArea } = useComandero();
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Areas</Text>
@@ -10,7 +13,7 @@ const Areas = ({ onSelectArea }) => {
         {areas.map((area)=>(
             <Pressable 
                 key={area.id}
-                onPress={() => onSelectArea(area)}
+                onPress={() => seleccionarArea(area)}
                 style={styles.areaButton}
             >
                 <Text style={styles.areaButtonText}>{area.nombre}</Text>
