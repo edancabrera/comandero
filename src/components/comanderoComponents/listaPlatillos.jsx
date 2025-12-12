@@ -12,10 +12,13 @@ const ListaPlatillos = () => {
         {categoriaSeleccionada === null ? (
           <Text>Selecciona una categoría</Text>
         ) : (
-          <View>
+          <View style={styles.container}>
             {categoriaSeleccionada.producto.map((platillo) => (
-              <Pressable key={platillo.idproducto}>
-                <Text>{platillo.nombre}</Text>
+              <Pressable 
+                key={platillo.idproducto}
+                style={styles.platilloButton}
+            >
+                <Text style={styles.platilloButtonText}>{platillo.nombre}</Text>
               </Pressable>
             ))}
           </View>
@@ -27,4 +30,21 @@ const ListaPlatillos = () => {
 
 export default ListaPlatillos;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+  },
+  platilloButton: {
+    backgroundColor: "#faa80f",
+    padding: 20,
+    borderRadius: 5,
+    margin: 5,
+    alignItems: "center",
+    width: 150,
+  },
+  platilloButtonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+});
