@@ -31,7 +31,15 @@ const Comandero = () => {
             {menuSeleccionado === null ? (
                 <Text>Selecciona un menú</Text>
                 ):(
-                <ListaCategorias/>
+                <View style={{flex:1}}>
+                    <View style={{flex:0.5}}>
+                        <ListaCategorias />
+                    </View>
+                    
+                    <View style={{ flex: 0.5, backgroundColor: "purple" }}>
+                        <Text style={{ color: "#fff" }}>Area para mostar los platillos</Text>
+                    </View>
+                </View>
             )}
 
         </View>
@@ -59,7 +67,6 @@ const styles = StyleSheet.create({
     },
     centralColumnContainer: {
         flex:0.5,
-        backgroundColor:'red'
     },
     rightColumnContainer: {
         flex:0.3,
