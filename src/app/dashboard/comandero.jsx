@@ -6,17 +6,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import ListaMenus from '../../components/comanderoComponents/listaMenus';
-
-import categoria_platillo from '../../data/categoria_platillo.json'
+import ListaCategorias from '../../components/comanderoComponents/listaCategorias';
 
 const Comandero = () => {
 
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado} = useComandero();
-
-  // Filtrar categorías según el menú seleccionado
-  const categoriasFiltradas = menuSeleccionado
-    ? categoria_platillo.filter(categoria => categoria.menu === menuSeleccionado)
-    : [];
 
   return (
     <SafeAreaView style={styles.container}>
@@ -36,27 +30,9 @@ const Comandero = () => {
 
             {menuSeleccionado === null ? (
                 <Text>Selecciona un menú</Text>
-            ):(
-            <View style={{flex: 1}}>
-                <View style={{flex:.5}}>
-                    {
-                        categoriasFiltradas.map(categoria => (
-                            <Pressable
-                                key={categoria.id}
-                                style={{padding:10}}
-                            >
-                                <Text>{categoria.nombre}</Text>
-                            </Pressable>
-                    ))}
-                </View>
-                <View style={{flex: .5, backgroundColor: 'purple'}}>
-                    <Text style={{color: '#fff'}}>Area para mostar los platillos</Text>
-                </View>
-            </View>
-                
-            )
-
-            }
+                ):(
+                <ListaCategorias/>
+            )}
 
         </View>
 
