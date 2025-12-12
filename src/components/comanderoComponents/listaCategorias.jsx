@@ -5,7 +5,7 @@ import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 import categoria_platillo from "../../data/categoria_platillo.json";
 
 const ListaCategorias = () => {
-  const { menuSeleccionado } = useComandero();
+  const { menuSeleccionado, seleccionarCategoria } = useComandero();
 
   // Filtrar categorías según el menú seleccionado
   const categoriasFiltradas = menuSeleccionado
@@ -19,7 +19,11 @@ const ListaCategorias = () => {
       <Text style={{backgroundColor: "#2596be"}}>Clasificación de platillos</Text>
       <View style={styles.container}>
         {categoriasFiltradas.map((categoria) => (
-          <Pressable key={categoria.id} style={styles.categoriaButton}>
+          <Pressable 
+            key={categoria.id} 
+            style={styles.categoriaButton}
+            onPress={()=> seleccionarCategoria(categoria)}
+          >
             <Text style={styles.categoriaButtonText}>{categoria.nombre}</Text>
           </Pressable>
         ))}
