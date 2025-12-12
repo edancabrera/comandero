@@ -7,6 +7,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 import ListaMenus from '../../components/comanderoComponents/listaMenus';
 import ListaCategorias from '../../components/comanderoComponents/listaCategorias';
+import ListaPlatillos from '../../components/comanderoComponents/listaPlatillos';
 
 const Comandero = () => {
 
@@ -36,8 +37,8 @@ const Comandero = () => {
                         <ListaCategorias />
                     </View>
                     
-                    <View style={{ flex: 0.5, backgroundColor: "purple" }}>
-                        <Text style={{ color: "#fff" }}>Area para mostar los platillos</Text>
+                    <View style={{flex: 0.5}}>
+                        <ListaPlatillos />
                     </View>
                 </View>
             )}
