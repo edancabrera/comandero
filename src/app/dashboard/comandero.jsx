@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import { useComandero } from '../../context/ComanderoContext';
+
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -12,6 +14,8 @@ import categoria_platillo from '../../data/categoria_platillo.json'
 const Comandero = () => {
     const [selectedMenu, setSelectedMenu] = useState(null);
 
+    const {areaSeleccionada, mesaSeleccionada} = useComandero();
+
   // Filtrar categorías según el menú seleccionado
   const categoriasFiltradas = selectedMenu
     ? categoria_platillo.filter(categoria => categoria.menu === selectedMenu)
@@ -22,7 +26,7 @@ const Comandero = () => {
 
         {/*Columna izquierda*/}
         <View style={styles.leftColumnContainer}>
-            <Text style={{margin: 5, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>Mesa x Area x</Text>
+            <Text style={{margin: 5, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>{mesaSeleccionada?.nombre} {areaSeleccionada?.nombre}</Text>
             <ListaMenus onSelectMenu={setSelectedMenu}/>
             <Pressable style={styles.cobrarButton}>
                 <MaterialCommunityIcons name="account-cash-outline" size={24} color="#000" />
