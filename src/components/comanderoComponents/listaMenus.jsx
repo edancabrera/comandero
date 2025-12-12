@@ -1,13 +1,17 @@
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 
+import { useComandero } from '../../context/ComanderoContext';
+
 import categoria_platillo from '../../data/categoria_platillo.json'
 
-const ListaMenus = ({onSelectMenu}) => {
+const ListaMenus = () => {
     const obtenerMenusUnicos = () => {
         const menus = categoria_platillo.map(item => item.menu);
         return [...new Set(menus)];
     }
     const menus = obtenerMenusUnicos();
+
+    const { seleccionarMenu } = useComandero();
 
   return (
     <ScrollView 
@@ -21,7 +25,7 @@ const ListaMenus = ({onSelectMenu}) => {
         <Pressable 
             key={menu} 
             style={styles.menuButton}
-            onPress={()=> onSelectMenu(menu)}
+            onPress={()=> seleccionarMenu(menu)}
         >
             <Text style={styles.menuButtonText}>{menu}</Text>
         </Pressable>

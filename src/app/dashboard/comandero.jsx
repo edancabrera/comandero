@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { useComandero } from '../../context/ComanderoContext';
 
 import { StyleSheet, Text, View, Pressable } from 'react-native'
@@ -12,13 +10,12 @@ import ListaMenus from '../../components/comanderoComponents/listaMenus';
 import categoria_platillo from '../../data/categoria_platillo.json'
 
 const Comandero = () => {
-    const [selectedMenu, setSelectedMenu] = useState(null);
 
-    const {areaSeleccionada, mesaSeleccionada} = useComandero();
+    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado} = useComandero();
 
   // Filtrar categorías según el menú seleccionado
-  const categoriasFiltradas = selectedMenu
-    ? categoria_platillo.filter(categoria => categoria.menu === selectedMenu)
+  const categoriasFiltradas = menuSeleccionado
+    ? categoria_platillo.filter(categoria => categoria.menu === menuSeleccionado)
     : [];
 
   return (
@@ -27,7 +24,7 @@ const Comandero = () => {
         {/*Columna izquierda*/}
         <View style={styles.leftColumnContainer}>
             <Text style={{margin: 5, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>{mesaSeleccionada?.nombre} {areaSeleccionada?.nombre}</Text>
-            <ListaMenus onSelectMenu={setSelectedMenu}/>
+            <ListaMenus />
             <Pressable style={styles.cobrarButton}>
                 <MaterialCommunityIcons name="account-cash-outline" size={24} color="#000" />
                 <Text>Cobrar Cuenta</Text>
@@ -37,7 +34,7 @@ const Comandero = () => {
         {/*Columna central*/}
         <View style={styles.centralColumnContainer}>
 
-            {selectedMenu === null ? (
+            {menuSeleccionado === null ? (
                 <Text>Selecciona un menú</Text>
             ):(
             <View style={{flex: 1}}>
