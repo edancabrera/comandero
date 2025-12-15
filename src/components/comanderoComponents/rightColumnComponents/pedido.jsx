@@ -66,13 +66,13 @@ const Pedido = () => {
           <View
             style={{ flexDirection: "row", justifyContent: "space-around", marginTop: '5' }}
           >
-            <Pressable style={{ flexDirection: "row" }}>
+            <Pressable style={{ flexDirection: "row", alignItems: 'center'}}>
               <Feather name="plus" size={24} color="green" />
-              <Text>Agregar</Text>
+              <Text style={{marginLeft: 5}}>Agregar</Text>
             </Pressable>
-            <Pressable style={{ flexDirection: "row" }}>
+            <Pressable style={{ flexDirection: "row", alignItems: 'center' }}>
               <AntDesign name="close-circle" size={24} color="red" />
-              <Text>Borrar</Text>
+              <Text style={{marginLeft: 5}}>Borrar</Text>
             </Pressable>
           </View>
         </View>
