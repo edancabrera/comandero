@@ -103,17 +103,17 @@ const styles = StyleSheet.create({
         backgroundColor: "#2596be"
     },
     leftColumnContainer: {
-        flex:0.2,
+        flex:0.15,
         justifyContent: 'space-between'
     },
     centralColumnContainer: {
         flex:0.4,
     },
     rightColumnContainer: {
-        flex:0.4,
+        flex:0.45,
     },
     cobrarButton: {
-        padding:20,
+        padding:10,
         borderRadius: 5,
         alignItems: 'center',
         backgroundColor: '#faa80f',

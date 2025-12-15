@@ -41,7 +41,7 @@ export default ListaMenus
 const styles = StyleSheet.create({
     menuButton: {
         backgroundColor: "#faa80f",
-        padding: 25,
+        padding: 20,
         borderRadius: 5,
         marginTop: 10,
         alignItems: 'center'
