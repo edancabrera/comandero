@@ -2,18 +2,39 @@ import { useComandero } from '../../context/ComanderoContext';
 
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Tabs, useRouter } from 'expo-router';
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { Ionicons } from "@expo/vector-icons";
 
 import ListaMenus from '../../components/comanderoComponents/listaMenus';
 import ListaCategorias from '../../components/comanderoComponents/listaCategorias';
 import ListaPlatillos from '../../components/comanderoComponents/listaPlatillos';
 
 const Comandero = () => {
-
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado} = useComandero();
 
+    const router = useRouter();
+
   return (
+    <>
+    <Tabs.Screen
+        options={{
+            headerRight: ()=>(
+                <Pressable
+                    onPress={() => router.replace("/dashboard/mesas")}
+                    style={{ marginRight: 60 }}
+                >
+                    <Ionicons
+                        name = "arrow-back"
+                        size = {24}
+                        color = '#fff'
+                    />
+                </Pressable>
+            )
+        }}
+    />
+
     <SafeAreaView 
         style={styles.container}
         edges={["left", "right", "bottom"]}
@@ -54,6 +75,7 @@ const Comandero = () => {
         </View>
       
     </SafeAreaView>
+    </>
   )
 }
 
