@@ -32,17 +32,34 @@ export const ComanderoProvider = ({children}) => {
     }
 
     const agregarPlatillo = (platillo) => {
-        setPedido((prev)=> [
-            ...prev,
+        setPedido((prevPedido) => {
+            const existe = prevPedido.find(
+            (item) => item.id === platillo.idproducto
+            );
+
+            // Si ya existe → sumar cantidad
+            if (existe) {
+            return prevPedido.map((item) =>
+                item.id === platillo.idproducto
+                ? { ...item, cantidad: item.cantidad + 1 }
+                : item
+            );
+            }
+
+            // Si no existe → agregar nuevo
+            return [
+            ...prevPedido,
             {
                 id: platillo.idproducto,
                 nombre: platillo.nombre,
                 persona: 1,
                 cantidad: 1,
-                comentarios:""
+                comentarios: ""
             }
-        ])
-    }
+            ];
+        });
+    };
+
 
     //Memoización del value para evitar re-renders
     const value = useMemo(()=>({
