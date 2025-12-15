@@ -72,7 +72,8 @@ export const ComanderoProvider = ({children}) => {
         categoriaSeleccionada,
         seleccionarCategoria,
         pedido,
-        agregarPlatillo
+        agregarPlatillo, 
+        setPedido //Temporal para borrar el pedido al presionar el botón Volver en la pantalla comandero. Eliminar eventualmente de aquí
     }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido])
 
     return (
