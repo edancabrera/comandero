@@ -1,12 +1,30 @@
-import { StyleSheet } from 'react-native'
-import { Tabs } from 'expo-router'
+import { StyleSheet, Pressable } from 'react-native';
+import { Tabs, useRouter } from 'expo-router';
 import { Ionicons } from "@expo/vector-icons";
+import AntDesign from '@expo/vector-icons/AntDesign';
+
 
 const dashbaordLayout = () => {
+    const router = useRouter();
   return (
     <Tabs
         screenOptions={{
-            headerShown: false,
+            headerShown: true,
+            headerTitle: 'usuario actual', //mostrar el usuario actual, eventualmente
+            headerStyle : {
+                backgroundColor: "#2596be",
+                height: 70
+            },
+            headerTitleStyle: {
+                fontSize: 14,
+                fontWeight: "bold",
+                color: "#fff",
+            },
+            headerRight: () => (
+                <Pressable onPress={()=> router.replace('/login')} style={{marginRight: 60}}>
+                    <AntDesign name="poweroff" size={24} color="#fff" />
+                </Pressable>
+            ),
             tabBarActiveTintColor: "#faa80f",
             tabBarInactiveTintColor: "#fff",
             tabBarStyle: {
