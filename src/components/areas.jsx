@@ -34,8 +34,7 @@ const styles = StyleSheet.create({
     title: {
         color: '#fff',
         fontWeight:'bold',
-        fontSize: 24,
-        marginBottom: 10,
+        fontSize: 24
     },
     buttonsContainer: {
         width:'100%',
