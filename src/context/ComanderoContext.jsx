@@ -31,6 +31,10 @@ export const ComanderoProvider = ({children}) => {
         setCategoriaSeleccionada(categoria);
     }
 
+    const borrarPedido = () => {
+        setPedido([]);
+    }
+
     const agregarPlatillo = (platillo) => {
         setPedido((prevPedido) => {
             const existe = prevPedido.find(
@@ -73,7 +77,7 @@ export const ComanderoProvider = ({children}) => {
         seleccionarCategoria,
         pedido,
         agregarPlatillo, 
-        setPedido //Temporal para borrar el pedido al presionar el botón Volver en la pantalla comandero. Eliminar eventualmente de aquí
+        borrarPedido,
     }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido])
 
     return (

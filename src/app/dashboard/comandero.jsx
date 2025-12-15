@@ -14,7 +14,7 @@ import Pedido from '../../components/comanderoComponents/rightColumnComponents/p
 import FinalizarComanda from '../../components/comanderoComponents/rightColumnComponents/finalizarComanda';
 
 const Comandero = () => {
-    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, setPedido} = useComandero();
+    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido} = useComandero();
 
     const router = useRouter();
 
@@ -28,7 +28,7 @@ const Comandero = () => {
                          router.replace("/dashboard/mesas")
                          seleccionarMenu(null);
                          seleccionarCategoria(null);
-                         setPedido([]);
+                         borrarPedido();
                     }}
                     style={{ marginRight: 60 }}
                 >
