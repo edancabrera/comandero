@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 
-const TablaPedido = () => {
+const Pedido = () => {
   return (
     <View>
       <Text>Tabla Pedido</Text>
@@ -8,6 +8,6 @@ const TablaPedido = () => {
   )
 }
 
-export default TablaPedido
+export default Pedido
 
 const styles = StyleSheet.create({})

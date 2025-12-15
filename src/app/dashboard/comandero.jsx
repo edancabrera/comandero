@@ -10,7 +10,7 @@ import { Ionicons } from "@expo/vector-icons";
 import ListaMenus from '../../components/comanderoComponents/listaMenus';
 import ListaCategorias from '../../components/comanderoComponents/listaCategorias';
 import ListaPlatillos from '../../components/comanderoComponents/listaPlatillos';
-import TablaPedido from '../../components/comanderoComponents/rightColumnComponents/tablaPedido';
+import Pedido from '../../components/comanderoComponents/rightColumnComponents/pedido';
 import FinalizarComanda from '../../components/comanderoComponents/rightColumnComponents/finalizarComanda';
 
 const Comandero = () => {
@@ -79,7 +79,7 @@ const Comandero = () => {
         <View style={styles.rightColumnContainer}>
             <View style={{flex: 1}}>
                 <View style={{flex: 0.8}}>
-                    <TablaPedido />
+                    <Pedido />
                 </View>
                 <View style={{flex: 0.2, backgroundColor: '#f2bfe6'}}>
                     <FinalizarComanda />
