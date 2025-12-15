@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
     },
     rightColumnContainer: {
         flex:0.4,
-        backgroundColor: 'white'
     },
     cobrarButton: {
         padding:20,
