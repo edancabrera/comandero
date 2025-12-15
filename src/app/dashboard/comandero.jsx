@@ -49,7 +49,7 @@ const Comandero = () => {
 
         {/*Columna izquierda*/}
         <View style={styles.leftColumnContainer}>
-            <Text style={{margin: 5, color: '#fff', fontWeight: 'bold', alignSelf: 'center'}}>{mesaSeleccionada?.nombre} {areaSeleccionada?.nombre}</Text>
+            <Text style={{ color: '#000', alignSelf: 'center'}}>{mesaSeleccionada?.nombre} {areaSeleccionada?.nombre}</Text>
             <ListaMenus />
             <Pressable style={styles.cobrarButton}>
                 <MaterialCommunityIcons name="account-cash-outline" size={24} color="#000" />
