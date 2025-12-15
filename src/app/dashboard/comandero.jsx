@@ -10,6 +10,8 @@ import { Ionicons } from "@expo/vector-icons";
 import ListaMenus from '../../components/comanderoComponents/listaMenus';
 import ListaCategorias from '../../components/comanderoComponents/listaCategorias';
 import ListaPlatillos from '../../components/comanderoComponents/listaPlatillos';
+import TablaPedido from '../../components/comanderoComponents/rightColumnComponents/tablaPedido';
+import FinalizarComanda from '../../components/comanderoComponents/rightColumnComponents/finalizarComanda';
 
 const Comandero = () => {
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria} = useComandero();
@@ -75,6 +77,14 @@ const Comandero = () => {
 
         {/*Columna derecha*/}
         <View style={styles.rightColumnContainer}>
+            <View style={{flex: 1}}>
+                <View style={{flex: 0.8}}>
+                    <TablaPedido />
+                </View>
+                <View style={{flex: 0.2, backgroundColor: '#f2bfe6'}}>
+                    <FinalizarComanda />
+                </View>
+            </View>
 
         </View>
       

@@ -1,13 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 
-const TablaPedido = () => {
+const FinalizarComanda = () => {
   return (
     <View>
-      <Text>Tabla Pedido</Text>
+      <Text>Finalizar Comanda</Text>
     </View>
   )
 }
 
-export default TablaPedido
+export default FinalizarComanda
 
 const styles = StyleSheet.create({})
