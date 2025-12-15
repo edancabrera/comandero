@@ -16,7 +16,7 @@ const ListaCategorias = () => {
 
   return (
     <ScrollView stickyHeaderIndices={[0]} >
-      <Text style={{backgroundColor: "#2596be"}}>Clasificación de platillos</Text>
+      <View><Text style={{backgroundColor: "#2596be", fontWeight: 'bold'}}>Clasificación de platillos</Text></View>
       <View style={styles.container}>
         {categoriasFiltradas.map((categoria) => (
           <Pressable 

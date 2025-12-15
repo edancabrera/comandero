@@ -60,7 +60,7 @@ const Comandero = () => {
         <View style={styles.centralColumnContainer}>
 
             {menuSeleccionado === null ? (
-                <Text>Selecciona un menú</Text>
+                <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 24}}>Selecciona un menú</Text></View>
                 ):(
                 <View style={{flex:1}}>
                     <View style={{flex:0.5}}>

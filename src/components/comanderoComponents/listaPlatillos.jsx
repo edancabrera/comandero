@@ -7,10 +7,10 @@ const ListaPlatillos = () => {
 
   return (
     <ScrollView stickyHeaderIndices={[0]}>
-      <Text style={{ backgroundColor: "#2596be" }}>Platillos</Text>
+      {categoriaSeleccionada && (<View><Text style={{ backgroundColor: "#2596be", fontWeight: 'bold' }}>Platillos</Text></View>)}
       <View style={styles.container}>
         {categoriaSeleccionada === null ? (
-          <Text>Selecciona una categoría</Text>
+          <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18}}>Selecciona una categoría</Text></View>
         ) : (
           <View style={styles.container}>
             {categoriaSeleccionada.producto.map((platillo) => (
