@@ -40,7 +40,7 @@ const Pedido = () => {
 
       <View style={{flex:1}}>
         {/* Botones*/}
-        <View style={{ flexDirection: "row", justifyContent: 'space-around' }}>
+        <View style={{ flexDirection: "row", justifyContent: 'space-around', marginVertical: 5 }}>
           <Pressable>
             <Ionicons name="trash-outline" size={24} color="black" />
           </Pressable>
@@ -64,7 +64,7 @@ const Pedido = () => {
           <Text style={{ fontWeight: "bold" }}>Comentarios</Text>
           <TextInput style={styles.inputComentarios} />
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around" }}
+            style={{ flexDirection: "row", justifyContent: "space-around", marginTop: '5' }}
           >
             <Pressable style={{ flexDirection: "row" }}>
               <Feather name="plus" size={24} color="green" />
