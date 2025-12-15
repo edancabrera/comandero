@@ -46,8 +46,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 5,
     alignItems: "center",
-    width: 145,
-    height: 90 //eliminar posteriormente, sirve para ver funcional el scrollview
+    width: 145
   },
   categoriaButtonText: {
     color: "#fff",
