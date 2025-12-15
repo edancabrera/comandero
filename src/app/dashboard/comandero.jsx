@@ -14,7 +14,10 @@ const Comandero = () => {
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado} = useComandero();
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView 
+        style={styles.container}
+        edges={["left", "right", "bottom"]}
+    >
 
         {/*Columna izquierda*/}
         <View style={styles.leftColumnContainer}>

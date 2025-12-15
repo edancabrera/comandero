@@ -32,7 +32,10 @@ const Mesas = () => {
     }
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView 
+      style={styles.container}
+      edges={["left", "right", "bottom"]}
+    >
 
       <ScrollView 
         style={styles.layoutMesas}

@@ -17,10 +17,13 @@ const Articulos = () => {
   });
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView 
+      style={styles.container}
+      edges={["left", "right", "bottom"]}
+    >
 
       {/* Barra de búsqueda  y botón para borrar*/}
-      <View style={{flexDirection: 'row', width: '80%', alignSelf:'center'}}>
+      <View style={{flexDirection: 'row', width: '80%', alignSelf:'center', paddingTop: 10}}>
         <TextInput 
           placeholder='Buscar'
           placeholderTextColor="#ccc"
