@@ -82,7 +82,7 @@ const Comandero = () => {
                 <View style={{flex: 0.8}}>
                     <Pedido />
                 </View>
-                <View style={{flex: 0.2, backgroundColor: '#f2bfe6'}}>
+                <View style={{flex: 0.2}}>
                     <FinalizarComanda />
                 </View>
             </View>
