@@ -12,7 +12,7 @@ import ListaCategorias from '../../components/comanderoComponents/listaCategoria
 import ListaPlatillos from '../../components/comanderoComponents/listaPlatillos';
 
 const Comandero = () => {
-    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado} = useComandero();
+    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria} = useComandero();
 
     const router = useRouter();
 
@@ -22,7 +22,11 @@ const Comandero = () => {
         options={{
             headerRight: ()=>(
                 <Pressable
-                    onPress={() => router.replace("/dashboard/mesas")}
+                    onPress={() =>{
+                         router.replace("/dashboard/mesas")
+                         seleccionarMenu(null);
+                         seleccionarCategoria(null);
+                    }}
                     style={{ marginRight: 60 }}
                 >
                     <Ionicons
