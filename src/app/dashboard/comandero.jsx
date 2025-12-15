@@ -106,10 +106,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     centralColumnContainer: {
-        flex:0.5,
+        flex:0.4,
     },
     rightColumnContainer: {
-        flex:0.3,
+        flex:0.4,
         backgroundColor: 'white'
     },
     cobrarButton: {

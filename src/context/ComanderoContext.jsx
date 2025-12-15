@@ -10,6 +10,7 @@ export const ComanderoProvider = ({children}) => {
     const [mesaSeleccionada, setMesaSeleccionada] = useState(null); // objeto con la infromación de la mesa seleccionada
     const [menuSeleccionado, setMenuSeleccionado] = useState(null); // cadena con la información del menú seleccionado
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null); //objeto con la información de la categoría seleccionada
+    const [pedido, setPedido] = useState([]); //arreglo con la información del pedido
 
     //Funciones para manipular el estado
     const seleccionarArea = (area) => {
@@ -30,6 +31,19 @@ export const ComanderoProvider = ({children}) => {
         setCategoriaSeleccionada(categoria);
     }
 
+    const agregarPlatillo = (platillo) => {
+        setPedido((prev)=> [
+            ...prev,
+            {
+                id: platillo.idproducto,
+                nombre: platillo.nombre,
+                persona: 1,
+                cantidad: 1,
+                comentarios:""
+            }
+        ])
+    }
+
     //Memoización del value para evitar re-renders
     const value = useMemo(()=>({
         areaSeleccionada,
@@ -39,8 +53,10 @@ export const ComanderoProvider = ({children}) => {
         menuSeleccionado, 
         seleccionarMenu,
         categoriaSeleccionada,
-        seleccionarCategoria
-    }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada])
+        seleccionarCategoria,
+        pedido,
+        agregarPlatillo
+    }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido])
 
     return (
         <ComanderoContext.Provider value={value}>

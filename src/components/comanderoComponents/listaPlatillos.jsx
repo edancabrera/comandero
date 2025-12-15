@@ -3,7 +3,7 @@ import { useComandero } from "../../context/ComanderoContext";
 import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 
 const ListaPlatillos = () => {
-  const { categoriaSeleccionada } = useComandero();
+  const { categoriaSeleccionada, agregarPlatillo } = useComandero();
 
   return (
     <ScrollView stickyHeaderIndices={[0]}>
@@ -17,6 +17,7 @@ const ListaPlatillos = () => {
               <Pressable 
                 key={platillo.idproducto}
                 style={styles.platilloButton}
+                onPress={()=> agregarPlatillo(platillo)}
             >
                 <Text style={styles.platilloButtonText}>{platillo.nombre}</Text>
               </Pressable>
@@ -41,7 +42,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 5,
     alignItems: "center",
-    width: 150,
+    width: 145,
   },
   platilloButtonText: {
     color: "#fff",
