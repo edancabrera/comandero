@@ -7,7 +7,7 @@ const ListaPlatillos = () => {
 
   return (
     <ScrollView stickyHeaderIndices={[0]}>
-      {categoriaSeleccionada && (<View><Text style={{ backgroundColor: "#2596be", fontWeight: 'bold' }}>Platillos</Text></View>)}
+      {categoriaSeleccionada && (<View><Text style={{ backgroundColor: "#2596be", fontWeight: 'bold' }}>Platillos - {categoriaSeleccionada.nombre}</Text></View>)}
       <View style={styles.container}>
         {categoriaSeleccionada === null ? (
           <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18}}>Selecciona una categoría</Text></View>
