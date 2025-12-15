@@ -41,7 +41,8 @@ const Pedido = () => {
       <View style={{flex:1}}>
         {/* Botones*/}
         <View style={{ flexDirection: "row", justifyContent: 'space-around', marginVertical: 5 }}>
-          <Pressable onPress={()=> borrarPedido()}> {/* Agregar modal para confirmar que se desean borrar los platillos del pedidos */}
+          {/* Agregar modal para confirmar que se desean borrar los platillos del pedidos */}
+          <Pressable onPress={()=> borrarPedido()}>
             <Ionicons name="trash-outline" size={24} color="black" />
           </Pressable>
           <Pressable>
@@ -55,6 +56,7 @@ const Pedido = () => {
             <Feather name="user-plus" size={24} color="black" />
           </Pressable>
           <Pressable>
+            {/*Botón para eliminar un platillo seleccionado del pedido */}
             <AntDesign name="close" size={24} color="red" />
           </Pressable>
         </View>
