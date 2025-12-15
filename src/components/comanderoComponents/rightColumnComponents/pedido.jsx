@@ -55,7 +55,7 @@ const Pedido = () => {
             <Feather name="user-plus" size={24} color="black" />
           </Pressable>
           <Pressable>
-            <AntDesign name="close" size={24} color="black" />
+            <AntDesign name="close" size={24} color="red" />
           </Pressable>
         </View>
 
@@ -94,6 +94,8 @@ const styles = StyleSheet.create({
   tableRow: {
     flexDirection: "row",
     paddingVertical: 4,
+    borderBottomWidth: .5,
+    borderColor: "#00000088",
   },
   colPersona: {
     width: 60,
