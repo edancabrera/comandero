@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, Pressable, TextInput } from "react-native";
 import { useComandero } from "../../../context/ComanderoContext";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -10,6 +10,18 @@ const Pedido = () => {
   const { pedido, setModalBorrarPedidoVisible, setModalQuitarPlatilloVisible ,lineaPedidoSeleccionadaId, seleccionarLineaPedido, agregarComentarioLinea } = useComandero();
 
   const [comentario, setComentario] = useState("");
+
+  useEffect(() => {
+    if (!lineaPedidoSeleccionadaId) {
+      setComentario("");
+      return;
+    }
+    const linea = pedido.find(
+      item => item.idLinea === lineaPedidoSeleccionadaId
+    );
+    setComentario(linea?.comentarios || "");
+  }, [lineaPedidoSeleccionadaId, pedido]);
+
   return (
     
     <View style={{flex:1}}> {/* Parte superior (Tabla completa: Encabezado, filas) */}
