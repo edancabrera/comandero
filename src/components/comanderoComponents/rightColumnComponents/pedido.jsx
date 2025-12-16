@@ -43,7 +43,11 @@ const Pedido = () => {
       <View style={{flex:1}}> 
         {/* Botones*/}
         <View style={{ flexDirection: "row", justifyContent: 'space-around', marginVertical: 5 }}>
-          <Pressable onPress={()=> setModalBorrarPedidoVisible(true)}>
+          <Pressable onPress={()=> {
+            if(pedido.length <= 0) return;
+            setModalBorrarPedidoVisible(true)
+            }}
+          >
             <Ionicons name="trash-outline" size={24} color="black" />
           </Pressable>
           <Pressable>
