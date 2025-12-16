@@ -56,7 +56,11 @@ const Pedido = () => {
           <Pressable>
             <Feather name="user-plus" size={24} color="black" />
           </Pressable>
-          <Pressable onPress={()=> setModalQuitarPlatilloVisible(true)}>
+          <Pressable onPress={()=> {
+            if(!lineaPedidoSeleccionadaId)return;
+            setModalQuitarPlatilloVisible(true)
+          }}
+          >
             <AntDesign name="close" size={24} color="red" />
           </Pressable>
         </View>
