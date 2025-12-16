@@ -6,7 +6,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
 
 const Pedido = () => {
-  const { pedido, setModalBorrarPedidoVisible, lineaPedidoSeleccionadaId, seleccionarLineaPedido  } = useComandero();
+  const { pedido, setModalBorrarPedidoVisible, lineaPedidoSeleccionadaId, seleccionarLineaPedido, eliminarLineaPedidoSeleccionada  } = useComandero();
   return (
     
     <View style={{flex:1}}> {/* Parte superior (Tabla completa: Encabezado, filas) */}
@@ -56,8 +56,7 @@ const Pedido = () => {
           <Pressable>
             <Feather name="user-plus" size={24} color="black" />
           </Pressable>
-          <Pressable>
-            {/*Botón para eliminar un platillo seleccionado del pedido */}
+          <Pressable onPress={()=> eliminarLineaPedidoSeleccionada()}>
             <AntDesign name="close" size={24} color="red" />
           </Pressable>
         </View>
