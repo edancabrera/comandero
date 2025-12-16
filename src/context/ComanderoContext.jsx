@@ -94,6 +94,18 @@ export const ComanderoProvider = ({children}) => {
         );
     };
 
+    const borrarComentarioLinea = () => {
+        if (!lineaPedidoSeleccionadaId) return;
+
+        setPedido(prev =>
+            prev.map(item =>
+            item.idLinea === lineaPedidoSeleccionadaId
+                ? { ...item, comentarios: "" }
+                : item
+            )
+        );
+    }
+
     //Memoización del value para evitar re-renders
     const value = useMemo(()=>({
         areaSeleccionada,
@@ -112,6 +124,7 @@ export const ComanderoProvider = ({children}) => {
         seleccionarLineaPedido,
         eliminarLineaPedidoSeleccionada,
         agregarComentarioLinea,
+        borrarComentarioLinea,
 
         modalBorrarPedidoVisible,
         setModalBorrarPedidoVisible,

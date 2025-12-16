@@ -7,7 +7,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
 
 const Pedido = () => {
-  const { pedido, setModalBorrarPedidoVisible, setModalQuitarPlatilloVisible ,lineaPedidoSeleccionadaId, seleccionarLineaPedido, agregarComentarioLinea } = useComandero();
+  const { pedido, setModalBorrarPedidoVisible, setModalQuitarPlatilloVisible ,lineaPedidoSeleccionadaId, seleccionarLineaPedido, agregarComentarioLinea, borrarComentarioLinea } = useComandero();
 
   const [comentario, setComentario] = useState("");
 
@@ -108,7 +108,14 @@ const Pedido = () => {
               <Feather name="plus" size={24} color="green" />
               <Text style={{marginLeft: 5}}>Agregar</Text>
             </Pressable>
-            <Pressable style={{ flexDirection: "row", alignItems: 'center' }}>
+            <Pressable 
+              style={{ flexDirection: "row", alignItems: 'center' }}
+              onPress={() => {
+                if (!lineaPedidoSeleccionadaId || !comentario.trim()) return;
+                borrarComentarioLinea();
+                setComentario("");
+              }}
+            >
               <AntDesign name="close-circle" size={24} color="red" />
               <Text style={{marginLeft: 5}}>Borrar</Text>
             </Pressable>
