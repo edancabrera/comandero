@@ -18,7 +18,7 @@ import ModalConfirmarAccion from '../../components/comanderoComponents/rightColu
 ModalConfirmarAccion
 
 const Comandero = () => {
-    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, eliminarLineaPedidoSeleccionada} = useComandero();
+    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, eliminarLineaPedidoSeleccionada, modalConfirmarAccionVisible, setModalConfirmarAccionVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible} = useComandero();
 
     const router = useRouter();
 
@@ -50,12 +50,19 @@ const Comandero = () => {
         style={styles.container}
         edges={["left", "right", "bottom"]}
     >
-
-        <ModalBorrarPedido />
+        <ModalConfirmarAccion
+            title='¿Desea borrar todos los platillos?'
+            paragraph='La tabla del pedido quedará vacía'
+            action={()=> borrarPedido()}
+            visiblity={modalBorrarPedidoVisible}
+            setVisiblity={setModalBorrarPedidoVisible}
+        />
         <ModalConfirmarAccion
             title='¿Desea quitar el platillo?'
             paragraph='Solo se eliminará el platillo seleccionado'
             action={()=> eliminarLineaPedidoSeleccionada()}
+            visiblity={modalConfirmarAccionVisible}
+            setVisiblity={setModalConfirmarAccionVisible}
         />
 
         {/*Columna izquierda*/}

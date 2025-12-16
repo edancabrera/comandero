@@ -1,14 +1,12 @@
-import {useComandero} from '../../../context/ComanderoContext';
 import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-const ModalConfirmarAccion = ({title, paragraph, action}) => {
-  const {modalConfirmarAccionVisible, setModalConfirmarAccionVisible} = useComandero();
+const ModalConfirmarAccion = ({title, paragraph, action, visiblity, setVisiblity}) => {
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={modalConfirmarAccionVisible}
+        visible={visiblity}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -23,7 +21,7 @@ const ModalConfirmarAccion = ({title, paragraph, action}) => {
           <View style={{ flexDirection: "row" }}>
             <Pressable
               style={[styles.button, styles.buttonNo]}
-              onPress={() => setModalConfirmarAccionVisible(!modalConfirmarAccionVisible)}
+              onPress={() => setVisiblity(!visiblity)}
             >
               <Text style={styles.buttonText}>No</Text>
             </Pressable>
@@ -31,7 +29,7 @@ const ModalConfirmarAccion = ({title, paragraph, action}) => {
               style={[styles.button, styles.buttonSi]}
               onPress={() => {
                 action();
-                setModalConfirmarAccionVisible(!modalConfirmarAccionVisible)
+                setVisiblity(!visiblity)
             }}
             >
               <Text style={styles.buttonText}>Sí</Text>
