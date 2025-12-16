@@ -17,7 +17,8 @@ import ModalConfirmarAccion from '../../components/comanderoComponents/rightColu
 
 const Comandero = () => {
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
-        setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible} = useComandero();
+        setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible, modalSalirDeLaComanda, 
+        setModalSalirDeLaComanda} = useComandero();
 
     const router = useRouter();
 
@@ -27,12 +28,7 @@ const Comandero = () => {
         options={{
             headerRight: ()=>(
                 <Pressable
-                    onPress={() =>{
-                         router.replace("/dashboard/mesas")
-                         seleccionarMenu(null);
-                         seleccionarCategoria(null);
-                         borrarPedido();
-                    }}
+                    onPress={() =>{ setModalSalirDeLaComanda(true);}}
                     style={{ marginRight: 60 }}
                 >
                     <Ionicons
@@ -49,6 +45,18 @@ const Comandero = () => {
         style={styles.container}
         edges={["left", "right", "bottom"]}
     >
+        <ModalConfirmarAccion 
+            title='¿Estás seguro de salir de la comanda?'
+            paragraph='Los datos no guardados se perderan'
+            action={() => {
+                router.replace("/dashboard/mesas")
+                seleccionarMenu(null);
+                seleccionarCategoria(null);
+                borrarPedido();
+            }}
+            visiblity={modalSalirDeLaComanda}
+            setVisiblity={setModalSalirDeLaComanda}
+        />
         <ModalConfirmarAccion
             title='¿Desea borrar todos los platillos?'
             paragraph='La tabla del pedido quedará vacía'
