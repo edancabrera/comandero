@@ -13,6 +13,8 @@ import ListaPlatillos from '../../components/comanderoComponents/listaPlatillos'
 import Pedido from '../../components/comanderoComponents/rightColumnComponents/pedido';
 import FinalizarComanda from '../../components/comanderoComponents/rightColumnComponents/finalizarComanda';
 
+import ModalBorrarPedido from '../../components/comanderoComponents/rightColumnComponents/modalBorrarPedido';
+
 const Comandero = () => {
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido} = useComandero();
 
@@ -46,6 +48,8 @@ const Comandero = () => {
         style={styles.container}
         edges={["left", "right", "bottom"]}
     >
+
+        <ModalBorrarPedido />
 
         {/*Columna izquierda*/}
         <View style={styles.leftColumnContainer}>

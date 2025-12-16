@@ -1,11 +1,4 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  ScrollView,
-  Pressable,
-  TextInput,
-} from "react-native";
+import { StyleSheet, Text, View, ScrollView, Pressable, TextInput } from "react-native";
 import { useComandero } from "../../../context/ComanderoContext";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -13,7 +6,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
 
 const Pedido = () => {
-  const { pedido, borrarPedido } = useComandero();
+  const { pedido, setModalBorrarPedidoVisible  } = useComandero();
   return (
     
     <View style={{flex:1}}> {/* Parte superior (Tabla completa: Encabezado, filas) */}
@@ -43,8 +36,7 @@ const Pedido = () => {
       <View style={{flex:1}}> 
         {/* Botones*/}
         <View style={{ flexDirection: "row", justifyContent: 'space-around', marginVertical: 5 }}>
-          {/* Agregar modal para confirmar que se desean borrar los platillos del pedidos */}
-          <Pressable onPress={()=> borrarPedido()}>
+          <Pressable onPress={()=> setModalBorrarPedidoVisible(true)}>
             <Ionicons name="trash-outline" size={24} color="black" />
           </Pressable>
           <Pressable>

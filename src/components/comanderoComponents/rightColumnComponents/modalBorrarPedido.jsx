@@ -1,14 +1,14 @@
-import { useState } from "react";
+import {useComandero} from '../../../context/ComanderoContext';
 import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 const ModalBorrarPedido = () => {
-  const [modalVisible, setModalVisible] = useState(true);
+  const {modalBorrarPedidoVisible, setModalBorrarPedidoVisible} = useComandero();
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={modalVisible}
+        visible={modalBorrarPedidoVisible}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -23,13 +23,13 @@ const ModalBorrarPedido = () => {
           <View style={{ flexDirection: "row" }}>
             <Pressable
               style={[styles.button, styles.buttonNo]}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => setModalBorrarPedidoVisible(!modalBorrarPedidoVisible)}
             >
               <Text style={styles.buttonText}>No</Text>
             </Pressable>
             <Pressable
               style={[styles.button, styles.buttonSi]}
-              onPress={() => setModalVisible(!modalVisible)}
+              onPress={() => setModalBorrarPedidoVisible(!modalBorrarPedidoVisible)}
             >
               <Text style={styles.buttonText}>Sí</Text>
             </Pressable>
