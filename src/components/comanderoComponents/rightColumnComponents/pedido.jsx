@@ -15,7 +15,8 @@ import Feather from "@expo/vector-icons/Feather";
 const Pedido = () => {
   const { pedido, borrarPedido } = useComandero();
   return (
-    <View style={{flex:1}}>
+    
+    <View style={{flex:1}}> {/* Parte superior (Tabla completa: Encabezado, filas) */}
       {/* Tabla */}
       <View style={{flex:1, backgroundColor: '#fff'}}>
         {/* Encabezado */}
@@ -38,7 +39,8 @@ const Pedido = () => {
         </ScrollView>
       </View>
 
-      <View style={{flex:1}}>
+      {/* Parte Inferior (Botones de la taba, sección de comentario y sus botones) */}
+      <View style={{flex:1}}> 
         {/* Botones*/}
         <View style={{ flexDirection: "row", justifyContent: 'space-around', marginVertical: 5 }}>
           {/* Agregar modal para confirmar que se desean borrar los platillos del pedidos */}
