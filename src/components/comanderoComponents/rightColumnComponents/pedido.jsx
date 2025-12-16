@@ -6,7 +6,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
 
 const Pedido = () => {
-  const { pedido, setModalBorrarPedidoVisible  } = useComandero();
+  const { pedido, setModalBorrarPedidoVisible, lineaPedidoSeleccionadaId, seleccionarLineaPedido  } = useComandero();
   return (
     
     <View style={{flex:1}}> {/* Parte superior (Tabla completa: Encabezado, filas) */}
@@ -21,13 +21,20 @@ const Pedido = () => {
         </View>
         {/* Filas */}
         <ScrollView>
-          {pedido?.map((item, index) => (
-            <View key={index} style={styles.tableRow}>
+          {pedido?.map(item => (
+            <Pressable 
+              key={item.idLinea} 
+              style={[
+                styles.tableRow,
+                item.idLinea === lineaPedidoSeleccionadaId && styles.rowSelected
+              ]}
+              onPress={() => seleccionarLineaPedido(item.idLinea)}
+            >
               <Text style={styles.colPersona}>{item.persona}</Text>
               <Text style={styles.colPlatillo}>{item.nombre}</Text>
               <Text style={styles.colCantidad}>{item.cantidad}</Text>
               <Text style={styles.colComentarios}>{item.comentarios}</Text>
-            </View>
+            </Pressable>
           ))}
         </ScrollView>
       </View>
@@ -92,6 +99,9 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderBottomWidth: .5,
     borderColor: "#00000088",
+  },
+  rowSelected: {
+    backgroundColor: "#e0f2ff"
   },
   colPersona: {
     width: 60,
