@@ -13,7 +13,6 @@ import ListaPlatillos from '../../components/comanderoComponents/listaPlatillos'
 import Pedido from '../../components/comanderoComponents/rightColumnComponents/pedido';
 import FinalizarComanda from '../../components/comanderoComponents/rightColumnComponents/finalizarComanda';
 
-import ModalBorrarPedido from '../../components/comanderoComponents/rightColumnComponents/modalBorrarPedido';
 import ModalConfirmarAccion from '../../components/comanderoComponents/rightColumnComponents/modalConfirmarAccion';
 
 const Comandero = () => {
