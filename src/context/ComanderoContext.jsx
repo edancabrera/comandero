@@ -56,7 +56,8 @@ export const ComanderoProvider = ({children}) => {
             return [
             ...prevPedido,
             {
-                id: platillo.idproducto,
+                id: Date.now().toString() + Math.random().toString(36).substring(2), //Generación de un id único para indentificar el platillo
+                idProducto: platillo.idproducto,
                 nombre: platillo.nombre,
                 persona: 1,
                 cantidad: 1,
