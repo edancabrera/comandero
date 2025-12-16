@@ -14,9 +14,11 @@ import Pedido from '../../components/comanderoComponents/rightColumnComponents/p
 import FinalizarComanda from '../../components/comanderoComponents/rightColumnComponents/finalizarComanda';
 
 import ModalBorrarPedido from '../../components/comanderoComponents/rightColumnComponents/modalBorrarPedido';
+import ModalConfirmarAccion from '../../components/comanderoComponents/rightColumnComponents/modalConfirmarAccion';
+ModalConfirmarAccion
 
 const Comandero = () => {
-    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido} = useComandero();
+    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, eliminarLineaPedidoSeleccionada} = useComandero();
 
     const router = useRouter();
 
@@ -50,6 +52,11 @@ const Comandero = () => {
     >
 
         <ModalBorrarPedido />
+        <ModalConfirmarAccion
+            title='¿Desea quitar el platillo?'
+            paragraph='Solo se eliminará el platillo seleccionado'
+            action={()=> eliminarLineaPedidoSeleccionada()}
+        />
 
         {/*Columna izquierda*/}
         <View style={styles.leftColumnContainer}>
