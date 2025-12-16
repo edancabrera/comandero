@@ -37,32 +37,30 @@ export const ComanderoProvider = ({children}) => {
         setPedido([]);
     }
 
-    const agregarPlatillo = (platillo) => {
-        setPedido((prevPedido) => {
-            const existe = prevPedido.find(
-            (item) => item.id === platillo.idproducto
-            );
+    const agregarPlatillo = (platillo, persona = 1) => {
+        setPedido(prevPedido => {
+            // Buscar si ya existe el platillo para esa persona
+            const lineaExistente = prevPedido.find( item => item.idProducto === platillo.idproducto && item.persona === persona );
 
-            // Si ya existe → sumar cantidad
-            if (existe) {
-            return prevPedido.map((item) =>
-                item.id === platillo.idproducto
+            // Si existe → aumentar cantidad
+            if (lineaExistente) {
+            return prevPedido.map(item =>
+                item.idLinea === lineaExistente.idLinea
                 ? { ...item, cantidad: item.cantidad + 1 }
                 : item
-            );
-            }
+            );}
 
-            // Si no existe → agregar nuevo
+            // Si no existe → crear nueva línea
             return [
-            ...prevPedido,
-            {
-                id: Date.now().toString() + Math.random().toString(36).substring(2), //Generación de un id único para indentificar el platillo
-                idProducto: platillo.idproducto,
-                nombre: platillo.nombre,
-                persona: 1,
-                cantidad: 1,
-                comentarios: ""
-            }
+                ...prevPedido,
+                {
+                    idLinea: Date.now().toString() + Math.random().toString(36).substring(2), //Generación de un id único para indentificar el platillo
+                    idProducto: platillo.idproducto,
+                    nombre: platillo.nombre,
+                    persona,
+                    cantidad: 1,
+                    comentarios: ""
+                }
             ];
         });
     };
