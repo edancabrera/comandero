@@ -97,6 +97,7 @@ export const ComanderoProvider = ({children}) => {
 
         lineaPedidoSeleccionadaId,
         seleccionarLineaPedido,
+        eliminarLineaPedidoSeleccionada,
 
         modalBorrarPedidoVisible,
         setModalBorrarPedidoVisible
