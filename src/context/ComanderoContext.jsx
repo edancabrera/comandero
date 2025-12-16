@@ -70,6 +70,15 @@ export const ComanderoProvider = ({children}) => {
         setLineaPedidoSeleccionadaId(idLinea);
     };
 
+    const eliminarLineaPedidoSeleccionada = () => {
+        if (!lineaPedidoSeleccionadaId) return;
+
+        setPedido(prev =>
+            prev.filter(item => item.idLinea !== lineaPedidoSeleccionadaId)
+        );
+
+        setLineaPedidoSeleccionadaId(null);
+    };
 
 
     //Memoización del value para evitar re-renders
