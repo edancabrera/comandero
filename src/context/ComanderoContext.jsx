@@ -82,6 +82,17 @@ export const ComanderoProvider = ({children}) => {
         setLineaPedidoSeleccionadaId(null);
     };
 
+    const agregarComentarioLinea = (comentario) => {
+        if (!lineaPedidoSeleccionadaId) return;
+
+        setPedido(prev =>
+            prev.map(item =>
+            item.idLinea === lineaPedidoSeleccionadaId
+                ? { ...item, comentarios: comentario }
+                : item
+            )
+        );
+    };
 
     //Memoización del value para evitar re-renders
     const value = useMemo(()=>({
@@ -100,6 +111,7 @@ export const ComanderoProvider = ({children}) => {
         lineaPedidoSeleccionadaId,
         seleccionarLineaPedido,
         eliminarLineaPedidoSeleccionada,
+        agregarComentarioLinea,
 
         modalBorrarPedidoVisible,
         setModalBorrarPedidoVisible,

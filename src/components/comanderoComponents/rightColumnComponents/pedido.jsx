@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Pressable, TextInput } from "react-native";
 import { useComandero } from "../../../context/ComanderoContext";
 import AntDesign from "@expo/vector-icons/AntDesign";
@@ -6,7 +7,9 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
 
 const Pedido = () => {
-  const { pedido, setModalBorrarPedidoVisible, setModalQuitarPlatilloVisible ,lineaPedidoSeleccionadaId, seleccionarLineaPedido  } = useComandero();
+  const { pedido, setModalBorrarPedidoVisible, setModalQuitarPlatilloVisible ,lineaPedidoSeleccionadaId, seleccionarLineaPedido, agregarComentarioLinea } = useComandero();
+
+  const [comentario, setComentario] = useState("");
   return (
     
     <View style={{flex:1}}> {/* Parte superior (Tabla completa: Encabezado, filas) */}
@@ -72,11 +75,24 @@ const Pedido = () => {
         {/* Input para comentarios */}
         <View>
           <Text style={{ fontWeight: "bold" }}>Comentarios</Text>
-          <TextInput style={styles.inputComentarios} />
+          <TextInput 
+            style={styles.inputComentarios}
+            value={comentario}
+            onChangeText={setComentario}
+            placeholder="Agregar comentario..."
+          />
           <View
             style={{ flexDirection: "row", justifyContent: "space-around", marginTop: '5' }}
           >
-            <Pressable style={{ flexDirection: "row", alignItems: 'center'}}>
+            <Pressable 
+              style={{ flexDirection: "row", alignItems: 'center'}}
+              onPress={() => {
+                if (!lineaPedidoSeleccionadaId) return;
+                if (!comentario.trim()) return;
+                agregarComentarioLinea(comentario);
+                setComentario("");
+              }}
+            >
               <Feather name="plus" size={24} color="green" />
               <Text style={{marginLeft: 5}}>Agregar</Text>
             </Pressable>
