@@ -15,10 +15,10 @@ import FinalizarComanda from '../../components/comanderoComponents/rightColumnCo
 
 import ModalBorrarPedido from '../../components/comanderoComponents/rightColumnComponents/modalBorrarPedido';
 import ModalConfirmarAccion from '../../components/comanderoComponents/rightColumnComponents/modalConfirmarAccion';
-ModalConfirmarAccion
 
 const Comandero = () => {
-    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, eliminarLineaPedidoSeleccionada, modalConfirmarAccionVisible, setModalConfirmarAccionVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible} = useComandero();
+    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
+        setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible} = useComandero();
 
     const router = useRouter();
 
@@ -61,8 +61,8 @@ const Comandero = () => {
             title='¿Desea quitar el platillo?'
             paragraph='Solo se eliminará el platillo seleccionado'
             action={()=> eliminarLineaPedidoSeleccionada()}
-            visiblity={modalConfirmarAccionVisible}
-            setVisiblity={setModalConfirmarAccionVisible}
+            visiblity={modalQuitarPlatilloVisible}
+            setVisiblity={setModalQuitarPlatilloVisible}
         />
 
         {/*Columna izquierda*/}
