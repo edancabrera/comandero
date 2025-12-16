@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
 const ModalBorrarPedido = () => {
-  const {modalBorrarPedidoVisible, setModalBorrarPedidoVisible} = useComandero();
+  const {modalBorrarPedidoVisible, setModalBorrarPedidoVisible, borrarPedido} = useComandero();
   return (
     <Modal 
         animationType="slide" 
@@ -29,7 +29,10 @@ const ModalBorrarPedido = () => {
             </Pressable>
             <Pressable
               style={[styles.button, styles.buttonSi]}
-              onPress={() => setModalBorrarPedidoVisible(!modalBorrarPedidoVisible)}
+              onPress={() => {
+                borrarPedido();
+                setModalBorrarPedidoVisible(!modalBorrarPedidoVisible)
+            }}
             >
               <Text style={styles.buttonText}>Sí</Text>
             </Pressable>
