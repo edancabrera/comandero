@@ -12,7 +12,7 @@ export const ComanderoProvider = ({children}) => {
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null); //objeto con la información de la categoría seleccionada
     const [pedido, setPedido] = useState([]); //arreglo con la información del pedido
 
-    const [modalBorrarPedidoVisible, setModalBorrarPedidoVisible] = useState(true);//Estado para controlar la visibilidad de la modal para confirmar el borrar un pedido en pedido.jsx (Confirma o aborta el borrado de todos los platillos de la tabla del pedido)
+    const [modalBorrarPedidoVisible, setModalBorrarPedidoVisible] = useState(false);//Estado para controlar la visibilidad de la modal para confirmar el borrar un pedido en pedido.jsx (Confirma o aborta el borrado de todos los platillos de la tabla del pedido)
 
     //Funciones para manipular el estado
     const seleccionarArea = (area) => {
