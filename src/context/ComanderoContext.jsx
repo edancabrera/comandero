@@ -11,6 +11,7 @@ export const ComanderoProvider = ({children}) => {
     const [menuSeleccionado, setMenuSeleccionado] = useState(null); // cadena con la información del menú seleccionado
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null); //objeto con la información de la categoría seleccionada
     const [pedido, setPedido] = useState([]); //arreglo con la información del pedido
+    const [lineaPedidoSeleccionadaId, setLineaPedidoSeleccionadaId] = useState(null);//Estado con la información de la linea seleccionada del pedido en la tabla
 
     const [modalBorrarPedidoVisible, setModalBorrarPedidoVisible] = useState(false);//Estado para controlar la visibilidad de la modal para confirmar el borrar un pedido en pedido.jsx (Confirma o aborta el borrado de todos los platillos de la tabla del pedido)
 
@@ -65,6 +66,11 @@ export const ComanderoProvider = ({children}) => {
         });
     };
 
+    const seleccionarLineaPedido = (idLinea) => {
+        setLineaPedidoSeleccionadaId(idLinea);
+    };
+
+
 
     //Memoización del value para evitar re-renders
     const value = useMemo(()=>({
@@ -80,9 +86,12 @@ export const ComanderoProvider = ({children}) => {
         agregarPlatillo, 
         borrarPedido,
 
+        lineaPedidoSeleccionadaId,
+        seleccionarLineaPedido,
+
         modalBorrarPedidoVisible,
         setModalBorrarPedidoVisible
-    }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, modalBorrarPedidoVisible])
+    }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible])
 
     return (
         <ComanderoContext.Provider value={value}>
