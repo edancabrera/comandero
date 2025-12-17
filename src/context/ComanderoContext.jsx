@@ -12,6 +12,8 @@ export const ComanderoProvider = ({children}) => {
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null); //objeto con la información de la categoría seleccionada
     const [pedido, setPedido] = useState([]); //arreglo con la información del pedido
     const [lineaPedidoSeleccionadaId, setLineaPedidoSeleccionadaId] = useState(null);//Estado con la información de la linea seleccionada del pedido en la tabla
+    const [personas, setPersonas] = useState([1]); //Arreglo de personas a las que se les está tomando el pedido
+    const [personaActiva, setPersonaActiva] = useState(1); //Estado para controlar qué persona de la mesa es a la que se le está tomando el pedido
 
     const [modalBorrarPedidoVisible, setModalBorrarPedidoVisible] = useState(false);//Estado para controlar la visibilidad de la modal para confirmar el borrar un pedido en pedido.jsx (Confirma o aborta el borrado de todos los platillos de la tabla del pedido)
     const [modalQuitarPlatilloVisible, setModalQuitarPlatilloVisible] = useState(false);//Estado para controlar la visibilidad de la modal para confirmar el quitar un platillo seleccionado de la tabla del pedido
@@ -40,10 +42,10 @@ export const ComanderoProvider = ({children}) => {
         setPedido([]);
     }
 
-    const agregarPlatillo = (platillo, persona = 1) => {
+    const agregarPlatillo = (platillo) => {
         setPedido(prevPedido => {
             // Buscar si ya existe el platillo para esa persona
-            const lineaExistente = prevPedido.find( item => item.idProducto === platillo.idproducto && item.persona === persona );
+            const lineaExistente = prevPedido.find( item => item.idProducto === platillo.idproducto && item.persona === personaActiva );
 
             // Si existe → aumentar cantidad
             if (lineaExistente) {
@@ -60,7 +62,7 @@ export const ComanderoProvider = ({children}) => {
                     idLinea: Date.now().toString() + Math.random().toString(36).substring(2), //Generación de un id único para indentificar el platillo
                     idProducto: platillo.idproducto,
                     nombre: platillo.nombre,
-                    persona,
+                    persona: personaActiva,
                     cantidad: 1,
                     comentarios: ""
                 }
@@ -106,6 +108,18 @@ export const ComanderoProvider = ({children}) => {
         );
     }
 
+    const agregarPersona = () => {
+        setPersonas(prev => {
+            const nueva = prev.length + 1;
+            setPersonaActiva(nueva);
+            return [...prev, nueva];
+        })
+    }
+
+    const seleccionarPersona = (num) => {
+        setPersonaActiva(num);
+    }
+
     //Memoización del value para evitar re-renders
     const value = useMemo(()=>({
         areaSeleccionada,
@@ -126,13 +140,18 @@ export const ComanderoProvider = ({children}) => {
         agregarComentarioLinea,
         borrarComentarioLinea,
 
+        personas,
+        personaActiva,
+        agregarPersona,
+        seleccionarPersona,
+
         modalBorrarPedidoVisible,
         setModalBorrarPedidoVisible,
         modalQuitarPlatilloVisible,
         setModalQuitarPlatilloVisible,
         modalSalirDeLaComanda, 
         setModalSalirDeLaComanda
-    }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda])
+    }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda, personas, personaActiva])
 
     return (
         <ComanderoContext.Provider value={value}>
