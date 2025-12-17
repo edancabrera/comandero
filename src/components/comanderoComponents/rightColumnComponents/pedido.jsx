@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { StyleSheet, Text, View, ScrollView, Pressable, TextInput } from "react-native";
+import DropDownPicker from "react-native-dropdown-picker";
 import { useComandero } from "../../../context/ComanderoContext";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
@@ -7,9 +8,11 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
 
 const Pedido = () => {
-  const { pedido, setModalBorrarPedidoVisible, setModalQuitarPlatilloVisible ,lineaPedidoSeleccionadaId, seleccionarLineaPedido, agregarComentarioLinea, borrarComentarioLinea } = useComandero();
+  const { pedido, setModalBorrarPedidoVisible, setModalQuitarPlatilloVisible ,lineaPedidoSeleccionadaId, seleccionarLineaPedido, agregarComentarioLinea, borrarComentarioLinea, personas, personaActiva, agregarPersona, seleccionarPersona } = useComandero();
 
   const [comentario, setComentario] = useState("");
+
+  const [dropDownPersonasOpen, setDropDownPersonasOpen] = useState(false);
 
   useEffect(() => {
     if (!lineaPedidoSeleccionadaId) {
@@ -72,9 +75,37 @@ const Pedido = () => {
               color="black"
             />
           </Pressable>
-          <Pressable>
-            <Feather name="user-plus" size={24} color="black" />
-          </Pressable>
+          <View style={{flexDirection: 'row'}}>
+            <View>
+              <DropDownPicker 
+                open = {dropDownPersonasOpen}
+                value = {personaActiva}
+                items = {personas.map(persona => ({ label:persona, value: persona}))}
+                setOpen={setDropDownPersonasOpen}
+                setValue={seleccionarPersona}
+                placeholder={personaActiva}
+                dropDownDirection="BOTTOM" 
+                style={{
+                  backgroundColor: "#fff",
+                  borderColor: "#ccc",
+                  minHeight: 20,
+                  width: 80,
+                  marginRight: 5
+                }}
+                dropDownContainerStyle={{
+                  borderColor: "#ccc",
+                  height: 120,
+                  width: 80,
+                }}
+                textStyle={{
+                  fontSize: 14
+                }}
+              />
+            </View>
+            <Pressable onPress={()=>{agregarPersona()}}>
+              <Feather name="user-plus" size={24} color="black" />
+            </Pressable>
+          </View>
           <Pressable onPress={()=> {
             if(!lineaPedidoSeleccionadaId)return;
             setModalQuitarPlatilloVisible(true)
