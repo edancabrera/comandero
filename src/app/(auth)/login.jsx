@@ -15,6 +15,7 @@ const login = () => {
         <Image source={Logo} />
         <Text style={styles.title}>Autenticación</Text>
         <TextInput
+          secureTextEntry={true}
           placeholder="Numero de empleado"
           editable={false}
           style={styles.input}
