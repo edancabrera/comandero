@@ -2,9 +2,11 @@ import { StyleSheet, Pressable } from 'react-native';
 import { Tabs, useRouter } from 'expo-router';
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useComandero } from '../../context/ComanderoContext';
 
 
 const dashbaordLayout = () => {
+    const {seleccionarArea} = useComandero();
     const router = useRouter();
   return (
     <Tabs
@@ -21,7 +23,13 @@ const dashbaordLayout = () => {
                 color: "#fff",
             },
             headerRight: () => (
-                <Pressable onPress={()=> router.replace('/login')} style={{marginRight: 60}}>
+                <Pressable 
+                    onPress={()=> {
+                        seleccionarArea(null);
+                        router.replace('/login')
+                    }} 
+                    style={{marginRight: 60}}
+                >
                     <AntDesign name="poweroff" size={24} color="#fff" />
                 </Pressable>
             ),
