@@ -18,7 +18,7 @@ import ModalConfirmarAccion from '../../components/comanderoComponents/rightColu
 const Comandero = () => {
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
         setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible, modalSalirDeLaComanda, 
-        setModalSalirDeLaComanda} = useComandero();
+        setModalSalirDeLaComanda, seleccionarPersona, restablecerArregloPersonas } = useComandero();
 
     const router = useRouter();
 
@@ -53,6 +53,8 @@ const Comandero = () => {
                 seleccionarMenu(null);
                 seleccionarCategoria(null);
                 borrarPedido();
+                seleccionarPersona(1);
+                restablecerArregloPersonas();
             }}
             visiblity={modalSalirDeLaComanda}
             setVisiblity={setModalSalirDeLaComanda}

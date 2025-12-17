@@ -120,6 +120,10 @@ export const ComanderoProvider = ({children}) => {
         setPersonaActiva(num);
     }
 
+    const restablecerArregloPersonas = () =>{
+        setPersonas([1])
+    }
+
     //Memoización del value para evitar re-renders
     const value = useMemo(()=>({
         areaSeleccionada,
@@ -144,6 +148,7 @@ export const ComanderoProvider = ({children}) => {
         personaActiva,
         agregarPersona,
         seleccionarPersona,
+        restablecerArregloPersonas,
 
         modalBorrarPedidoVisible,
         setModalBorrarPedidoVisible,

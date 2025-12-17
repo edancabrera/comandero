@@ -94,7 +94,7 @@ const Pedido = () => {
                 }}
                 dropDownContainerStyle={{
                   borderColor: "#ccc",
-                  height: 120,
+                  maxHeight: 120,
                   width: 80,
                 }}
                 textStyle={{
