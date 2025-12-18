@@ -58,7 +58,6 @@ export const ComanderoProvider = ({children}) => {
 
             // Si no existe → crear nueva línea
             return [
-                ...prevPedido,
                 {
                     idLinea: Date.now().toString() + Math.random().toString(36).substring(2), //Generación de un id único para indentificar el platillo
                     idProducto: platillo.idproducto,
@@ -66,7 +65,8 @@ export const ComanderoProvider = ({children}) => {
                     persona: personaActiva,
                     cantidad: 1,
                     comentarios: ""
-                }
+                },
+                ...prevPedido
             ];
         });
     };
