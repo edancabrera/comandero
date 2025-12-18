@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
-import { useState } from "react";
+import { useComandero } from "../context/ComanderoContext";
 
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -9,16 +9,17 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const ModalOpcionesDeMesa = () => {
+   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible} = useComandero();
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={true}
+        visible={modalOpcionesDeMesaVisible}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
             <Pressable 
-                onPress={()=>setOpen(false)}
+                onPress={()=>setModalOpcionesDeMesaVisible(false)}
                 style={{ position: 'absolute', top: 5, right: 10}}
             >
                 <Ionicons name="close" size={36} color="red" />

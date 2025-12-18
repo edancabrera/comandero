@@ -15,7 +15,7 @@ const Mesas = () => {
 
   const router = useRouter();
 
-  const { areaSeleccionada, seleccionarMesa } = useComandero();
+  const { areaSeleccionada, seleccionarMesa, setModalOpcionesDeMesaVisible } = useComandero();
 
     const getMesasButtonBackgroundColor = (estatus) => {
       switch(estatus){
@@ -58,6 +58,8 @@ const Mesas = () => {
                   if(mesa.estatus === 'DISPONIBLE'){
                     seleccionarMesa(mesa);
                     router.push('dashboard/comandero');
+                  } else if(mesa.estatus === 'OCUPADO'){
+                    setModalOpcionesDeMesaVisible(true)
                   }
                 }}
               >

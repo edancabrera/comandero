@@ -18,6 +18,7 @@ export const ComanderoProvider = ({children}) => {
     const [modalBorrarPedidoVisible, setModalBorrarPedidoVisible] = useState(false);//Estado para controlar la visibilidad de la modal para confirmar el borrar un pedido en pedido.jsx (Confirma o aborta el borrado de todos los platillos de la tabla del pedido)
     const [modalQuitarPlatilloVisible, setModalQuitarPlatilloVisible] = useState(false);//Estado para controlar la visibilidad de la modal para confirmar el quitar un platillo seleccionado de la tabla del pedido
     const [modalSalirDeLaComanda, setModalSalirDeLaComanda] = useState(false);
+    const [modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible] = useState(false);
 
     //Funciones para manipular el estado
     const seleccionarArea = (area) => {
@@ -155,8 +156,11 @@ export const ComanderoProvider = ({children}) => {
         modalQuitarPlatilloVisible,
         setModalQuitarPlatilloVisible,
         modalSalirDeLaComanda, 
-        setModalSalirDeLaComanda
-    }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda, personas, personaActiva])
+        setModalSalirDeLaComanda,
+
+        modalOpcionesDeMesaVisible, 
+        setModalOpcionesDeMesaVisible
+    }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva])
 
     return (
         <ComanderoContext.Provider value={value}>
