@@ -8,6 +8,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import Areas from '../../components/areas'
 import StatusInfo from '../../components/statusInfo';
+import ModalOpcionesDeMesa from '../../components/modalOpcionesDeMesa';
 
 
 const Mesas = () => {
@@ -36,6 +37,7 @@ const Mesas = () => {
       style={styles.container}
       edges={["left", "right", "bottom"]}
     >
+      <ModalOpcionesDeMesa />
 
       <ScrollView 
         style={styles.layoutMesas}
