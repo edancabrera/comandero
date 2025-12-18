@@ -53,8 +53,10 @@ const Mesas = () => {
                 key={mesa.id} 
                 style={[styles.mesasButton, {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)}]}
                 onPress={() => {
-                  seleccionarMesa(mesa);
-                  router.push('dashboard/comandero');
+                  if(mesa.estatus === 'DISPONIBLE'){
+                    seleccionarMesa(mesa);
+                    router.push('dashboard/comandero');
+                  }
                 }}
               >
                 <MaterialIcons name="table-bar" size={32} color="#cf8a5e" />
