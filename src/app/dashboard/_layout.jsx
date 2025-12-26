@@ -6,13 +6,13 @@ import { useComandero } from '../../context/ComanderoContext';
 
 
 const dashbaordLayout = () => {
-    const {seleccionarArea} = useComandero();
+    const {seleccionarArea, usuario} = useComandero();
     const router = useRouter();
   return (
     <Tabs
         screenOptions={{
             headerShown: true,
-            headerTitle: 'usuario actual', //mostrar el usuario actual, eventualmente
+            headerTitle: usuario.nombre,
             headerStyle : {
                 backgroundColor: "#2596be",
                 height: 70
