@@ -6,6 +6,8 @@ const ComanderoContext = createContext(null);
 //Provider
 export const ComanderoProvider = ({children}) => {
 
+    const [usuario, setUsuario] = useState(null); //objeto con la información del usuario
+
     const [areaSeleccionada, setAreaSeleccionada] = useState(null); //objeto con la información de la area seleccionada
     const [mesaSeleccionada, setMesaSeleccionada] = useState(null); // objeto con la infromación de la mesa seleccionada
     const [menuSeleccionado, setMenuSeleccionado] = useState(null); // cadena con la información del menú seleccionado
@@ -127,6 +129,9 @@ export const ComanderoProvider = ({children}) => {
 
     //Memoización del value para evitar re-renders
     const value = useMemo(()=>({
+        usuario,
+        setUsuario,
+
         areaSeleccionada,
         seleccionarArea,
         mesaSeleccionada,
@@ -160,7 +165,7 @@ export const ComanderoProvider = ({children}) => {
 
         modalOpcionesDeMesaVisible, 
         setModalOpcionesDeMesaVisible
-    }), [areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva])
+    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva])
 
     return (
         <ComanderoContext.Provider value={value}>
