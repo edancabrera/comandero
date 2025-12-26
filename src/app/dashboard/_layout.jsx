@@ -6,13 +6,13 @@ import { useComandero } from '../../context/ComanderoContext';
 
 
 const dashbaordLayout = () => {
-    const {seleccionarArea, usuario} = useComandero();
+    const {seleccionarArea, usuario, setUsuario} = useComandero();
     const router = useRouter();
   return (
     <Tabs
         screenOptions={{
             headerShown: true,
-            headerTitle: usuario.nombre,
+            headerTitle: usuario?.nombre,
             headerStyle : {
                 backgroundColor: "#2596be",
                 height: 70
@@ -26,6 +26,7 @@ const dashbaordLayout = () => {
                 <Pressable 
                     onPress={()=> {
                         seleccionarArea(null);
+                        setUsuario(null);
                         router.replace('/login')
                     }} 
                     style={{marginRight: 60}}
