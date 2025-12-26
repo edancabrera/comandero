@@ -2,8 +2,10 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useComandero } from "../context/ComanderoContext";
 
 const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
+    const {setUsuario} = useComandero();
     const router = useRouter();
 
     const numpadContent = [
@@ -29,12 +31,26 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
     ]
   ]
 
-  const handlePress = (value) => {
+  const handlePress = async (value) => {
     if(value === -1){
         setNumeroEmpleado(numeroEmpleado.slice(0, -1));
     } else if (value === 10){
-        //Opción de envío
-        router.push('/dashboard');
+        try {
+          const response = await fetch(`http://192.168.1.72:8080/login/${numeroEmpleado}`,{
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          if(!response.ok){
+            throw new Error('Error en la solicitud');
+          }
+          const data = await response.json();
+          setUsuario(data);
+          router.push('/dashboard');
+        } catch (error) {
+          console.error('Error en la petición:', error);
+        }
     } else {
         if(numeroEmpleado.length < 6){
             setNumeroEmpleado(prev => prev + value);
