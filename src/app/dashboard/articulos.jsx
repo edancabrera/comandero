@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View, TextInput, FlatList, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
@@ -25,9 +25,11 @@ const Articulos = () => {
     obtenerPrecioProductos();
   }, [])
 
-  const filteredProducts = platillos.filter((producto) => {
-    return producto.nombre.toLowerCase().includes(search.toLowerCase());
-  });
+  const filteredProducts = useMemo(() => {
+  return platillos.filter((producto) =>
+    producto.nombre.toLowerCase().includes(search.toLowerCase())
+  );
+}, [platillos, search]);
 
   return (
     <SafeAreaView 
