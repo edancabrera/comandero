@@ -1,8 +1,43 @@
+import { useState } from "react";
 import { StyleSheet, Text, View, Modal, TextInput, Pressable } from "react-native";
+import { saveServerIp, buildApiUrl } from "../../utils/apiConfig";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible}) => {
+    const [ip, setIp] = useState("");
+    const [status, setStatus] = useState("");
+    const [error, setError] = useState("");
+
+    const testApiConnection = async () => {
+        try {
+            setError("");
+            setStatus("Probando conexión...");
+
+            //Validación de formato de IP
+            const ipRegex = /^(?:\d{1,3}\.){3}\d{1,3}$/;
+            if(!ipRegex.test(ip)) {
+                setError("Formato de IP inválido");
+                setStatus("");
+                return;
+            }
+
+            await saveServerIp(ip);
+
+            const url = await buildApiUrl("/ping");
+
+            const response = await fetch(url);
+            const data = await response.json();
+
+            if(response.ok) {
+                setStatus(data.message);
+            } else {
+                setStatus("No se pudo conectar");
+            }
+        } catch (error) {
+            setStatus("Error de conexión");
+        }
+    }
   return (
     <Modal 
         animationType="slide" 
@@ -20,15 +55,20 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
           <TextInput 
             style={styles.input}
             placeholder="Ingresa la IP del servidor"
+            value={ip}
+            onChangeText={setIp}
           />
-          <Text></Text>{/*Texto para mostrar error de formato de ip*/}
-          <Pressable style={styles.testButton}>
+          {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
+          <Pressable 
+            style={styles.testButton}
+            onPress={testApiConnection}
+        >
             <Text style={styles.testButtonText}>
                 Probar conexión
             </Text>
           </Pressable>
           <Text>
-            Estado de la conexión:
+            Estado de la conexión: {status}
           </Text>
         </View>
       </View>
