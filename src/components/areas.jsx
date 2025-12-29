@@ -10,6 +10,9 @@ const Areas = () => {
         const obtenerAreas = async () => {
             try {
                 const response = await fetch('http://192.168.1.72:8080/areas');
+                if(!response.ok){
+                    throw new Error ('Error en la respuesta del servidor');
+                }
                 const data = await response.json();
                 setAreas(data);
             } catch (error) {
