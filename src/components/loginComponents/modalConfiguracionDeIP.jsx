@@ -35,9 +35,11 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
                 setStatus(data.message);
             } else {
                 setStatus("No se pudo conectar");
+                setError("Error de conexión");
             }
         } catch (error) {
             setStatus("Error de conexión");
+            setError("Verifica la IP");
         }
     }
   return (
