@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { StyleSheet, Text, View, Modal, TextInput, Pressable } from "react-native";
+import { StyleSheet, Text, View, Modal, TextInput, Pressable, ActivityIndicator } from "react-native";
 import { saveServerIp, buildApiUrl } from "../../utils/apiConfig";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible}) => {
     const [ip, setIp] = useState("");
@@ -52,6 +54,9 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
             >
                 <Ionicons name="close" size={36} color="red" />
             </Pressable>
+            {error ? <MaterialIcons name="error-outline" size={48} color="red" />: null}
+            {status === "Probando conexión..." ? <ActivityIndicator size="large"/> : null}
+            {status === "Conexión exitosa con la API" ? <AntDesign name="check-circle" size={36} color="green" /> : null}
           <TextInput 
             style={styles.input}
             placeholder="Ingresa la IP del servidor"
