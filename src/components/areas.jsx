@@ -1,20 +1,17 @@
-import { useEffect } from 'react';
-
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
-
 import { useComandero } from '../context/ComanderoContext';
-
-import areas from '../data/areas.json';
 
 const Areas = () => {
     const { seleccionarArea } = useComandero();
+    const [areas, setAreas] = useState([]);
 
     useEffect(()=>{
         const obtenerAreas = async () => {
             try {
                 const response = await fetch('http://192.168.1.72:8080/areas');
                 const data = await response.json();
-                console.log(data)
+                setAreas(data);
             } catch (error) {
                 console.error('Error al obtener áreas', error)
             }
