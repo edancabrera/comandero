@@ -9,10 +9,11 @@ import Logo from "../../../assets/crovrestaurante.png";
 
 const login = () => {
     const [numeroEmpleado, setNumeroEmpleado] = useState("");
+    const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
-      <ModalConfiguracionDeIP />
+      <ModalConfiguracionDeIP modalConfiguracionDeIPVisible = {modalConfiguracionDeIPVisible }setModalConfiguracionDeIPVisible = {setModalConfiguracionDeIPVisible}/>
       <View style={{flex:0.6, alignItems: 'center'}}>
         <Image source={Logo} />
         <Text style={styles.title}>Autenticación</Text>
@@ -23,7 +24,10 @@ const login = () => {
           style={styles.input}
           value={numeroEmpleado}
         />
-        <Pressable style = {styles.configButton}>
+        <Pressable 
+          style = {styles.configButton}
+          onPress={() => setModalConfiguracionDeIPVisible(true)}
+        >
           <Text style = {styles.configButtonText}>
             Configurar IP
           </Text>

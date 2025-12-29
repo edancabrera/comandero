@@ -2,17 +2,17 @@ import { StyleSheet, Text, View, Modal, TextInput, Pressable } from "react-nativ
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const ModalConfiguracionDeIP = () => {
+const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible}) => {
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={true}
+        visible={modalConfiguracionDeIPVisible}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
             <Pressable 
-                onPress={()=>{}}
+                onPress={()=>setModalConfiguracionDeIPVisible(false)}
                 style={{ position: 'absolute', top: 5, right: 10}}
             >
                 <Ionicons name="close" size={36} color="red" />
