@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 
 import Numpad from "../../components/loginComponents/numpad";
+import ModalConfiguracionDeIP from "../../components/loginComponents/modalConfiguracionDeIP";
 
 import Logo from "../../../assets/crovrestaurante.png";
 
@@ -11,6 +12,7 @@ const login = () => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <ModalConfiguracionDeIP />
       <View style={{flex:0.6, alignItems: 'center'}}>
         <Image source={Logo} />
         <Text style={styles.title}>Autenticación</Text>
