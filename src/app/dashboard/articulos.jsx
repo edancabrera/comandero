@@ -1,19 +1,32 @@
 import { StyleSheet, Text, View, TextInput, FlatList, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-import categoria_platillo from '../../data/categoria_platillo.json'
-
 const Articulos = () => {
   const [search, setSearch] = useState("");
+  const [platillos, setPlatillos] = useState([]);
 
-  const filteredProducts = categoria_platillo.flatMap((categoria) => 
-    categoria.producto.filter((producto) => producto.mostrar_en_el_menu === 1)
-  ).filter((producto) => {
-    const texto = search.toLowerCase();
-    return producto.nombre.toLowerCase().includes(texto);
+  const obtenerPrecioProductos = async () => {
+      try {
+        const response = await fetch('http://192.168.1.72:8080/precios');
+        if(!response.ok){
+          throw new Error ('Error en la respuesta del servidor');
+        }
+        const data = await response.json();
+        setPlatillos(data);
+      } catch (error) {
+        console.error('Error al obtener la lista de precios', error)
+      }
+    }
+
+  useEffect( () => {
+    obtenerPrecioProductos();
+  }, [])
+
+  const filteredProducts = platillos.filter((producto) => {
+    return producto.nombre.toLowerCase().includes(search.toLowerCase());
   });
 
   return (
@@ -45,7 +58,7 @@ const Articulos = () => {
       {/* Tabla */}
       <FlatList 
         data={filteredProducts}
-        keyExtractor={(item) => item.idproducto.toString()}
+        keyExtractor={(item) => item.idProducto.toString()}
         renderItem={({ item }) => (
           <View style={styles.row}>
             <Text style={[styles.cell, {flex: 2}]} >{item.nombre}</Text>
