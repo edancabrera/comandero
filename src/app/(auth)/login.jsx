@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TextInput } from "react-native";
+import { StyleSheet, Text, View, Image, TextInput, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 
@@ -21,6 +21,11 @@ const login = () => {
           style={styles.input}
           value={numeroEmpleado}
         />
+        <Pressable style = {styles.configButton}>
+          <Text style = {styles.configButtonText}>
+            Configurar IP
+          </Text>
+        </Pressable>
       </View>
       <View style={{flex:0.4}}>
         <Numpad numeroEmpleado={numeroEmpleado} setNumeroEmpleado={setNumeroEmpleado} />
@@ -52,4 +57,14 @@ const styles = StyleSheet.create({
     width: "80%",
     textAlign: "center",
   },
+  configButton: {
+    backgroundColor: '#faa80f',
+    borderRadius: 5,
+    padding: 15,
+    marginTop: 10
+  },
+  configButtonText: {
+    color: '#fff',
+    fontWeight: 'bold'
+  }
 });
