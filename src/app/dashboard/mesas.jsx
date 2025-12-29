@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useComandero } from '../../context/ComanderoContext';
 
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
@@ -17,6 +18,8 @@ const Mesas = () => {
 
   const { areaSeleccionada, seleccionarMesa, setModalOpcionesDeMesaVisible } = useComandero();
 
+  const [mesas, setMesas] = useState([]);
+
     const getMesasButtonBackgroundColor = (estatus) => {
       switch(estatus){
         case 'DISPONIBLE':
@@ -31,6 +34,24 @@ const Mesas = () => {
           return "#12ff12"
       }
     }
+
+      const obtenerMesasPorArea = async () => {
+        if(!areaSeleccionada) return;
+        try {
+          const response = await fetch(`http://192.168.1.72:8080/mesas/${areaSeleccionada.id}`)
+          if(!response.ok){
+            throw new Error ('Error en la respuesta del servidor');
+          }
+          const data = await response.json();
+          setMesas(data);
+        } catch (error) {
+          console.error('Error al obtener mesas', error)
+        }
+      }
+
+      useEffect( () => {
+        obtenerMesasPorArea();
+      }, [areaSeleccionada]);
 
   return (
     <SafeAreaView 
@@ -50,7 +71,7 @@ const Mesas = () => {
         {areaSeleccionada ? (
           <>
             <View style={styles.mesasButtonsContainer}>
-            {areaSeleccionada.mesas.map((mesa)=>(
+            {mesas.map((mesa)=>(
               <Pressable 
                 key={mesa.id} 
                 style={[styles.mesasButton, {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)}]}
