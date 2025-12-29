@@ -28,7 +28,7 @@ const Mesas = () => {
           return "#fe1616";
         case 'COBRANDO':
           return "#fbfb1b";
-        case 'MESA UNIDA':
+        case 'UNIDA':
           return "#79caf5";
         default:
           return "#12ff12"
