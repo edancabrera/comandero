@@ -1,4 +1,6 @@
-import { StyleSheet, Text, View, Modal } from "react-native";
+import { StyleSheet, Text, View, Modal, TextInput, Pressable } from "react-native";
+
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 const ModalConfiguracionDeIP = () => {
   return (
@@ -9,7 +11,25 @@ const ModalConfiguracionDeIP = () => {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text>Hola soy una modal</Text>
+            <Pressable 
+                onPress={()=>{}}
+                style={{ position: 'absolute', top: 5, right: 10}}
+            >
+                <Ionicons name="close" size={36} color="red" />
+            </Pressable>
+          <TextInput 
+            style={styles.input}
+            placeholder="Ingresa la IP del servidor"
+          />
+          <Text></Text>{/*Texto para mostrar error de formato de ip*/}
+          <Pressable style={styles.testButton}>
+            <Text style={styles.testButtonText}>
+                Probar conexión
+            </Text>
+          </Pressable>
+          <Text>
+            Estado de la conexión:
+          </Text>
         </View>
       </View>
     </Modal>
@@ -40,4 +60,22 @@ const styles = StyleSheet.create({
     elevation: 5,
     width: "50%",
   },
+  input: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 5,
+    borderWidth: 1,
+    width: "80%",
+    textAlign: "center",
+  },
+  testButton: {
+    backgroundColor: '#2dbd4f',
+    borderRadius: 5,
+    padding: 15,
+    marginVertical: 10
+  },
+  testButtonText: {
+    color: '#fff',
+    fontWeight: 'bold'
+  }
 });
