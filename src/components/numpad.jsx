@@ -43,10 +43,13 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
             }
           });
           if(!response.ok){
-            throw new Error('Error en la solicitud');
+            setNumeroEmpleado("");
+            const errorJson = await response.json();
+            throw new Error(JSON.stringify(errorJson));
           }
           const data = await response.json();
           setUsuario(data);
+          setNumeroEmpleado("");
           router.push('/dashboard');
         } catch (error) {
           console.error('Error en la petición:', error);
