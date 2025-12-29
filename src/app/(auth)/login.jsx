@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, TextInput } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 
-import Numpad from "../../components/numpad";
+import Numpad from "../../components/loginComponents/numpad";
 
 import Logo from "../../../assets/crovrestaurante.png";
 
