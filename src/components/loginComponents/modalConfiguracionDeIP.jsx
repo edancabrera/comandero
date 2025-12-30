@@ -33,9 +33,6 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
 
             if(response.ok) {
                 setStatus(data.message);
-            } else {
-                setStatus("No se pudo conectar");
-                setError("Error de conexión");
             }
         } catch (error) {
             setStatus("Error de conexión");
@@ -66,14 +63,24 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
             onChangeText={setIp}
           />
           {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
-          <Pressable 
-            style={styles.testButton}
-            onPress={testApiConnection}
-        >
-            <Text style={styles.testButtonText}>
+          {status === "Probando conexión..." ?
+            <Pressable 
+              style={[styles.testButton, {backgroundColor: 'grey'}]}
+              onPress={{}}
+            >
+              <Text style={styles.testButtonText}>
+                  Cancelar
+              </Text>
+            </Pressable>:
+            <Pressable 
+              style={styles.testButton}
+              onPress={testApiConnection}
+            >
+              <Text style={styles.testButtonText}>
                 Probar conexión
-            </Text>
-          </Pressable>
+              </Text>
+            </Pressable>
+          }
           <Text>
             Estado de la conexión: {status}
           </Text>
