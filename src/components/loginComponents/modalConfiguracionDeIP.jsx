@@ -25,9 +25,7 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
                 return;
             }
 
-            await saveServerIp(ip);
-
-            const url = await buildApiUrl("/ping");
+            const url = `http://${ip}:8080/ping`;
 
             abortControllerRef.current = new AbortController();
 
@@ -37,8 +35,9 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
             const data = await response.json();
 
             if(response.ok) {
-                setStatus(data.message);
-                onIpSaved();
+              await saveServerIp(ip);
+              setStatus(data.message);
+              onIpSaved();
             }
         } catch (error) {
           if(error.name === "AbortError"){
