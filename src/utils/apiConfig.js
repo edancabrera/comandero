@@ -10,6 +10,10 @@ export const getServerIp = async () => {
   return await AsyncStorage.getItem(IP_KEY);
 };
 
+export const clearIp = async () => {
+  return await AsyncStorage.removeItem(IP_KEY);
+}
+
 export const buildApiUrl = async (endpoint) => {
   const ip = await getServerIp();
   if (!ip) throw new Error("IP no configurada");

@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View, Modal, TextInput, Pressable, ActivityIndicator } from "react-native";
-import { saveServerIp, getServerIp } from "../../utils/apiConfig";
+import { saveServerIp, getServerIp} from "../../utils/apiConfig";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';

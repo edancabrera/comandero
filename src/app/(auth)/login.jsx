@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import Numpad from "../../components/loginComponents/numpad";
 import ModalConfiguracionDeIP from "../../components/loginComponents/modalConfiguracionDeIP";
-import { getServerIp } from "../../utils/apiConfig";
+import { getServerIp, clearIp } from "../../utils/apiConfig";
 
 import Logo from "../../../assets/crovrestaurante.png";
 
@@ -42,6 +42,14 @@ const login = () => {
         >
           <Text style = {styles.configButtonText}>
             Configurar IP
+          </Text>
+        </Pressable>
+        <Pressable 
+          style = {styles.configButton}
+          onPress={() => {clearIp(); setServerIp(null)}}
+        >
+          <Text style = {styles.configButtonText}>
+            Borrar IP
           </Text>
         </Pressable>
       </View>
