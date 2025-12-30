@@ -12,7 +12,6 @@ const login = () => {
     const [numeroEmpleado, setNumeroEmpleado] = useState("");
     const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
     const [serverIp, setServerIp] = useState(null);
-    const [runTest, setRunTest] = useState(false);
 
     const obtenerIp = async () => {
         const ip = await getServerIp();
@@ -26,7 +25,6 @@ const login = () => {
     <SafeAreaView style={styles.container}>
       <ModalConfiguracionDeIP modalConfiguracionDeIPVisible = {modalConfiguracionDeIPVisible }setModalConfiguracionDeIPVisible = {setModalConfiguracionDeIPVisible}
       onIpSaved = {obtenerIp}
-      runTest={runTest}
       />
       <View style={{flex:0.6, alignItems: 'center'}}>
         <Image source={Logo} />
@@ -43,7 +41,6 @@ const login = () => {
           <Pressable 
             style = {styles.configButton}
             onPress={() => {
-              setRunTest(true)
               setModalConfiguracionDeIPVisible(true)
             }}
           >
@@ -54,7 +51,6 @@ const login = () => {
         <Pressable 
           style = {styles.configButton}
           onPress={() => {
-            setRunTest(false)
             setModalConfiguracionDeIPVisible(true)
           }}
         >

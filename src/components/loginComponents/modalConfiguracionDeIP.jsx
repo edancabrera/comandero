@@ -6,7 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible, onIpSaved, runTest}) => {
+const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible, onIpSaved}) => {
     const [ip, setIp] = useState("");
     const [status, setStatus] = useState("");
     const [error, setError] = useState("");
@@ -70,12 +70,6 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
       }
       loadSavedIp();
     }, [modalConfiguracionDeIPVisible]);
-
-    useEffect( () => {
-      if (modalConfiguracionDeIPVisible && runTest && ip) {
-          testApiConnection();
-        }
-    }, [modalConfiguracionDeIPVisible, runTest, ip])
 
   return (
     <Modal 
