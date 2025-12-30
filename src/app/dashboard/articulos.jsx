@@ -1,6 +1,7 @@
 import { StyleSheet, Text, View, TextInput, FlatList, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useEffect, useMemo } from 'react';
+import { buildApiUrl } from '../../utils/apiConfig';
 
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
@@ -10,7 +11,8 @@ const Articulos = () => {
 
   const obtenerPrecioProductos = async () => {
       try {
-        const response = await fetch('http://192.168.1.72:8080/precios');
+        const url = await buildApiUrl('/precios');
+        const response = await fetch(url);
         if(!response.ok){
           throw new Error ('Error en la respuesta del servidor');
         }
