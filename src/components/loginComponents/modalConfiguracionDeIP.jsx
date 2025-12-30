@@ -69,6 +69,9 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
                 onPress={()=>{
                   cancelRequest();
                   setModalConfiguracionDeIPVisible(false);
+                  setStatus("");
+                  setError("");
+                  setIp("");
                 }}
                 style={{ position: 'absolute', top: 5, right: 10}}
             >
@@ -103,7 +106,7 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
             </Pressable>
           }
           <Text>
-            Estado de la conexión: {status}
+            {status}
           </Text>
         </View>
       </View>
