@@ -6,7 +6,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible}) => {
+const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible, onIpSaved}) => {
     const [ip, setIp] = useState("");
     const [status, setStatus] = useState("");
     const [error, setError] = useState("");
@@ -38,6 +38,7 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
 
             if(response.ok) {
                 setStatus(data.message);
+                onIpSaved();
             }
         } catch (error) {
           if(error.name === "AbortError"){

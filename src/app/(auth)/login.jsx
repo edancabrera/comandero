@@ -13,17 +13,18 @@ const login = () => {
     const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
     const [serverIp, setServerIp] = useState(null);
 
-    useEffect(() => {
-      const obtenerIp = async () => {
+    const obtenerIp = async () => {
         const ip = await getServerIp();
         setServerIp(ip)
       }
+    useEffect(() => {
       obtenerIp();
     }, [])
 
   return (
     <SafeAreaView style={styles.container}>
-      <ModalConfiguracionDeIP modalConfiguracionDeIPVisible = {modalConfiguracionDeIPVisible }setModalConfiguracionDeIPVisible = {setModalConfiguracionDeIPVisible}/>
+      <ModalConfiguracionDeIP modalConfiguracionDeIPVisible = {modalConfiguracionDeIPVisible }setModalConfiguracionDeIPVisible = {setModalConfiguracionDeIPVisible}
+      onIpSaved = {obtenerIp}/>
       <View style={{flex:0.6, alignItems: 'center'}}>
         <Image source={Logo} />
         <Text style={styles.title}>Autenticación</Text>
