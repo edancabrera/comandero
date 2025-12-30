@@ -12,6 +12,7 @@ const login = () => {
     const [numeroEmpleado, setNumeroEmpleado] = useState("");
     const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
     const [serverIp, setServerIp] = useState(null);
+    const [runTest, setRunTest] = useState(false);
 
     const obtenerIp = async () => {
         const ip = await getServerIp();
@@ -24,7 +25,9 @@ const login = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ModalConfiguracionDeIP modalConfiguracionDeIPVisible = {modalConfiguracionDeIPVisible }setModalConfiguracionDeIPVisible = {setModalConfiguracionDeIPVisible}
-      onIpSaved = {obtenerIp}/>
+      onIpSaved = {obtenerIp}
+      runTest={runTest}
+      />
       <View style={{flex:0.6, alignItems: 'center'}}>
         <Image source={Logo} />
         <Text style={styles.title}>Autenticación</Text>
@@ -36,14 +39,30 @@ const login = () => {
           value={numeroEmpleado}
         />
         {serverIp ? <Text>Conectado al servidor con la IP: {serverIp}</Text>: <Text>No se ha configurado la IP</Text>}
+        {serverIp ? 
+          <Pressable 
+            style = {styles.configButton}
+            onPress={() => {
+              setRunTest(true)
+              setModalConfiguracionDeIPVisible(true)
+            }}
+          >
+            <Text style = {styles.configButtonText}>
+              Probar conexión
+            </Text>
+        </Pressable> :
         <Pressable 
           style = {styles.configButton}
-          onPress={() => setModalConfiguracionDeIPVisible(true)}
+          onPress={() => {
+            setRunTest(false)
+            setModalConfiguracionDeIPVisible(true)
+          }}
         >
           <Text style = {styles.configButtonText}>
             Configurar IP
           </Text>
         </Pressable>
+        }
         <Pressable 
           style = {styles.configButton}
           onPress={() => {clearIp(); setServerIp(null)}}
