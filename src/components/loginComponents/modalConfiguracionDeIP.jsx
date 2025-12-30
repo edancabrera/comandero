@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { StyleSheet, Text, View, Modal, TextInput, Pressable, ActivityIndicator } from "react-native";
 import { saveServerIp, buildApiUrl } from "../../utils/apiConfig";
 
@@ -10,6 +10,7 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
     const [ip, setIp] = useState("");
     const [status, setStatus] = useState("");
     const [error, setError] = useState("");
+    const abortControllerRef = useRef(null);
 
     const testApiConnection = async () => {
         try {
@@ -28,17 +29,34 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
 
             const url = await buildApiUrl("/ping");
 
-            const response = await fetch(url);
+            abortControllerRef.current = new AbortController();
+
+            const response = await fetch(url, {
+              signal: abortControllerRef.current.signal
+            });
             const data = await response.json();
 
             if(response.ok) {
                 setStatus(data.message);
             }
         } catch (error) {
+          if(error.name === "AbortError"){
+            setStatus("Prueba de conexión cancelada")
+          } else {
             setStatus("Error de conexión");
             setError("Verifica la IP");
+          }
+        } finally {
+          abortControllerRef.current = null;
         }
     }
+
+    const cancelRequest = () => {
+      if (abortControllerRef.current){
+        abortControllerRef.current.abort();
+      }
+    }
+
   return (
     <Modal 
         animationType="slide" 
@@ -48,7 +66,10 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
             <Pressable 
-                onPress={()=>setModalConfiguracionDeIPVisible(false)}
+                onPress={()=>{
+                  cancelRequest();
+                  setModalConfiguracionDeIPVisible(false);
+                }}
                 style={{ position: 'absolute', top: 5, right: 10}}
             >
                 <Ionicons name="close" size={36} color="red" />
@@ -66,7 +87,7 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
           {status === "Probando conexión..." ?
             <Pressable 
               style={[styles.testButton, {backgroundColor: 'grey'}]}
-              onPress={{}}
+              onPress={cancelRequest}
             >
               <Text style={styles.testButtonText}>
                   Cancelar
