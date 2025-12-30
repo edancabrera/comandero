@@ -1,15 +1,25 @@
 import { StyleSheet, Text, View, Image, TextInput, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import Numpad from "../../components/loginComponents/numpad";
 import ModalConfiguracionDeIP from "../../components/loginComponents/modalConfiguracionDeIP";
+import { getServerIp } from "../../utils/apiConfig";
 
 import Logo from "../../../assets/crovrestaurante.png";
 
 const login = () => {
     const [numeroEmpleado, setNumeroEmpleado] = useState("");
     const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
+    const [serverIp, setServerIp] = useState(null);
+
+    useEffect(() => {
+      const obtenerIp = async () => {
+        const ip = await getServerIp();
+        setServerIp(ip)
+      }
+      obtenerIp();
+    }, [])
 
   return (
     <SafeAreaView style={styles.container}>
@@ -24,6 +34,7 @@ const login = () => {
           style={styles.input}
           value={numeroEmpleado}
         />
+        {serverIp ? <Text>Conectado al servidor con la IP: {serverIp}</Text>: <Text>No se ha configurado la IP</Text>}
         <Pressable 
           style = {styles.configButton}
           onPress={() => setModalConfiguracionDeIPVisible(true)}
