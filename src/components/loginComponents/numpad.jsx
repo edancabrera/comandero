@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useComandero } from "../../context/ComanderoContext";
+import { buildApiUrl } from "../../utils/apiConfig";
 
 const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
     const {setUsuario} = useComandero();
@@ -36,7 +37,8 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
         setNumeroEmpleado(numeroEmpleado.slice(0, -1));
     } else if (value === 10){
         try {
-          const response = await fetch(`http://192.168.1.72:8080/login/${numeroEmpleado}`,{
+          const url = await buildApiUrl(`/login/${numeroEmpleado}`);
+          const response = await fetch(url,{
             method: 'GET',
             headers: {
               'Content-Type': 'application/json'

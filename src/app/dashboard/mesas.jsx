@@ -10,6 +10,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Areas from '../../components/areas'
 import StatusInfo from '../../components/statusInfo';
 import ModalOpcionesDeMesa from '../../components/modalOpcionesDeMesa';
+import { buildApiUrl } from '../../utils/apiConfig';
 
 
 const Mesas = () => {
@@ -38,7 +39,8 @@ const Mesas = () => {
       const obtenerMesasPorArea = async () => {
         if(!areaSeleccionada) return;
         try {
-          const response = await fetch(`http://192.168.1.72:8080/mesas/${areaSeleccionada.id}`)
+          const url = await buildApiUrl(`/mesas/${areaSeleccionada.id}`)
+          const response = await fetch(url)
           if(!response.ok){
             throw new Error ('Error en la respuesta del servidor');
           }

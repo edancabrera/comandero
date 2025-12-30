@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native';
 import { useComandero } from '../context/ComanderoContext';
+import { buildApiUrl } from '../utils/apiConfig';
 
 const Areas = () => {
     const { seleccionarArea } = useComandero();
@@ -9,7 +10,8 @@ const Areas = () => {
     useEffect(()=>{
         const obtenerAreas = async () => {
             try {
-                const response = await fetch('http://192.168.1.72:8080/areas');
+                const url = await buildApiUrl('/areas');
+                const response = await fetch(url);
                 if(!response.ok){
                     throw new Error ('Error en la respuesta del servidor');
                 }
