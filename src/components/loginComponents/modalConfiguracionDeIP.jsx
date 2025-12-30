@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View, Modal, TextInput, Pressable, ActivityIndicator } from "react-native";
-import { saveServerIp, buildApiUrl } from "../../utils/apiConfig";
+import { saveServerIp, getServerIp } from "../../utils/apiConfig";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -57,6 +57,20 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
       }
     }
 
+    useEffect( () => {
+      const loadSavedIp = async () => {
+        if (modalConfiguracionDeIPVisible) {
+          const savedIp = await getServerIp();
+          if(savedIp) {
+            setIp(savedIp);
+          } else {
+            setIp("");
+          }
+        }
+      }
+      loadSavedIp();
+    }, [modalConfiguracionDeIPVisible]);
+
   return (
     <Modal 
         animationType="slide" 
@@ -71,7 +85,6 @@ const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfigur
                   setModalConfiguracionDeIPVisible(false);
                   setStatus("");
                   setError("");
-                  setIp("");
                 }}
                 style={{ position: 'absolute', top: 5, right: 10}}
             >
