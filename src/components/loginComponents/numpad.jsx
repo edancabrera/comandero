@@ -4,7 +4,7 @@ import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useComandero } from "../../context/ComanderoContext";
-import { buildApiUrl } from "../../utils/apiConfig";
+import { buildApiUrl, getServerIp } from "../../utils/apiConfig";
 
 const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
     const {setUsuario} = useComandero();
@@ -38,6 +38,8 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
     if(value === -1){
         setNumeroEmpleado(numeroEmpleado.slice(0, -1));
     } else if (value === 10){
+      const ip = await getServerIp();
+      if(!ip) {setErrrorMessage("Por favor, configura la IP"); return}
       if(numeroEmpleado.length != 6) {
         setErrrorMessage("La clave debe tener exactamente 6 caracteres");
         setNumeroEmpleado("")
