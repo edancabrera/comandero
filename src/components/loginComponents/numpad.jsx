@@ -62,7 +62,7 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
           setNumeroEmpleado("");
           router.push('/dashboard');
         } catch (error) {
-          console.error('Error en la petición:', error);
+          //console.error('Error en la petición:', error);
         }
     } else {
         setErrrorMessage("");
@@ -74,7 +74,13 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
 
   return (
     <View style={styles.container}>
-      {errorMessage ? <Text>Error: {errorMessage}</Text>: null }
+      {errorMessage ? 
+        <View style={{backgroundColor:'red', padding: 5, borderRadius: 5, marginBottom: 10}}>
+          <Text style={{fontWeight: 'bold', color: '#fff'}}>Error: {errorMessage}</Text>
+        </View>
+        
+        : null 
+      }
       {numpadContent.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
             {row.map((button) => (
