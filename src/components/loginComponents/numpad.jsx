@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -8,6 +9,7 @@ import { buildApiUrl } from "../../utils/apiConfig";
 const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
     const {setUsuario} = useComandero();
     const router = useRouter();
+    const [errorMessage, setErrrorMessage] = useState("");
 
     const numpadContent = [
     [
@@ -36,6 +38,11 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
     if(value === -1){
         setNumeroEmpleado(numeroEmpleado.slice(0, -1));
     } else if (value === 10){
+      if(numeroEmpleado.length != 6) {
+        setErrrorMessage("La clave debe tener exactamente 6 caracteres");
+        setNumeroEmpleado("")
+        return
+      }
         try {
           const url = await buildApiUrl(`/login/${numeroEmpleado}`);
           const response = await fetch(url,{
@@ -57,6 +64,7 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
           console.error('Error en la petición:', error);
         }
     } else {
+        setErrrorMessage("");
         if(numeroEmpleado.length < 6){
             setNumeroEmpleado(prev => prev + value);
         }
@@ -65,6 +73,7 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
 
   return (
     <View style={styles.container}>
+      {errorMessage ? <Text>Error: {errorMessage}</Text>: null }
       {numpadContent.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
             {row.map((button) => (
