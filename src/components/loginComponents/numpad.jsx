@@ -54,6 +54,7 @@ const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
           if(!response.ok){
             setNumeroEmpleado("");
             const errorJson = await response.json();
+            setErrrorMessage(errorJson.message);
             throw new Error(JSON.stringify(errorJson));
           }
           const data = await response.json();
