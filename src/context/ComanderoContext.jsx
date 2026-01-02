@@ -48,7 +48,7 @@ export const ComanderoProvider = ({children}) => {
     const agregarPlatillo = (platillo) => {
         setPedido(prevPedido => {
             // Buscar si ya existe el platillo para esa persona
-            const lineaExistente = prevPedido.find( item => item.idProducto === platillo.idproducto && item.persona === personaActiva );
+            const lineaExistente = prevPedido.find( item => item.idProducto === platillo.idProducto && item.persona === personaActiva );
 
             // Si existe → aumentar cantidad
             if (lineaExistente) {
@@ -62,7 +62,7 @@ export const ComanderoProvider = ({children}) => {
             return [
                 {
                     idLinea: Date.now().toString() + Math.random().toString(36).substring(2), //Generación de un id único para indentificar el platillo
-                    idProducto: platillo.idproducto,
+                    idProducto: platillo.idProducto,
                     nombre: platillo.nombre,
                     persona: personaActiva,
                     cantidad: 1,
