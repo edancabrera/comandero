@@ -1,17 +1,31 @@
+import { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 
 import { useComandero } from '../../context/ComanderoContext';
-
-import categoria_platillo from '../../data/categoria_platillo.json'
+import { buildApiUrl } from '../../utils/apiConfig';
 
 const ListaMenus = () => {
-    const obtenerMenusUnicos = () => {
-        const menus = categoria_platillo.map(item => item.menu);
-        return [...new Set(menus)];
-    }
-    const menus = obtenerMenusUnicos();
+    const [menus, setMenus] = useState([]);
 
     const { seleccionarMenu } = useComandero();
+
+    const obtenerMenus = async () => {
+        try {
+            const url = await buildApiUrl('/menus');
+            const response = await fetch(url);
+            if(!response.ok){
+                throw new Error ('Error en la respuesta  servidor');
+            }
+            const data = await response.json();
+            setMenus(data);
+        } catch (error) {
+            console.error('Error al obtener menús', error)
+        }
+    }
+
+    useEffect(()=>{
+        obtenerMenus();
+    },[]);
 
   return (
     <ScrollView 
@@ -21,13 +35,13 @@ const ListaMenus = () => {
         <View style={{backgroundColor: '#2596be'}}>
             <Text style={{fontWeight: 'bold'}}>Menus</Text>
         </View>
-      {menus.map(menu => (
+      {menus?.map((menu, index) => (
         <Pressable 
-            key={menu} 
+            key={index} 
             style={styles.menuButton}
             onPress={()=> seleccionarMenu(menu)}
         >
-            <Text style={styles.menuButtonText}>{menu}</Text>
+            <Text style={styles.menuButtonText}>{menu.menu}</Text>
         </Pressable>
       ))
       }
