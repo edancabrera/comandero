@@ -1,24 +1,39 @@
+import { useEffect, useState } from "react";
 import { useComandero } from "../../context/ComanderoContext";
 
 import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 
-import categoria_platillo from "../../data/categoria_platillo.json";
+import { buildApiUrl } from "../../utils/apiConfig";
 
 const ListaCategorias = () => {
+  const [categorias, setCategorias] = useState([]);
+
   const { menuSeleccionado, seleccionarCategoria } = useComandero();
 
-  // Filtrar categorías según el menú seleccionado
-  const categoriasFiltradas = menuSeleccionado
-    ? categoria_platillo.filter(
-        (categoria) => categoria.menu === menuSeleccionado
-      )
-    : [];
+  const Obtenercategorias = async () => {
+    try {
+      const url = await buildApiUrl(`/categoria/${menuSeleccionado.menu}`);
+      console.log(url)
+      const response = await fetch(url);
+      if(!response.ok){
+        throw new Error ('Error en la respuesta  servidor');
+      }
+      const data = await response.json();
+      setCategorias(data);
+    } catch (error) {
+      console.error('Error al obtener categorías', error)
+    }
+  }
+
+  useEffect(()=>{
+    Obtenercategorias();
+  }, [menuSeleccionado]);
 
   return (
     <ScrollView stickyHeaderIndices={[0]} >
-      <View><Text style={{backgroundColor: "#2596be", fontWeight: 'bold'}}>Clasificación de platillos - {menuSeleccionado}</Text></View>
+      <View><Text style={{backgroundColor: "#2596be", fontWeight: 'bold'}}>Clasificación de platillos - {menuSeleccionado.menu}</Text></View>
       <View style={styles.container}>
-        {categoriasFiltradas.map((categoria) => (
+        {categorias.map((categoria) => (
           <Pressable 
             key={categoria.id} 
             style={styles.categoriaButton}
