@@ -11,8 +11,7 @@ import { getServerIp, clearIp } from "../../utils/apiConfig";
 import Logo from "../../../assets/crovrestaurante.png";
 
 const login = () => {
-    const { numeroEmpleado } = useLogin();
-    const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
+    const { numeroEmpleado, modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible } = useLogin();
     const [serverIp, setServerIp] = useState(null);
 
     const obtenerIp = async () => {

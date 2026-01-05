@@ -4,11 +4,15 @@ const LoginContext = createContext(null);
 
 export const LoginProvider = ({children}) => {
     const [numeroEmpleado, setNumeroEmpleado] = useState("");
+    const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
 
     const value = useMemo(() => ({
         numeroEmpleado,
-        setNumeroEmpleado
-    }), [numeroEmpleado]);
+        setNumeroEmpleado,
+
+        modalConfiguracionDeIPVisible,
+        setModalConfiguracionDeIPVisible
+    }), [numeroEmpleado, modalConfiguracionDeIPVisible]);
 
         return (
         <LoginContext.Provider value={value}>

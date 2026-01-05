@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View, Modal, TextInput, Pressable, ActivityIndicator } from "react-native";
+import { useLogin } from "../../context/LoginContext";
 import { saveServerIp, getServerIp} from "../../utils/apiConfig";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const ModalConfiguracionDeIP = ({modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible, onIpSaved}) => {
+const ModalConfiguracionDeIP = ({onIpSaved}) => {
+    const {modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible} = useLogin();
     const [ip, setIp] = useState("");
     const [status, setStatus] = useState("");
     const [error, setError] = useState("");
