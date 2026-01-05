@@ -1,15 +1,21 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext, useMemo, useState } from "react";
 
 const LoginContext = createContext(null);
 
 export const LoginProvider = ({children}) => {
+    const [numeroEmpleado, setNumeroEmpleado] = useState("");
 
-    return (
-        <LoginContext.Provider value={{}}>
+    const value = useMemo(() => ({
+        numeroEmpleado,
+        setNumeroEmpleado
+    }), [numeroEmpleado]);
+
+        return (
+        <LoginContext.Provider value={value}>
             {children}
         </LoginContext.Provider>
     )
-} 
+}
 
 export const useLogin = () => {
     const context = useContext(LoginContext);

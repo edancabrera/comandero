@@ -2,6 +2,8 @@ import { StyleSheet, Text, View, Image, TextInput, Pressable } from "react-nativ
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useEffect, useState } from "react";
 
+import { useLogin } from "../../context/LoginContext";
+
 import Numpad from "../../components/loginComponents/numpad";
 import ModalConfiguracionDeIP from "../../components/loginComponents/modalConfiguracionDeIP";
 import { getServerIp, clearIp } from "../../utils/apiConfig";
@@ -9,7 +11,7 @@ import { getServerIp, clearIp } from "../../utils/apiConfig";
 import Logo from "../../../assets/crovrestaurante.png";
 
 const login = () => {
-    const [numeroEmpleado, setNumeroEmpleado] = useState("");
+    const { numeroEmpleado } = useLogin();
     const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
     const [serverIp, setServerIp] = useState(null);
 
@@ -69,7 +71,7 @@ const login = () => {
         </Pressable>
       </View>
       <View style={{flex:0.4}}>
-        <Numpad numeroEmpleado={numeroEmpleado} setNumeroEmpleado={setNumeroEmpleado} />
+        <Numpad />
       </View>
     </SafeAreaView>
   );

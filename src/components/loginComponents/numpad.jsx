@@ -4,9 +4,11 @@ import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useComandero } from "../../context/ComanderoContext";
+import { useLogin } from "../../context/LoginContext";
 import { buildApiUrl, getServerIp } from "../../utils/apiConfig";
 
-const Numpad = ({ numeroEmpleado, setNumeroEmpleado }) => {
+const Numpad = () => {
+    const {numeroEmpleado, setNumeroEmpleado} = useLogin();
     const {setUsuario} = useComandero();
     const router = useRouter();
     const [errorMessage, setErrrorMessage] = useState("");
