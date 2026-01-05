@@ -5,6 +5,7 @@ import { useLogin } from "../../context/LoginContext";
 
 import Numpad from "../../components/loginComponents/numpad";
 import ModalConfiguracionDeIP from "../../components/loginComponents/modalConfiguracionDeIP";
+import ModalLoginError from "../../components/loginComponents/modalLoginError";
 
 import Logo from "../../../assets/crovrestaurante.png";
 
@@ -14,6 +15,7 @@ const login = () => {
   return (
     <SafeAreaView style={styles.container}>
       <ModalConfiguracionDeIP />
+      <ModalLoginError />
       <View style={{flex:0.6, alignItems: 'center'}}>
         <Image source={Logo} />
         <Text style={styles.title}>Autenticación</Text>

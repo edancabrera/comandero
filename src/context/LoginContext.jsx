@@ -5,8 +5,10 @@ const LoginContext = createContext(null);
 
 export const LoginProvider = ({children}) => {
     const [numeroEmpleado, setNumeroEmpleado] = useState("");
-    const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
     const [serverIp, setServerIp] = useState(null);
+    const [error, setError] = useState(null);
+    const [modalLoginErrorVisible, setModalLoginErrorVisible] = useState(false);
+    const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
 
     //Cargar ip al iniciarl el layout, una sola vez
     useEffect(()=>{
@@ -35,9 +37,14 @@ export const LoginProvider = ({children}) => {
         saveIp,
         clearServerIp,
 
+        error,
+        setError,
+
         modalConfiguracionDeIPVisible,
-        setModalConfiguracionDeIPVisible
-    }), [numeroEmpleado, modalConfiguracionDeIPVisible, serverIp]);
+        setModalConfiguracionDeIPVisible,
+        modalLoginErrorVisible,
+        setModalLoginErrorVisible
+    }), [numeroEmpleado, modalConfiguracionDeIPVisible, serverIp, modalLoginErrorVisible, error]);
 
         return (
         <LoginContext.Provider value={value}>

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { useRouter } from 'expo-router';
 import Ionicons from '@expo/vector-icons/Ionicons';
@@ -8,10 +7,9 @@ import { useLogin } from "../../context/LoginContext";
 import { buildApiUrl } from "../../utils/apiConfig";
 
 const Numpad = () => {
-    const {numeroEmpleado, setNumeroEmpleado, serverIp} = useLogin();
+    const {numeroEmpleado, setNumeroEmpleado, serverIp, error, setError, setModalLoginErrorVisible} = useLogin();
     const {setUsuario} = useComandero();
     const router = useRouter();
-    const [errorMessage, setErrrorMessage] = useState("");
 
     const numpadContent = [
     [
@@ -40,11 +38,16 @@ const Numpad = () => {
     if(value === -1){
         setNumeroEmpleado(numeroEmpleado.slice(0, -1));
     } else if (value === 10){
-      if(!serverIp) {setErrrorMessage("Por favor, configura la IP"); return}
+      if(!serverIp) {
+        setError({title:"No se ha configurado la IP", message:"Por favor, configura la IP"});
+        setModalLoginErrorVisible(true);
+        return;
+      }
       if(numeroEmpleado.length != 6) {
-        setErrrorMessage("La clave debe tener exactamente 6 caracteres");
+        setError({title:"Error de formato", message:"La clave debe tener exactamente 6 caracteres"});
+        setModalLoginErrorVisible(true);
         setNumeroEmpleado("")
-        return
+        return;
       }
         try {
           const url = await buildApiUrl(`/login/${numeroEmpleado}`);
@@ -57,7 +60,8 @@ const Numpad = () => {
           if(!response.ok){
             setNumeroEmpleado("");
             const errorJson = await response.json();
-            setErrrorMessage(errorJson.message);
+            setError({title:"Error", message:errorJson.message});
+            setModalLoginErrorVisible(true);
             throw new Error(JSON.stringify(errorJson));
           }
           const data = await response.json();
@@ -68,7 +72,7 @@ const Numpad = () => {
           //console.error('Error en la petición:', error);
         }
     } else {
-        setErrrorMessage("");
+        setError(null);
         if(numeroEmpleado.length < 6){
             setNumeroEmpleado(prev => prev + value);
         }
@@ -77,13 +81,6 @@ const Numpad = () => {
 
   return (
     <View style={styles.container}>
-      {errorMessage ? 
-        <View style={{backgroundColor:'red', padding: 5, borderRadius: 5, marginBottom: 10}}>
-          <Text style={{fontWeight: 'bold', color: '#fff'}}>Error: {errorMessage}</Text>
-        </View>
-        
-        : null 
-      }
       {numpadContent.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
             {row.map((button) => (

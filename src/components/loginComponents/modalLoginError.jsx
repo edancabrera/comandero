@@ -1,15 +1,21 @@
 import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
+import { useLogin } from "../../context/LoginContext";
 
 const ModalLoginError = () => {
+    const {modalLoginErrorVisible, setModalLoginErrorVisible, error} = useLogin();
   return (
     <Modal
         transparent={true}
+        visible={modalLoginErrorVisible}
     >
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
-                <Text>Error</Text>
-                <Text>Ocurrió un error</Text>
-                <Pressable style={styles.button}>
+                <Text>{error?.title}</Text>
+                <Text>{error?.message}</Text>
+                <Pressable 
+                    style={styles.button} 
+                    onPress={()=>{setModalLoginErrorVisible(false)}}
+                >
                     <Text style={styles.buttonText}>Aceptar</Text>
                 </Pressable>
             </View>
