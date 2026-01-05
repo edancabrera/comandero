@@ -90,6 +90,7 @@ const ModalConfiguracionDeIP = () => {
             placeholder="Ingresa la IP del servidor"
             value={ip}
             onChangeText={setIp}
+            editable={status=== "Probando conexión..." ? false: true}
           />
           {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
           {status === "Probando conexión..." ?
@@ -102,14 +103,13 @@ const ModalConfiguracionDeIP = () => {
               </Text>
             </Pressable>:
             <Pressable 
-              style={styles.testButton}
+              style={[styles.testButton, ip ? {} : { backgroundColor: 'grey' }]}
               onPress={testApiConnection}
+              disabled={!ip}
             >
-              {ip ? <Text style={styles.testButtonText}>
+              <Text style={styles.testButtonText}>
                 Probar conexión
-              </Text>: <Text style={styles.testButtonText}>
-                Guardar ip
-              </Text>}
+              </Text>
             </Pressable>
           }
           <Text>
