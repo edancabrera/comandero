@@ -3,7 +3,7 @@ import { useLogin } from "../../context/LoginContext";
 import Ionicons from '@expo/vector-icons/Ionicons';
 
 const ModalLoginError = () => {
-    const {modalLoginErrorVisible, setModalLoginErrorVisible, error} = useLogin();
+    const {modalLoginErrorVisible, setModalLoginErrorVisible, error, serverIp, setModalConfiguracionDeIPVisible} = useLogin();
   return (
     <Modal
         transparent={true}
@@ -16,7 +16,10 @@ const ModalLoginError = () => {
                 <Text style={styles.paragraph}>{error?.message}</Text>
                 <Pressable 
                     style={styles.button} 
-                    onPress={()=>{setModalLoginErrorVisible(false)}}
+                    onPress={()=>{
+                        setModalLoginErrorVisible(false);
+                        if(!serverIp){setModalConfiguracionDeIPVisible(true)}
+                    }}
                 >
                     <Text style={styles.buttonText}>Aceptar</Text>
                 </Pressable>
