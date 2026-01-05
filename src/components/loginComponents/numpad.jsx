@@ -60,7 +60,7 @@ const Numpad = () => {
           if(!response.ok){
             setNumeroEmpleado("");
             const errorJson = await response.json();
-            setError({title:"Error", message:errorJson.message});
+            setError({ message:errorJson.message});
             setModalLoginErrorVisible(true);
             throw new Error(JSON.stringify(errorJson));
           }

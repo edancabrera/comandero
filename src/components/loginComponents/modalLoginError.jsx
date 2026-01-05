@@ -12,7 +12,7 @@ const ModalLoginError = () => {
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
                 <Ionicons name="warning-outline" size={48} color="#faa80f" />
-                <Text style={styles.title}>{error?.title}</Text>
+                {error?.title && <Text style={styles.title}>{error?.title}</Text>}
                 <Text style={styles.paragraph}>{error?.message}</Text>
                 <Pressable 
                     style={styles.button} 
