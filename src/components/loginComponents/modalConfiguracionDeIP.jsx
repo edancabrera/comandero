@@ -38,6 +38,9 @@ const ModalConfiguracionDeIP = () => {
             if(response.ok) {
               await saveIp(ip);
               setStatus(data.message);
+              setTimeout(() => {
+                setModalConfiguracionDeIPVisible(false);
+            }, 1000);
             }
         } catch (error) {
           if(error.name === "AbortError"){
