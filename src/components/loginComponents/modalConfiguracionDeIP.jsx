@@ -1,14 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View, Modal, TextInput, Pressable, ActivityIndicator } from "react-native";
 import { useLogin } from "../../context/LoginContext";
-import { saveServerIp, getServerIp} from "../../utils/apiConfig";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const ModalConfiguracionDeIP = ({onIpSaved}) => {
-    const {modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible} = useLogin();
+const ModalConfiguracionDeIP = () => {
+    const {modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible, serverIp, saveIp} = useLogin();
     const [ip, setIp] = useState("");
     const [status, setStatus] = useState("");
     const [error, setError] = useState("");
@@ -37,9 +36,8 @@ const ModalConfiguracionDeIP = ({onIpSaved}) => {
             const data = await response.json();
 
             if(response.ok) {
-              await saveServerIp(ip);
+              await saveIp(ip);
               setStatus(data.message);
-              onIpSaved();
             }
         } catch (error) {
           if(error.name === "AbortError"){
@@ -60,17 +58,9 @@ const ModalConfiguracionDeIP = ({onIpSaved}) => {
     }
 
     useEffect( () => {
-      const loadSavedIp = async () => {
         if (modalConfiguracionDeIPVisible) {
-          const savedIp = await getServerIp();
-          if(savedIp) {
-            setIp(savedIp);
-          } else {
-            setIp("");
-          }
+          setIp(serverIp ?? "");
         }
-      }
-      loadSavedIp();
     }, [modalConfiguracionDeIPVisible]);
 
   return (

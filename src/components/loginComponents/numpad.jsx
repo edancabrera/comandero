@@ -5,10 +5,10 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useComandero } from "../../context/ComanderoContext";
 import { useLogin } from "../../context/LoginContext";
-import { buildApiUrl, getServerIp } from "../../utils/apiConfig";
+import { buildApiUrl } from "../../utils/apiConfig";
 
 const Numpad = () => {
-    const {numeroEmpleado, setNumeroEmpleado} = useLogin();
+    const {numeroEmpleado, setNumeroEmpleado, serverIp} = useLogin();
     const {setUsuario} = useComandero();
     const router = useRouter();
     const [errorMessage, setErrrorMessage] = useState("");
@@ -40,8 +40,7 @@ const Numpad = () => {
     if(value === -1){
         setNumeroEmpleado(numeroEmpleado.slice(0, -1));
     } else if (value === 10){
-      const ip = await getServerIp();
-      if(!ip) {setErrrorMessage("Por favor, configura la IP"); return}
+      if(!serverIp) {setErrrorMessage("Por favor, configura la IP"); return}
       if(numeroEmpleado.length != 6) {
         setErrrorMessage("La clave debe tener exactamente 6 caracteres");
         setNumeroEmpleado("")

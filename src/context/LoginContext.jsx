@@ -1,18 +1,43 @@
-import { createContext, useContext, useMemo, useState } from "react";
+import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { getServerIp, saveServerIp, clearIp } from "../utils/apiConfig";
 
 const LoginContext = createContext(null);
 
 export const LoginProvider = ({children}) => {
     const [numeroEmpleado, setNumeroEmpleado] = useState("");
     const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
+    const [serverIp, setServerIp] = useState(null);
+
+    //Cargar ip al iniciarl el layout, una sola vez
+    useEffect(()=>{
+        const loadIp = async () => {
+            const ip = await getServerIp();
+            setServerIp(ip);
+        }
+        loadIp();
+    }, []);
+
+    const saveIp = async(ip) => {
+        await saveServerIp(ip);
+        setServerIp(ip);
+    };
+
+    const clearServerIp = async () => {
+        await clearIp();
+        setServerIp(null);
+    }
 
     const value = useMemo(() => ({
         numeroEmpleado,
         setNumeroEmpleado,
 
+        serverIp, 
+        saveIp,
+        clearServerIp,
+
         modalConfiguracionDeIPVisible,
         setModalConfiguracionDeIPVisible
-    }), [numeroEmpleado, modalConfiguracionDeIPVisible]);
+    }), [numeroEmpleado, modalConfiguracionDeIPVisible, serverIp]);
 
         return (
         <LoginContext.Provider value={value}>

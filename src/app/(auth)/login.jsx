@@ -1,32 +1,19 @@
 import { StyleSheet, Text, View, Image, TextInput, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useEffect, useState } from "react";
 
 import { useLogin } from "../../context/LoginContext";
 
 import Numpad from "../../components/loginComponents/numpad";
 import ModalConfiguracionDeIP from "../../components/loginComponents/modalConfiguracionDeIP";
-import { getServerIp, clearIp } from "../../utils/apiConfig";
 
 import Logo from "../../../assets/crovrestaurante.png";
 
 const login = () => {
-    const { numeroEmpleado, modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible } = useLogin();
-    const [serverIp, setServerIp] = useState(null);
-
-    const obtenerIp = async () => {
-        const ip = await getServerIp();
-        setServerIp(ip)
-      }
-    useEffect(() => {
-      obtenerIp();
-    }, [])
+    const { numeroEmpleado, setModalConfiguracionDeIPVisible, serverIp, clearServerIp } = useLogin();
 
   return (
     <SafeAreaView style={styles.container}>
-      <ModalConfiguracionDeIP modalConfiguracionDeIPVisible = {modalConfiguracionDeIPVisible }setModalConfiguracionDeIPVisible = {setModalConfiguracionDeIPVisible}
-      onIpSaved = {obtenerIp}
-      />
+      <ModalConfiguracionDeIP />
       <View style={{flex:0.6, alignItems: 'center'}}>
         <Image source={Logo} />
         <Text style={styles.title}>Autenticación</Text>
@@ -37,8 +24,11 @@ const login = () => {
           style={styles.input}
           value={numeroEmpleado}
         />
-        {serverIp ? <Text>Conectado al servidor con la IP: {serverIp}</Text>: <Text>No se ha configurado la IP</Text>}
-        {serverIp ? 
+        {serverIp ? (
+          <Text>Conectado al servidor con la IP: {serverIp}</Text>
+          ) : (
+          <Text>No se ha configurado la IP</Text>
+        )}
           <Pressable 
             style = {styles.configButton}
             onPress={() => {
@@ -46,23 +36,13 @@ const login = () => {
             }}
           >
             <Text style = {styles.configButtonText}>
-              Probar conexión
+              { serverIp ? 'Probar conexión' : 'Configurar IP' } 
             </Text>
-        </Pressable> :
-        <Pressable 
-          style = {styles.configButton}
-          onPress={() => {
-            setModalConfiguracionDeIPVisible(true)
-          }}
-        >
-          <Text style = {styles.configButtonText}>
-            Configurar IP
-          </Text>
         </Pressable>
-        }
+
         <Pressable 
           style = {styles.configButton}
-          onPress={() => {clearIp(); setServerIp(null)}}
+          onPress={clearServerIp}
         >
           <Text style = {styles.configButtonText}>
             Borrar IP
