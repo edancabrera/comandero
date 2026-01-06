@@ -66,7 +66,8 @@ export const ComanderoProvider = ({children}) => {
                     nombre: platillo.nombre,
                     persona: personaActiva,
                     cantidad: 1,
-                    comentarios: ""
+                    comentarios: "",
+                    idCategoriaPlatillo: platillo.idCategoriaPlatillo
                 },
                 ...prevPedido
             ];
