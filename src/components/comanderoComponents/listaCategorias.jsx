@@ -13,7 +13,6 @@ const ListaCategorias = () => {
   const Obtenercategorias = async () => {
     try {
       const url = await buildApiUrl(`/categoria/${menuSeleccionado.menu}`);
-      console.log(url)
       const response = await fetch(url);
       if(!response.ok){
         throw new Error ('Error en la respuesta  servidor');
