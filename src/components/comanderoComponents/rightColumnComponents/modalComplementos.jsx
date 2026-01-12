@@ -1,11 +1,11 @@
+import { useEffect, useState } from 'react'
+import { useComandero } from '../../../context/ComanderoContext'
 import { Modal, StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import { Checkbox } from 'expo-checkbox'
 import { buildApiUrl } from '../../../utils/apiConfig'
-import { useEffect, useState } from 'react'
-import { useComandero } from '../../../context/ComanderoContext'
 
 const ModalComplementos = () => {
-    const {modalComplementosVisible, setModalComplementosVisible} = useComandero();
+    const {modalComplementosVisible, setModalComplementosVisible, pedido, lineaPedidoSeleccionadaId} = useComandero();
     const [complementos, setComplementos] = useState([]);
     const [comentario, setComentario] = useState("");
     const [seleccionados, setSeleccionados] = useState([]);
@@ -27,7 +27,8 @@ const ModalComplementos = () => {
 
     const obtenerComplementos = async () => {
         try {
-            const url = await buildApiUrl('/categoria-platillo/15/complementos');
+            const idCategoria = pedido?.find(platillo => platillo.idLinea === lineaPedidoSeleccionadaId)?.idCategoriaPlatillo;
+            const url = await buildApiUrl(`/categoria-platillo/${idCategoria}/complementos`)
             const response = await fetch(url);
             if(!response.ok){
                 throw new Error("Error en la respuesta del servidor");
@@ -41,7 +42,7 @@ const ModalComplementos = () => {
 
     useEffect(()=>{
         obtenerComplementos();
-    }, []);
+    }, [lineaPedidoSeleccionadaId]);
   return (
     <Modal
         animationType='slide'
@@ -68,7 +69,11 @@ const ModalComplementos = () => {
                     ))}
                 </ScrollView>
                 <Pressable
-                    onPress={()=>{setModalComplementosVisible(false)}}
+                    onPress={()=>{
+                        setModalComplementosVisible(false);
+                        setSeleccionados([]);
+                        setComentario("");
+                    }}
                 >
                     <Text>Confirmar</Text>
                 </Pressable>
