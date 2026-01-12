@@ -4,7 +4,25 @@ import { buildApiUrl } from '../../../utils/apiConfig'
 import { useEffect, useState } from 'react'
 
 const ModalComplementos = () => {
-    const [complementos, setComplementos] = useState([])
+    const [complementos, setComplementos] = useState([]);
+    const [comentario, setComentario] = useState("");
+    const [seleccionados, setSeleccionados] = useState([]);
+
+    const toggleComplemento = (descripcion) => {
+        setSeleccionados((prev)=>{
+            let nuevos;
+
+            if(prev.includes(descripcion)){
+                nuevos = prev.filter(item => item !== descripcion);
+            } else {
+                nuevos = [...prev, descripcion];
+            }
+
+            setComentario(nuevos.join(', '));
+            return nuevos;
+        })
+    }
+
     const obtenerComplementos = async () => {
         try {
             const url = await buildApiUrl('/categoria-platillo/15/complementos');
@@ -34,10 +52,14 @@ const ModalComplementos = () => {
                 <Text>Agrega los complementos a excluir</Text>
                 <ScrollView style={{width:"100%"}}>
                     {complementos.map( complemento =>(
-                        <View style={{flexDirection: 'row'}}>
+                        <View
+                            key={complemento.id}
+                            style={{flexDirection: 'row'}}
+                        >
                             <Checkbox
                                 style={{margin:4}} 
-                                value={false}
+                                value={seleccionados.includes(complemento.descripsion)}
+                                onValueChange={() => toggleComplemento(complemento.descripsion)}
                             />
                             <Text>{complemento.descripsion}</Text>
                         </View>
@@ -45,6 +67,7 @@ const ModalComplementos = () => {
                 </ScrollView>
                 <Pressable>
                     <Text>Confirmar</Text>
+                    <Text>Comentario: {comentario}</Text>
                 </Pressable>
             </View>
         </View>
