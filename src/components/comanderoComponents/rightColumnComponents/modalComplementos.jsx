@@ -76,8 +76,8 @@ const ModalComplementos = () => {
     >
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
-                <Text>Complementos</Text>
-                <Text>Agrega los complementos a excluir</Text>
+                <Text style={styles.title}>Complementos</Text>
+                <Text style={styles.description}>Agrega los complementos a excluir</Text>
                 <ScrollView style={{width:"100%"}}>
                     {complementos.map( complemento =>(
                         <View
@@ -100,10 +100,10 @@ const ModalComplementos = () => {
                         setSeleccionados([]);
                         setComentario("");
                     }}
+                    style={styles.button}
                 >
                     <Text>Confirmar</Text>
                 </Pressable>
-                    <Text>Comentario: {comentario}</Text>
             </View>
         </View>
     </Modal>
@@ -132,6 +132,20 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: '30%'
+    width: '30%',
+    maxHeight: '90%'
   },
+  title:{
+    fontWeight: 'bold',
+    fontSize: 24
+  },
+  description:{
+    marginBottom: 10
+  },
+  button:{
+    backgroundColor: '#faa80f',
+    borderRadius: 5,
+    padding: 15,
+    marginTop: 10
+  }
 })
