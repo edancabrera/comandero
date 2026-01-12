@@ -11,7 +11,7 @@ const ListaMenus = () => {
 
     const obtenerMenus = async () => {
         try {
-            const url = await buildApiUrl('/menus');
+            const url = await buildApiUrl('/categoria-platillo/menus');
             const response = await fetch(url);
             if(!response.ok){
                 throw new Error ('Error en la respuesta  servidor');
@@ -41,7 +41,7 @@ const ListaMenus = () => {
             style={styles.menuButton}
             onPress={()=> seleccionarMenu(menu)}
         >
-            <Text style={styles.menuButtonText}>{menu.menu}</Text>
+            <Text style={styles.menuButtonText}>{menu}</Text>
         </Pressable>
       ))
       }

@@ -39,7 +39,7 @@ const Mesas = () => {
       const obtenerMesasPorArea = async () => {
         if(!areaSeleccionada) return;
         try {
-          const url = await buildApiUrl(`/mesas/${areaSeleccionada.id}`)
+          const url = await buildApiUrl(`/areas/${areaSeleccionada.id}/mesas`)
           const response = await fetch(url)
           if(!response.ok){
             throw new Error ('Error en la respuesta del servidor');

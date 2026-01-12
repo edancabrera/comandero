@@ -11,7 +11,7 @@ const ListaPlatillos = () => {
 
   const obtenerPlatillos = async () => {
     try {
-      const url = await buildApiUrl(`/platillos/${categoriaSeleccionada?.id}`);
+      const url = await buildApiUrl(`/categoria-platillo/${categoriaSeleccionada?.id}/platillos`);
       const response = await fetch(url);
       if(!response.ok){
         throw new Error ('Error en la respuesta  servidor');
