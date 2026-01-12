@@ -2,8 +2,10 @@ import { Modal, StyleSheet, Text, View, ScrollView, Pressable } from 'react-nati
 import { Checkbox } from 'expo-checkbox'
 import { buildApiUrl } from '../../../utils/apiConfig'
 import { useEffect, useState } from 'react'
+import { useComandero } from '../../../context/ComanderoContext'
 
 const ModalComplementos = () => {
+    const {modalComplementosVisible, setModalComplementosVisible} = useComandero();
     const [complementos, setComplementos] = useState([]);
     const [comentario, setComentario] = useState("");
     const [seleccionados, setSeleccionados] = useState([]);
@@ -44,7 +46,7 @@ const ModalComplementos = () => {
     <Modal
         animationType='slide'
         transparent={true}
-        visible={true}
+        visible={modalComplementosVisible}
     >
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
