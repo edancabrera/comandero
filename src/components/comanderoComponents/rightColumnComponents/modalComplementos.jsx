@@ -67,10 +67,12 @@ const ModalComplementos = () => {
                         </View>
                     ))}
                 </ScrollView>
-                <Pressable>
+                <Pressable
+                    onPress={()=>{setModalComplementosVisible(false)}}
+                >
                     <Text>Confirmar</Text>
-                    <Text>Comentario: {comentario}</Text>
                 </Pressable>
+                    <Text>Comentario: {comentario}</Text>
             </View>
         </View>
     </Modal>

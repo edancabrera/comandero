@@ -8,7 +8,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
 
 const Pedido = () => {
-  const { pedido, setModalBorrarPedidoVisible, setModalQuitarPlatilloVisible ,lineaPedidoSeleccionadaId, seleccionarLineaPedido, agregarComentarioLinea, borrarComentarioLinea, personas, personaActiva, agregarPersona, seleccionarPersona } = useComandero();
+  const { pedido, setModalBorrarPedidoVisible, setModalQuitarPlatilloVisible ,lineaPedidoSeleccionadaId, seleccionarLineaPedido, agregarComentarioLinea, borrarComentarioLinea, personas, personaActiva, agregarPersona, seleccionarPersona, setModalComplementosVisible } = useComandero();
 
   const [comentario, setComentario] = useState("");
 
@@ -68,7 +68,9 @@ const Pedido = () => {
           >
             <Ionicons name="trash-outline" size={24} color="black" />
           </Pressable>
-          <Pressable>
+          <Pressable
+            onPress={()=>{setModalComplementosVisible(true)}}
+          >
             <MaterialCommunityIcons
               name="food-variant"
               size={24}
