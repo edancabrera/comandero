@@ -1,4 +1,5 @@
-import { Modal, StyleSheet, Text, View } from 'react-native'
+import { Modal, StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
+import { Checkbox } from 'expo-checkbox'
 import { buildApiUrl } from '../../../utils/apiConfig'
 import { useEffect, useState } from 'react'
 
@@ -29,7 +30,22 @@ const ModalComplementos = () => {
     >
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
-                <Text>{JSON.stringify(complementos, null, 2)}</Text>
+                <Text>Complementos</Text>
+                <Text>Agrega los complementos a excluir</Text>
+                <ScrollView style={{width:"100%"}}>
+                    {complementos.map( complemento =>(
+                        <View style={{flexDirection: 'row'}}>
+                            <Checkbox
+                                style={{margin:4}} 
+                                value={false}
+                            />
+                            <Text>{complemento.descripsion}</Text>
+                        </View>
+                    ))}
+                </ScrollView>
+                <Pressable>
+                    <Text>Confirmar</Text>
+                </Pressable>
             </View>
         </View>
     </Modal>
@@ -45,7 +61,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalView: {
-    margin: 20,
+    margin: 40,
     backgroundColor: "white",
     borderRadius: 20,
     padding: 30,
@@ -58,6 +74,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    width: '50%'
+    width: '30%'
   },
 })
