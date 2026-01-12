@@ -1,8 +1,26 @@
 import { Modal, StyleSheet, Text, View } from 'react-native'
-
+import { buildApiUrl } from '../../../utils/apiConfig'
+import { useEffect, useState } from 'react'
 
 const ModalComplementos = () => {
-    
+    const [complementos, setComplementos] = useState([])
+    const obtenerComplementos = async () => {
+        try {
+            const url = await buildApiUrl('/categoria-platillo/15/complementos');
+            const response = await fetch(url);
+            if(!response.ok){
+                throw new Error("Error en la respuesta del servidor");
+            }
+            const data = await response.json();
+            setComplementos(data);
+        } catch (error) {
+            console.error('Error al obtener complementos', error)
+        }
+    }
+
+    useEffect(()=>{
+        obtenerComplementos();
+    }, []);
   return (
     <Modal
         animationType='slide'
@@ -11,7 +29,7 @@ const ModalComplementos = () => {
     >
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
-                <Text>modal complementos</Text>
+                <Text>{JSON.stringify(complementos, null, 2)}</Text>
             </View>
         </View>
     </Modal>
