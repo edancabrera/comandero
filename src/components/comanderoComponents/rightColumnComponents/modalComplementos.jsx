@@ -5,7 +5,7 @@ import { Checkbox } from 'expo-checkbox'
 import { buildApiUrl } from '../../../utils/apiConfig'
 
 const ModalComplementos = () => {
-    const {modalComplementosVisible, setModalComplementosVisible, pedido, lineaPedidoSeleccionadaId} = useComandero();
+    const {modalComplementosVisible, setModalComplementosVisible, pedido, lineaPedidoSeleccionadaId, agregarComentarioLinea} = useComandero();
     const [complementos, setComplementos] = useState([]);
     const [comentario, setComentario] = useState("");
     const [seleccionados, setSeleccionados] = useState([]);
@@ -41,8 +41,33 @@ const ModalComplementos = () => {
     }
 
     useEffect(()=>{
+        if(!lineaPedidoSeleccionadaId) return;
         obtenerComplementos();
     }, [lineaPedidoSeleccionadaId]);
+
+    useEffect(() => {
+        if (!modalComplementosVisible || !lineaPedidoSeleccionadaId) return;
+        
+        const linea = pedido.find(
+            platillo => platillo.idLinea === lineaPedidoSeleccionadaId
+        );
+
+        if (!linea || !linea.comentarios) {
+            setSeleccionados([]);
+            setComentario("");
+            return;
+        }
+
+        const comentariosArray = linea.comentarios
+            .split(',')
+            .map(item => item.trim())
+            .filter(item => item.length > 0);
+
+        setSeleccionados(comentariosArray);
+        setComentario(comentariosArray.join(', '));
+
+    }, [modalComplementosVisible, lineaPedidoSeleccionadaId]);
+
   return (
     <Modal
         animationType='slide'
@@ -70,6 +95,7 @@ const ModalComplementos = () => {
                 </ScrollView>
                 <Pressable
                     onPress={()=>{
+                        agregarComentarioLinea(comentario);
                         setModalComplementosVisible(false);
                         setSeleccionados([]);
                         setComentario("");
