@@ -130,6 +130,29 @@ export const ComanderoProvider = ({children}) => {
         setPersonas([1])
     }
 
+    const enviarComanda = () => {
+        if(!mesaSeleccionada) return;
+        if(!pedido.length){
+            console.log('No se han añadido platillos al pedido');
+            return
+        }
+
+        const detalles = pedido.map(linea => ({
+            idPlatillo: linea.idPlatillo,
+            cantidad: linea.cantidad,
+            persona: linea.persona,
+            comentarios: linea.comentarios
+        }));
+
+        const payload = {
+            idMesa: mesaSeleccionada.id,
+            idMesero: usuario.idu,
+            detalles
+        }
+
+        console.log(JSON.stringify(payload, null, 2));
+    }
+
     //Memoización del value para evitar re-renders
     const value = useMemo(()=>({
         usuario,
@@ -158,6 +181,8 @@ export const ComanderoProvider = ({children}) => {
         agregarPersona,
         seleccionarPersona,
         restablecerArregloPersonas,
+
+        enviarComanda,
 
         modalBorrarPedidoVisible,
         setModalBorrarPedidoVisible,

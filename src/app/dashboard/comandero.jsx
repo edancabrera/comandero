@@ -20,7 +20,7 @@ import ModalComplementos from '../../components/comanderoComponents/rightColumnC
 const Comandero = () => {
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
         setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible, modalSalirDeLaComanda, 
-        setModalSalirDeLaComanda, seleccionarPersona, restablecerArregloPersonas, modalEnviarACocinaVisible, setModalEnviarACocinaVisible } = useComandero();
+        setModalSalirDeLaComanda, seleccionarPersona, restablecerArregloPersonas, modalEnviarACocinaVisible, setModalEnviarACocinaVisible, enviarComanda } = useComandero();
 
     const router = useRouter();
 
@@ -79,7 +79,7 @@ const Comandero = () => {
         <ModalConfirmarAccion 
             title='¿Enviar Comanda a cocina?'
             paragraph='La Comanda se generará para empezar a cocinarla'
-            action={()=> console.log('Enviar a cocina presionado')}
+            action={()=> enviarComanda()}
             visiblity={modalEnviarACocinaVisible}
             setVisiblity={setModalEnviarACocinaVisible}
         />
