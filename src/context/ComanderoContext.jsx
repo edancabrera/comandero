@@ -1,4 +1,5 @@
 import { useState, useContext, createContext, useMemo} from 'react';
+import { useRouter } from 'expo-router';
 import { buildApiUrl } from '../utils/apiConfig';
 
 //Creación del contexto
@@ -6,6 +7,7 @@ const ComanderoContext = createContext(null);
 
 //Provider
 export const ComanderoProvider = ({children}) => {
+    const router = useRouter();
 
     const [usuario, setUsuario] = useState(null); //objeto con la información del usuario
 
@@ -167,7 +169,6 @@ export const ComanderoProvider = ({children}) => {
             }
             const data = await response.json();
             console.log(data);
-            seleccionarArea(null);
             seleccionarMesa(null);
             seleccionarMenu(null);
             seleccionarCategoria(null);
@@ -175,6 +176,7 @@ export const ComanderoProvider = ({children}) => {
             seleccionarLineaPedido(null);
             seleccionarPersona(1);
             restablecerArregloPersonas([1]);
+            router.replace("/dashboard/mesas");
         } catch (error) {
             console.error('Error al enviar la comanda', error);
         }

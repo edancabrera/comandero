@@ -17,7 +17,7 @@ const Mesas = () => {
 
   const router = useRouter();
 
-  const { areaSeleccionada, seleccionarMesa, setModalOpcionesDeMesaVisible } = useComandero();
+  const { areaSeleccionada, seleccionarMesa, setModalOpcionesDeMesaVisible, pedido } = useComandero();
 
   const [mesas, setMesas] = useState([]);
 
@@ -53,7 +53,7 @@ const Mesas = () => {
 
       useEffect( () => {
         obtenerMesasPorArea();
-      }, [areaSeleccionada]);
+      }, [areaSeleccionada, pedido]);
 
   return (
     <SafeAreaView 
