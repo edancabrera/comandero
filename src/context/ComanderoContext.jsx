@@ -153,7 +153,6 @@ export const ComanderoProvider = ({children}) => {
             detalles
         }
 
-        //console.log(JSON.stringify(payload, null, 2));
         try {
             const url = await buildApiUrl("/comanda");
             const response = await fetch(url, {
@@ -168,6 +167,14 @@ export const ComanderoProvider = ({children}) => {
             }
             const data = await response.json();
             console.log(data);
+            seleccionarArea(null);
+            seleccionarMesa(null);
+            seleccionarMenu(null);
+            seleccionarCategoria(null);
+            borrarPedido();
+            seleccionarLineaPedido(null);
+            seleccionarPersona(1);
+            restablecerArregloPersonas([1]);
         } catch (error) {
             console.error('Error al enviar la comanda', error);
         }
