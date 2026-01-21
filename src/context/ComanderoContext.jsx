@@ -1,4 +1,5 @@
 import { useState, useContext, createContext, useMemo} from 'react';
+import { buildApiUrl } from '../utils/apiConfig';
 
 //Creación del contexto
 const ComanderoContext = createContext(null);
@@ -130,7 +131,7 @@ export const ComanderoProvider = ({children}) => {
         setPersonas([1])
     }
 
-    const enviarComanda = () => {
+    const enviarComanda = async () => {
         if(!mesaSeleccionada) return;
         if(!pedido.length){
             console.log('No se han añadido platillos al pedido');
@@ -150,7 +151,24 @@ export const ComanderoProvider = ({children}) => {
             detalles
         }
 
-        console.log(JSON.stringify(payload, null, 2));
+        //console.log(JSON.stringify(payload, null, 2));
+        try {
+            const url = await buildApiUrl("/comanda");
+            const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+            if(!response.ok){
+                throw new Error ('Error en la respuesta del servidor');
+            }
+            const data = await response.json();
+            console.log(data);
+        } catch (error) {
+            console.error('Error al enviar la comanda', error);
+        }
     }
 
     //Memoización del value para evitar re-renders
