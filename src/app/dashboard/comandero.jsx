@@ -20,7 +20,7 @@ import ModalComplementos from '../../components/comanderoComponents/rightColumnC
 const Comandero = () => {
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
         setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible, modalSalirDeLaComanda, 
-        setModalSalirDeLaComanda, seleccionarPersona, restablecerArregloPersonas, modalEnviarACocinaVisible, setModalEnviarACocinaVisible, enviarComanda } = useComandero();
+        setModalSalirDeLaComanda, seleccionarPersona, restablecerArregloPersonas, modalEnviarACocinaVisible, setModalEnviarACocinaVisible, enviarComanda, modalComandaVaciaVisible, setModalComandaVaciaVisible } = useComandero();
 
     const router = useRouter();
 
@@ -83,6 +83,14 @@ const Comandero = () => {
             visiblity={modalEnviarACocinaVisible}
             setVisiblity={setModalEnviarACocinaVisible}
         />
+        <ModalConfirmarAccion 
+            title='Comanda vacía'
+            paragraph='Comanda vacia, agrega platillo/bebida para enviar a cocina'
+            visiblity={modalComandaVaciaVisible}
+            setVisiblity={setModalComandaVaciaVisible}
+            infoOnlyModal = {true}
+        />
+        
         
         {/*Columna izquierda*/}
         <View style={styles.leftColumnContainer}>

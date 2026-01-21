@@ -24,6 +24,8 @@ export const ComanderoProvider = ({children}) => {
     const [modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible] = useState(false);
     const [modalComplementosVisible, setModalComplementosVisible] = useState(false); //Estado para controlar la visibilidad de modalComplementos
     const [modalEnviarACocinaVisible, setModalEnviarACocinaVisible] = useState(false);
+    const [modalComandaVaciaVisible, setModalComandaVaciaVisible] = useState(false);
+    
 
     //Funciones para manipular el estado
     const seleccionarArea = (area) => {
@@ -216,8 +218,10 @@ export const ComanderoProvider = ({children}) => {
         setModalComplementosVisible,
 
         modalEnviarACocinaVisible, 
-        setModalEnviarACocinaVisible
-    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible])
+        setModalEnviarACocinaVisible,
+        modalComandaVaciaVisible, 
+        setModalComandaVaciaVisible
+    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalComandaVaciaVisible])
 
     return (
         <ComanderoContext.Provider value={value}>
