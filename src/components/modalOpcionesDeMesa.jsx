@@ -36,6 +36,7 @@ const ModalOpcionesDeMesa = () => {
                 <OpcionesDeMesaButton
                     icono={<Foundation name="clipboard-pencil" size={24} color="black" />}
                     opcion={'ABRIR COMANDA'}
+                    action={{/* Petición a la API en el endpoint /comanda/CURSO y posteriormente a /comanda/{id}*/}}
                 />
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}
@@ -68,9 +69,12 @@ const ModalOpcionesDeMesa = () => {
   );
 };
 
-const OpcionesDeMesaButton = ({icono, opcion}) => {
+const OpcionesDeMesaButton = ({icono, opcion, action}) => {
     return (
-        <Pressable style={styles.button}>
+        <Pressable 
+            style={styles.button}
+            onPress={action}
+        >
             {icono}
             <Text style={styles.buttonText}>{opcion}</Text>
         </Pressable>

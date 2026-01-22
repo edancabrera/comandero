@@ -78,10 +78,11 @@ const Mesas = () => {
                 key={mesa.id} 
                 style={[styles.mesasButton, {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)}]}
                 onPress={() => {
+                  seleccionarMesa(mesa);
                   if(mesa.estatus === 'DISPONIBLE'){
-                    seleccionarMesa(mesa);
                     router.push('dashboard/comandero');
                   } else if(mesa.estatus === 'OCUPADO'){
+                    console.log(JSON.stringify(mesa))
                     setModalOpcionesDeMesaVisible(true)
                   }
                 }}
