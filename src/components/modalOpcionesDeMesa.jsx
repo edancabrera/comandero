@@ -9,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const ModalOpcionesDeMesa = () => {
-   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible} = useComandero();
+   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible, abrirComandaMesa} = useComandero();
   return (
     <Modal 
         animationType="slide" 
@@ -36,7 +36,10 @@ const ModalOpcionesDeMesa = () => {
                 <OpcionesDeMesaButton
                     icono={<Foundation name="clipboard-pencil" size={24} color="black" />}
                     opcion={'ABRIR COMANDA'}
-                    action={{/* Petición a la API en el endpoint /comanda/CURSO y posteriormente a /comanda/{id}*/}}
+                    action={async () =>{
+                        await abrirComandaMesa();
+                        setModalOpcionesDeMesaVisible(false);
+                    }}
                 />
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}

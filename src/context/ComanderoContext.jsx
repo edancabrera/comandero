@@ -182,6 +182,31 @@ export const ComanderoProvider = ({children}) => {
         }
     }
 
+    const abrirComandaMesa = async () => {
+        try {
+            const urlCurso = await buildApiUrl('/comanda/CURSO');
+            const responseCurso = await fetch(urlCurso);
+            if(!responseCurso.ok){
+                throw new Error("Error al obtener comandas en curso");
+            }
+            const comandas = await responseCurso.json();
+
+            const comandaMesa = comandas.find(comanda => comanda.idMesa === mesaSeleccionada.id);
+            
+            const urlDetalle = await buildApiUrl(`/comanda/${comandaMesa.idComanda}`);
+            const responseDetalle = await fetch(urlDetalle);
+            if(!responseDetalle.ok){
+                throw new Error("Error al obtener el detalle de la comanda");
+            }
+
+            const detalleComanda = await responseDetalle.json();
+
+            console.log(detalleComanda.detalles);
+        } catch (error) {
+            console.error("Error al obtener comanda", error);
+        }
+    }
+
     //Memoización del value para evitar re-renders
     const value = useMemo(()=>({
         usuario,
@@ -212,6 +237,7 @@ export const ComanderoProvider = ({children}) => {
         restablecerArregloPersonas,
 
         enviarComanda,
+        abrirComandaMesa,
 
         modalBorrarPedidoVisible,
         setModalBorrarPedidoVisible,
