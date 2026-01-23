@@ -201,7 +201,18 @@ export const ComanderoProvider = ({children}) => {
 
             const detalleComanda = await responseDetalle.json();
 
-            console.log(detalleComanda.detalles);
+            setPedido(
+                detalleComanda.detalles.map(detalle => ({
+                    idLinea: Date.now().toString() + Math.random().toString(36).substring(2),
+                    idPlatillo: detalle.idPlatillo,
+                    nombre: detalle.nombre,
+                    persona: detalle.persona,
+                    cantidad: detalle.cantidad,
+                    comentarios: detalle.comentarios ?? "",
+                    idCategoriaPlatillo: detalle.idCategoriaPlatillo
+
+                }))
+            )
         } catch (error) {
             console.error("Error al obtener comanda", error);
         }
