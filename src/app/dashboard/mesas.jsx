@@ -10,6 +10,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Areas from '../../components/areas'
 import StatusInfo from '../../components/statusInfo';
 import ModalOpcionesDeMesa from '../../components/modalOpcionesDeMesa';
+import ModalMesaUnida from '../../components/modalMesaUnida';
 import { buildApiUrl } from '../../utils/apiConfig';
 
 
@@ -17,9 +18,10 @@ const Mesas = () => {
 
   const router = useRouter();
 
-  const { areaSeleccionada, seleccionarMesa, setModalOpcionesDeMesaVisible, pedido } = useComandero();
+  const { areaSeleccionada, seleccionarMesa, setModalOpcionesDeMesaVisible, pedido, setModalMesaUnidaVisible } = useComandero();
 
   const [mesas, setMesas] = useState([]);
+  const [mesaUnida, setMesaUnida] = useState(null);
 
     const getMesasButtonBackgroundColor = (estatus) => {
       switch(estatus){
@@ -45,7 +47,6 @@ const Mesas = () => {
             throw new Error ('Error en la respuesta del servidor');
           }
           const data = await response.json();
-          console.log(data)
           setMesas(data);
         } catch (error) {
           console.error('Error al obtener mesas', error)
@@ -62,6 +63,7 @@ const Mesas = () => {
       edges={["left", "right", "bottom"]}
     >
       <ModalOpcionesDeMesa />
+      <ModalMesaUnida mesa={mesaUnida}/>
 
       <ScrollView 
         style={styles.layoutMesas}
@@ -85,6 +87,15 @@ const Mesas = () => {
                   } else if(mesa.estatus === 'OCUPADO'){
                     console.log(JSON.stringify(mesa))
                     setModalOpcionesDeMesaVisible(true)
+                  } else if(mesa.estatus === 'UNIDA'){
+                    const mesaPrincipal = mesas.find(
+                      m => m.id === mesa.mesaPrincipalId
+                    );
+                    setMesaUnida({
+                      ...mesa,
+                      mesaPrincipal
+                    });
+                    setModalMesaUnidaVisible(true);
                   }
                 }}
               >
