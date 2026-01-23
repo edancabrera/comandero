@@ -213,6 +213,8 @@ export const ComanderoProvider = ({children}) => {
 
                 }))
             )
+						
+						.replace("/dashboard/comandero");
         } catch (error) {
             console.error("Error al obtener comanda", error);
         }
