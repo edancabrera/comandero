@@ -45,6 +45,7 @@ const Mesas = () => {
             throw new Error ('Error en la respuesta del servidor');
           }
           const data = await response.json();
+          console.log(data)
           setMesas(data);
         } catch (error) {
           console.error('Error al obtener mesas', error)
@@ -88,7 +89,11 @@ const Mesas = () => {
                 }}
               >
                 <MaterialIcons name="table-bar" size={32} color="#cf8a5e" />
-                <Text style={styles.mesasButtonText}>{mesa.nombre}</Text>
+                <Text style={styles.mesasButtonText}>
+                  {mesa.mesaPrincipalId 
+                    ? `${mesa.nombre} - Unida con: ${ mesas.find(m => m.id === mesa.mesaPrincipalId)?.nombre }`
+                    : mesa.nombre}
+                </Text>
               </Pressable>
             ))}
             </View>
