@@ -214,7 +214,13 @@ export const ComanderoProvider = ({children}) => {
                 }))
             )
 						
-						.replace("/dashboard/comandero");
+						setPersonas([...new Set 
+							(detalleComanda.detalles
+								.map(detalle => detalle.persona)
+								.sort((a, b) => a - b)
+							)]);
+
+            router.replace("/dashboard/comandero");
         } catch (error) {
             console.error("Error al obtener comanda", error);
         }
