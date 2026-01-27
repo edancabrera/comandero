@@ -25,14 +25,14 @@ const ModalOpcionesDeMesa = () => {
                 <Ionicons name="close" size={36} color="red" />
             </Pressable>
             <View style={{flexDirection:'row', flexWrap: 'wrap'}}>
-                <OpcionesDeMesaButton
+                {/* <OpcionesDeMesaButton
                     icono={<AntDesign name="printer" size={24} color="black" />}
                     opcion={'IMPRIMIR CUENTA'}
-                />
-                <OpcionesDeMesaButton
+                /> */}
+                {/* <OpcionesDeMesaButton
                     icono={<MaterialIcons name="account-balance-wallet" size={24} color="black" />}
                     opcion={'VER CUENTA'}
-                />
+                /> */}
                 <OpcionesDeMesaButton
                     icono={<Foundation name="clipboard-pencil" size={24} color="black" />}
                     opcion={'ABRIR COMANDA'}
@@ -41,26 +41,26 @@ const ModalOpcionesDeMesa = () => {
                         setModalOpcionesDeMesaVisible(false);
                     }}
                 />
-                <OpcionesDeMesaButton
+                {/* <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}
                     opcion={'UNIR MESAS'}
-                />
-                <OpcionesDeMesaButton
+                /> */}
+                {/* <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}
                     opcion={'CAMBIAR DE MESA'}
-                />
-                <OpcionesDeMesaButton
+                /> */}
+                {/* <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}
                     opcion={'DESUNIR MESA'}
-                />
-                <OpcionesDeMesaButton
+                /> */}
+                {/* <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="printer-pos-refresh-outline" size={24} color="black" />}
                     opcion={'REIMPRIMIR PEDIDO'}
-                />
-                <OpcionesDeMesaButton
+                /> */}
+                {/* <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="pencil-box-multiple-outline" size={24} color="black" />}
                     opcion={'DIVIDIR COMANDA'}
-                />
+                /> */}
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="pencil-box-multiple" size={24} color="black" />}
                     opcion={'EDITAR MESA'}

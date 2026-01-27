@@ -10,6 +10,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Areas from '../../components/areas'
 import StatusInfo from '../../components/statusInfo';
 import ModalOpcionesDeMesa from '../../components/modalOpcionesDeMesa';
+import ModalEditarMesa from '../../components/modalEditarMesa';
 import ModalMesaUnida from '../../components/modalMesaUnida';
 import { buildApiUrl } from '../../utils/apiConfig';
 
@@ -63,6 +64,7 @@ const Mesas = () => {
       edges={["left", "right", "bottom"]}
     >
       <ModalOpcionesDeMesa />
+      <ModalEditarMesa />
       <ModalMesaUnida mesa={mesaUnida}/>
 
       <ScrollView 
