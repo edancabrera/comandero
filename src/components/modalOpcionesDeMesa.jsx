@@ -9,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const ModalOpcionesDeMesa = () => {
-   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible, abrirComandaMesa} = useComandero();
+   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible, abrirComandaMesa, setModalEditarMesaVisible} = useComandero();
   return (
     <Modal 
         animationType="slide" 
@@ -64,6 +64,10 @@ const ModalOpcionesDeMesa = () => {
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="pencil-box-multiple" size={24} color="black" />}
                     opcion={'EDITAR MESA'}
+                    action={()=>{
+                        setModalOpcionesDeMesaVisible(false);
+                        setModalEditarMesaVisible(true);
+                    }}
                 />
             </View>
         </View>

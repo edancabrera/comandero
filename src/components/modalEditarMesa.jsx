@@ -1,23 +1,38 @@
+import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Modal, Pressable } from 'react-native'
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { useComandero } from '../context/ComanderoContext';
 
 const ModalEditarMesa = () => {
+    const {modalEdiarMesaVisible, setModalEditarMesaVisible} = useComandero();
+    const {descripcion, setDescripcion} = useState("")
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={true}
+        visible={modalEdiarMesaVisible}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
             <FontAwesome name="plus" size={36} color="green" />
             <Text style={{fontWeight: 'bold', fontSize: 24}}>Añade una descripción</Text>
-            <TextInput style={styles.input} />
+            <TextInput 
+                style={styles.input}
+                value={descripcion}
+            />
             <View style={{flexDirection: 'row'}}>
-                <Pressable style={[styles.button, {backgroundColor: 'red'}]}>
+                <Pressable 
+                    style={[styles.button, {backgroundColor: 'red'}]}
+                    onPress={() => setModalEditarMesaVisible(false)}
+                >
                     <Text style={{color: '#fff', fontWeight: 'bold'}}>Cancelar</Text>
                 </Pressable>
-                <Pressable style={[styles.button, {backgroundColor: 'green'}]}>
+                <Pressable 
+                    style={[styles.button, {backgroundColor: 'green'}]}
+                    onPress={() => {
+                        if(!descripcion){setModalEditarMesaVisible(false); return}
+                    }}
+                >
                     <Text style={{color: '#fff', fontWeight: 'bold'}}>Aceptar</Text>
                 </Pressable>
             </View>
