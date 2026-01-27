@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Modal, Pressable } from 'react-native'
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useComandero } from '../context/ComanderoContext';
+import { buildApiUrl } from '../utils/apiConfig';
 
 const ModalEditarMesa = () => {
-    const {modalEdiarMesaVisible, setModalEditarMesaVisible} = useComandero();
-    const {descripcion, setDescripcion} = useState("")
+    const {modalEdiarMesaVisible, setModalEditarMesaVisible, mesaSeleccionada, descripcionMesa, setDescripcionMesa } = useComandero();
   return (
     <Modal 
         animationType="slide" 
@@ -18,7 +17,8 @@ const ModalEditarMesa = () => {
             <Text style={{fontWeight: 'bold', fontSize: 24}}>Añade una descripción</Text>
             <TextInput 
                 style={styles.input}
-                value={descripcion}
+                value={descripcionMesa}
+                onChangeText={setDescripcionMesa}
             />
             <View style={{flexDirection: 'row'}}>
                 <Pressable 
@@ -29,8 +29,26 @@ const ModalEditarMesa = () => {
                 </Pressable>
                 <Pressable 
                     style={[styles.button, {backgroundColor: 'green'}]}
-                    onPress={() => {
-                        if(!descripcion){setModalEditarMesaVisible(false); return}
+                    onPress={async () => {
+                        if(!descripcionMesa){setModalEditarMesaVisible(false); return}
+                        
+                        try {
+                            const url = await buildApiUrl(`/mesas/${mesaSeleccionada.id}/descripcion`);
+                            const response = await fetch(url, {
+                                method: "PUT",
+                                headers: {
+                                    "Content-Type": "application/json"
+                                },
+                                body: JSON.stringify({ descripcion: `${mesaSeleccionada.nombre.split('-')[0].trim()} -  ${descripcionMesa}` })
+                            });
+                            if(!response.ok){
+                                throw new Error ('Error en la respuesta del servidor');
+                            }
+                            setDescripcionMesa("");
+                        } catch (error) {
+                            console.error('Error al añadir la descripción', error);
+                        }
+                        setModalEditarMesaVisible(false);
                     }}
                 >
                     <Text style={{color: '#fff', fontWeight: 'bold'}}>Aceptar</Text>

@@ -20,6 +20,8 @@ export const ComanderoProvider = ({children}) => {
     const [personas, setPersonas] = useState([1]); //Arreglo de personas a las que se les está tomando el pedido
     const [personaActiva, setPersonaActiva] = useState(1); //Estado para controlar qué persona de la mesa es a la que se le está tomando el pedido
 
+    const [descripcionMesa, setDescripcionMesa] = useState("");
+
     const [modalBorrarPedidoVisible, setModalBorrarPedidoVisible] = useState(false);//Estado para controlar la visibilidad de la modal para confirmar el borrar un pedido en pedido.jsx (Confirma o aborta el borrado de todos los platillos de la tabla del pedido)
     const [modalQuitarPlatilloVisible, setModalQuitarPlatilloVisible] = useState(false);//Estado para controlar la visibilidad de la modal para confirmar el quitar un platillo seleccionado de la tabla del pedido
     const [modalSalirDeLaComanda, setModalSalirDeLaComanda] = useState(false);
@@ -260,6 +262,9 @@ export const ComanderoProvider = ({children}) => {
         enviarComanda,
         abrirComandaMesa,
 
+        descripcionMesa, 
+        setDescripcionMesa,
+
         modalBorrarPedidoVisible,
         setModalBorrarPedidoVisible,
         modalQuitarPlatilloVisible,
@@ -283,7 +288,7 @@ export const ComanderoProvider = ({children}) => {
 
         modalEdiarMesaVisible, 
         setModalEditarMesaVisible
-    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalComandaVaciaVisible, modalMesaUnidaVisible, modalEdiarMesaVisible])
+    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalComandaVaciaVisible, modalMesaUnidaVisible, modalEdiarMesaVisible, descripcionMesa])
 
     return (
         <ComanderoContext.Provider value={value}>

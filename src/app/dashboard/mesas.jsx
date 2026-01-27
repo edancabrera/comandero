@@ -19,7 +19,7 @@ const Mesas = () => {
 
   const router = useRouter();
 
-  const { areaSeleccionada, seleccionarMesa, setModalOpcionesDeMesaVisible, pedido, setModalMesaUnidaVisible } = useComandero();
+  const { areaSeleccionada, seleccionarMesa, setModalOpcionesDeMesaVisible, pedido, setModalMesaUnidaVisible, descripcionMesa } = useComandero();
 
   const [mesas, setMesas] = useState([]);
   const [mesaUnida, setMesaUnida] = useState(null);
@@ -56,7 +56,7 @@ const Mesas = () => {
 
       useEffect( () => {
         obtenerMesasPorArea();
-      }, [areaSeleccionada, pedido]);
+      }, [areaSeleccionada, pedido, descripcionMesa]);
 
   return (
     <SafeAreaView 
@@ -87,7 +87,6 @@ const Mesas = () => {
                   if(mesa.estatus === 'DISPONIBLE'){
                     router.push('dashboard/comandero');
                   } else if(mesa.estatus === 'OCUPADO'){
-                    console.log(JSON.stringify(mesa))
                     setModalOpcionesDeMesaVisible(true)
                   } else if(mesa.estatus === 'UNIDA'){
                     const mesaPrincipal = mesas.find(
