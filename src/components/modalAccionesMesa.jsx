@@ -16,6 +16,7 @@ const ModalAccionesMesa = ({
     
     const {areaSeleccionada, mesaSeleccionada} = useComandero();
     const [mesas, setMesas] = useState([]);
+    const [mesasSeleccionadas, setMesasSeleccionadas] = useState([]);
 
     useEffect( () => {
         if(!visibility || !mesaSeleccionada) return;
@@ -37,6 +38,14 @@ const ModalAccionesMesa = ({
         obtenerMesas();
     }, [visibility, mesaSeleccionada]);
 
+    const seleccionarMesa = (mesa) => {
+        setMesasSeleccionadas(prev => 
+            prev.some(m => m.id === mesa.id)
+              ? prev.filter(m => m.id !== mesa.id)
+              : [...prev, mesa]
+        );
+    };
+
   return (
     <Modal 
         animationType="slide" 
@@ -56,7 +65,10 @@ const ModalAccionesMesa = ({
                     <Pressable
                         key={mesa.id}
                         onPress={() => seleccionarMesa(mesa)}
-                        style={styles.mesaButton}
+                        style={[
+                            styles.mesaButton,
+                            mesasSeleccionadas.some(m => m.id === mesa.id) && styles.mesaButtonSelected
+                        ]}
                     >
                         <Text style={styles.mesaButtonText}>{mesa?.nombre}</Text>
                     </Pressable>
@@ -146,6 +158,10 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         minWidth: 80,
         alignItems: 'center'
+  },
+  mesaButtonSelected: {
+        backgroundColor: '#79caf5',
+        borderColor: '#2596be'
   },
   mesaButtonText: {
         fontWeight: 'bold'
