@@ -1,8 +1,42 @@
-import { StyleSheet, Text, View, Modal, Pressable } from 'react-native'
+import { useEffect, useState } from 'react';
+import { buildApiUrl } from '../utils/apiConfig';
+import { StyleSheet, Text, View, Modal, Pressable, ScrollView} from 'react-native'
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { useComandero } from '../context/ComanderoContext';
 
-const ModalAccionesMesa = ({title, mesaPrincipal, area, visibility, setVisibility}) => {
+const ModalAccionesMesa = ({
+    visibility, 
+    setVisibility,
+    title, 
+    mesaPrincipal, 
+    area,
+    mode
+}) => {
+    
+    const {areaSeleccionada, mesaSeleccionada} = useComandero();
+    const [mesas, setMesas] = useState([]);
+
+    useEffect( () => {
+        if(!visibility || !mesaSeleccionada) return;
+        
+        const obtenerMesas = async () => {
+            let url = "";
+            mode === "DESUNIR" 
+                ? url = await buildApiUrl(`/mesas/principal/${mesaSeleccionada.id}`)
+                : url = await buildApiUrl(`/areas/${areaSeleccionada.id}/mesas?estatus=DISPONIBLE`)
+            try {
+                const response = await fetch(url);
+                const data = await response.json();
+                setMesas(data);
+            } catch (error) {
+                console.error("Error al obtener mesas", error);
+            }
+        };
+
+        obtenerMesas();
+    }, [visibility, mesaSeleccionada]);
+
   return (
     <Modal 
         animationType="slide" 
@@ -15,6 +49,21 @@ const ModalAccionesMesa = ({title, mesaPrincipal, area, visibility, setVisibilit
             <Text style={styles.mesaInfo}>{`Mesa Principal: ${mesaPrincipal}`}</Text>
             <Text style={styles.areaInfo}>{`Area: ${area}`}</Text>
             <Text style={{alignSelf: 'flex-start'}}>Mesas</Text>
+
+            <ScrollView>
+                <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>
+                {mesas?.map(mesa => (
+                    <Pressable
+                        key={mesa.id}
+                        onPress={() => seleccionarMesa(mesa)}
+                        style={styles.mesaButton}
+                    >
+                        <Text style={styles.mesaButtonText}>{mesa?.nombre}</Text>
+                    </Pressable>
+                ))}
+                </View>
+            </ScrollView>
+
             <View style={{flexDirection: 'row'}}>
                 <Pressable
                     style = {styles.button}
@@ -87,6 +136,18 @@ const styles = StyleSheet.create({
         backgroundColor: 'lightgrey'
   },
   buttonText: {
-    fontWeight: 'bold'
+        fontWeight: 'bold'
+  },
+  mesaButton: {
+        padding: 10,
+        margin: 5,
+        borderWidth: 2,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        minWidth: 80,
+        alignItems: 'center'
+  },
+  mesaButtonText: {
+        fontWeight: 'bold'
   }
 })

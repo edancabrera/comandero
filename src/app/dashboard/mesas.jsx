@@ -71,8 +71,9 @@ const Mesas = () => {
         visibility={modalAccionesMesaDesunionDeMesasVisible}
         setVisibility={setModalAccionesMesaDesunionDeMesasVisible}
         title="Desunión de mesas"
-        mesaPrincipal={mesaSeleccionada.nombre} 
-        area={areaSeleccionada.nombre}
+        mesaPrincipal={mesaSeleccionada?.nombre} 
+        area={areaSeleccionada?.nombre}
+        mode = "DESUNIR"
       />
 
       <ScrollView 
