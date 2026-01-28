@@ -12,6 +12,7 @@ import StatusInfo from '../../components/statusInfo';
 import ModalOpcionesDeMesa from '../../components/modalOpcionesDeMesa';
 import ModalEditarMesa from '../../components/modalEditarMesa';
 import ModalMesaUnida from '../../components/modalMesaUnida';
+import ModalAccionesMesa from '../../components/modalAccionesMesa';
 import { buildApiUrl } from '../../utils/apiConfig';
 
 
@@ -66,6 +67,11 @@ const Mesas = () => {
       <ModalOpcionesDeMesa />
       <ModalEditarMesa />
       <ModalMesaUnida mesa={mesaUnida}/>
+      <ModalAccionesMesa 
+        title="Desunión de mesas"
+        mesaPrincipal="Mesa 8" 
+        area="Area 1"
+      />
 
       <ScrollView 
         style={styles.layoutMesas}
