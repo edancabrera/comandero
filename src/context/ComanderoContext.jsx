@@ -31,6 +31,7 @@ export const ComanderoProvider = ({children}) => {
     const [modalComandaVaciaVisible, setModalComandaVaciaVisible] = useState(false);
 	const [modalMesaUnidaVisible, setModalMesaUnidaVisible] = useState(false);
     const [modalEdiarMesaVisible, setModalEditarMesaVisible] = useState(false);
+    const [modalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaDesunionDeMesasVisible] = useState(false);
     
 
     //Funciones para manipular el estado
@@ -287,8 +288,11 @@ export const ComanderoProvider = ({children}) => {
 		setModalMesaUnidaVisible,
 
         modalEdiarMesaVisible, 
-        setModalEditarMesaVisible
-    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalComandaVaciaVisible, modalMesaUnidaVisible, modalEdiarMesaVisible, descripcionMesa])
+        setModalEditarMesaVisible,
+
+        modalAccionesMesaDesunionDeMesasVisible, 
+        setModalAccionesMesaDesunionDeMesasVisible
+    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalComandaVaciaVisible, modalMesaUnidaVisible, modalEdiarMesaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible])
 
     return (
         <ComanderoContext.Provider value={value}>

@@ -2,12 +2,12 @@ import { StyleSheet, Text, View, Modal, Pressable } from 'react-native'
 import Feather from '@expo/vector-icons/Feather';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
-const ModalAccionesMesa = ({title, mesaPrincipal, area}) => {
+const ModalAccionesMesa = ({title, mesaPrincipal, area, visibility, setVisibility}) => {
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={true}
+        visible={visibility}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -24,6 +24,7 @@ const ModalAccionesMesa = ({title, mesaPrincipal, area}) => {
                 </Pressable>
                 <Pressable
                     style = {styles.button}
+                    onPress={() => setVisibility(false)}
                 >
                     <AntDesign name="close-circle" size={24} color="red" />
                     <Text style = {styles.buttonText}>Salir</Text>

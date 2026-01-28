@@ -20,7 +20,7 @@ const Mesas = () => {
 
   const router = useRouter();
 
-  const { areaSeleccionada, seleccionarMesa, setModalOpcionesDeMesaVisible, pedido, setModalMesaUnidaVisible, descripcionMesa } = useComandero();
+  const { areaSeleccionada, seleccionarMesa, setModalOpcionesDeMesaVisible, pedido, setModalMesaUnidaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaDesunionDeMesasVisible } = useComandero();
 
   const [mesas, setMesas] = useState([]);
   const [mesaUnida, setMesaUnida] = useState(null);
@@ -67,7 +67,9 @@ const Mesas = () => {
       <ModalOpcionesDeMesa />
       <ModalEditarMesa />
       <ModalMesaUnida mesa={mesaUnida}/>
-      <ModalAccionesMesa 
+      <ModalAccionesMesa
+        visibility={modalAccionesMesaDesunionDeMesasVisible}
+        setVisibility={setModalAccionesMesaDesunionDeMesasVisible}
         title="Desunión de mesas"
         mesaPrincipal="Mesa 8" 
         area="Area 1"
