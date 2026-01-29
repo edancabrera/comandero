@@ -57,7 +57,7 @@ const Mesas = () => {
 
       useEffect( () => {
         obtenerMesasPorArea();
-      }, [areaSeleccionada, pedido, descripcionMesa]);
+      }, [areaSeleccionada, pedido, descripcionMesa, mesaSeleccionada]);
 
   return (
     <SafeAreaView 

@@ -14,7 +14,7 @@ const ModalAccionesMesa = ({
     mode
 }) => {
     
-    const {areaSeleccionada, mesaSeleccionada} = useComandero();
+    const {areaSeleccionada, mesaSeleccionada, seleccionarMesa} = useComandero();
     const [mesas, setMesas] = useState([]);
     const [mesasSeleccionadas, setMesasSeleccionadas] = useState([]);
 
@@ -38,7 +38,7 @@ const ModalAccionesMesa = ({
         obtenerMesas();
     }, [visibility, mesaSeleccionada]);
 
-    const seleccionarMesa = (mesa) => {
+    const toggleMesa = (mesa) => {
         setMesasSeleccionadas(prev => 
             prev.some(m => m.id === mesa.id)
               ? prev.filter(m => m.id !== mesa.id)
@@ -64,7 +64,7 @@ const ModalAccionesMesa = ({
                 {mesas?.map(mesa => (
                     <Pressable
                         key={mesa.id}
-                        onPress={() => seleccionarMesa(mesa)}
+                        onPress={() => toggleMesa(mesa)}
                         style={[
                             styles.mesaButton,
                             mesasSeleccionadas.some(m => m.id === mesa.id) && styles.mesaButtonSelected
@@ -79,19 +79,47 @@ const ModalAccionesMesa = ({
             <View style={{flexDirection: 'row'}}>
                 <Pressable
                     style = {styles.button}
+                    onPress = {async () => {
+                        if(mesasSeleccionadas.length === 0) return;
+
+                        const idsMesasSeleccionadas = mesasSeleccionadas.map(m => m.id);
+                        if(mode === "DESUNIR"){
+                            try {
+                                const url = await buildApiUrl('/mesas/remover-mesa-principal')
+                                const response = await fetch(url, {
+                                    method: "PUT",
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({ids: idsMesasSeleccionadas})
+                                });
+                                if(!response.ok){
+                                    throw new Error ('Error en la respuesta del servidor');
+                                }
+                            } catch (error) {
+                                console.error('Error al desunir mesas', error);
+                            }
+                        }
+
+                        setVisibility(false);
+                        seleccionarMesa(null);
+                    }}
                 >
                     <Feather name="save" size={24} color="blue" />
                     <Text style = {styles.buttonText}>Guardar</Text>
                 </Pressable>
                 <Pressable
                     style = {styles.button}
-                    onPress={() => setVisibility(false)}
+                    onPress={() => {
+                        setVisibility(false)
+                        setMesasSeleccionadas([]);
+                    }}
                 >
                     <AntDesign name="close-circle" size={24} color="red" />
                     <Text style = {styles.buttonText}>Salir</Text>
                 </Pressable>
             </View>
-            
+            <Text>{JSON.stringify(mesasSeleccionadas, null, 2)}</Text>
         </View>
       </View>
     </Modal>
