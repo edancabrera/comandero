@@ -20,7 +20,7 @@ const Mesas = () => {
 
   const router = useRouter();
 
-  const { areaSeleccionada, seleccionarMesa, mesaSeleccionada, setModalOpcionesDeMesaVisible, pedido, setModalMesaUnidaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaDesunionDeMesasVisible } = useComandero();
+  const { areaSeleccionada, seleccionarMesa, mesaSeleccionada, setModalOpcionesDeMesaVisible, pedido, setModalMesaUnidaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaDesunionDeMesasVisible, modalAccionesMesaVisible, setModalAccionesMesaVisible } = useComandero();
 
   const [mesas, setMesas] = useState([]);
   const [mesaUnida, setMesaUnida] = useState(null);
@@ -74,6 +74,14 @@ const Mesas = () => {
         mesaPrincipal={mesaSeleccionada?.nombre} 
         area={areaSeleccionada?.nombre}
         mode = "DESUNIR"
+      />
+      <ModalAccionesMesa
+        visibility={modalAccionesMesaVisible}
+        setVisibility={setModalAccionesMesaVisible}
+        title="Unión de mesas"
+        mesaPrincipal={mesaSeleccionada?.nombre} 
+        area={areaSeleccionada?.nombre}
+        mode = "UNIR"
       />
 
       <ScrollView 
