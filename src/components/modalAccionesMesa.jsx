@@ -8,7 +8,8 @@ import { useComandero } from '../context/ComanderoContext';
 const ModalAccionesMesa = ({
     visibility, 
     setVisibility,
-    title, 
+    title,
+    description, 
     mesaPrincipal, 
     area,
     mode
@@ -58,6 +59,7 @@ const ModalAccionesMesa = ({
             <Text style={styles.mesaInfo}>{`Mesa Principal: ${mesaPrincipal}`}</Text>
             <Text style={styles.areaInfo}>{`Area: ${area}`}</Text>
             <Text style={{alignSelf: 'flex-start'}}>Mesas</Text>
+            <Text>{description}</Text>
 
             <ScrollView>
                 <View style={{flexDirection: 'row', flexWrap: 'wrap'}}>

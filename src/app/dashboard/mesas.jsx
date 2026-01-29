@@ -71,6 +71,7 @@ const Mesas = () => {
         visibility={modalAccionesMesaDesunionDeMesasVisible}
         setVisibility={setModalAccionesMesaDesunionDeMesasVisible}
         title="Desunión de mesas"
+        description="Selecciona las mesas a DESUNIR"
         mesaPrincipal={mesaSeleccionada?.nombre} 
         area={areaSeleccionada?.nombre}
         mode = "DESUNIR"
@@ -79,6 +80,7 @@ const Mesas = () => {
         visibility={modalAccionesMesaVisible}
         setVisibility={setModalAccionesMesaVisible}
         title="Unión de mesas"
+        description="Selecciona las mesas a UNIR"
         mesaPrincipal={mesaSeleccionada?.nombre} 
         area={areaSeleccionada?.nombre}
         mode = "UNIR"
