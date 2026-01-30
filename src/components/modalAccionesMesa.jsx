@@ -101,6 +101,19 @@ const ModalAccionesMesa = ({
                             } catch (error) {
                                 console.error('Error al desunir mesas', error);
                             }
+                        } else if(mode === "UNIR"){
+                            try {
+                                const url = await buildApiUrl(`/mesas/${mesaSeleccionada.id}/unir`);
+                                const response = await fetch(url, {
+                                    method: "PUT",
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({ids: idsMesasSeleccionadas})
+                                })
+                            } catch (error) {
+                                console.error('Error al unir mesas', error);
+                            }
                         }
 
                         setVisibility(false);
