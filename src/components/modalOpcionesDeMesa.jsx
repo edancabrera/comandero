@@ -9,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const ModalOpcionesDeMesa = () => {
-   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible, abrirComandaMesa, setModalEditarMesaVisible, setModalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaUnionDeMesaVisible} = useComandero();
+   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible, abrirComandaMesa, setModalEditarMesaVisible, setModalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaUnionDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible} = useComandero();
   return (
     <Modal 
         animationType="slide" 
@@ -49,10 +49,14 @@ const ModalOpcionesDeMesa = () => {
                         setModalOpcionesDeMesaVisible(false);
                     }}
                 />
-                {/* <OpcionesDeMesaButton
+                <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}
                     opcion={'CAMBIAR DE MESA'}
-                /> */}
+                    action={()=> {
+                        setModalAccionesMesaCambioDeMesaVisible(true);
+                        setModalOpcionesDeMesaVisible(false);
+                    }}
+                />
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}
                     opcion={'DESUNIR MESA'}

@@ -18,6 +18,7 @@ const ModalAccionesMesa = ({
     const {areaSeleccionada, mesaSeleccionada, seleccionarMesa} = useComandero();
     const [mesas, setMesas] = useState([]);
     const [mesasSeleccionadas, setMesasSeleccionadas] = useState([]);
+    const [mesaDestino, setMesaDestino] = useState(null);
 
     useEffect( () => {
         if(!visibility || !mesaSeleccionada) return;
@@ -66,10 +67,11 @@ const ModalAccionesMesa = ({
                 {mesas?.map(mesa => (
                     <Pressable
                         key={mesa.id}
-                        onPress={() => toggleMesa(mesa)}
+                        onPress={() => mode === "CAMBIAR" ? setMesaDestino(mesa) : toggleMesa(mesa)}
                         style={[
                             styles.mesaButton,
-                            mesasSeleccionadas.some(m => m.id === mesa.id) && styles.mesaButtonSelected
+                            mesasSeleccionadas.some(m => m.id === mesa.id) && styles.mesaButtonSelected,
+                            mesaDestino?.id === mesa.id && styles.mesaButtonSelected
                         ]}
                     >
                         <Text style={styles.mesaButtonText}>{mesa?.nombre}</Text>
@@ -82,10 +84,9 @@ const ModalAccionesMesa = ({
                 <Pressable
                     style = {styles.button}
                     onPress = {async () => {
-                        if(mesasSeleccionadas.length === 0) return;
-
                         const idsMesasSeleccionadas = mesasSeleccionadas.map(m => m.id);
                         if(mode === "DESUNIR"){
+                            if (mesasSeleccionadas.length === 0) return;
                             try {
                                 const url = await buildApiUrl('/mesas/remover-mesa-principal')
                                 const response = await fetch(url, {
@@ -95,6 +96,7 @@ const ModalAccionesMesa = ({
                                     },
                                     body: JSON.stringify({ids: idsMesasSeleccionadas})
                                 });
+                                setMesasSeleccionadas([]);
                                 if(!response.ok){
                                     throw new Error ('Error en la respuesta del servidor');
                                 }
@@ -102,6 +104,7 @@ const ModalAccionesMesa = ({
                                 console.error('Error al desunir mesas', error);
                             }
                         } else if(mode === "UNIR"){
+                            if (mesasSeleccionadas.length === 0) return;
                             try {
                                 const url = await buildApiUrl(`/mesas/${mesaSeleccionada.id}/unir`);
                                 const response = await fetch(url, {
@@ -111,8 +114,27 @@ const ModalAccionesMesa = ({
                                     },
                                     body: JSON.stringify({ids: idsMesasSeleccionadas})
                                 })
+                                setMesasSeleccionadas([]);
                             } catch (error) {
                                 console.error('Error al unir mesas', error);
+                            }
+                        } else if(mode === "CAMBIAR"){
+                            if(!mesaDestino) return;
+                            try {
+                                const url = await buildApiUrl('/mesas/cambiar-mesa');
+                                const response = await fetch(url, {
+                                    method: "PUT",
+                                    headers: {
+                                        "Content-Type" : "application/json"
+                                    },
+                                    body: JSON.stringify({
+                                        idMesaOrigen: mesaSeleccionada.id,
+                                        idMesaDestino: mesaDestino.id
+                                    })
+                                })
+                                setMesaDestino(null);
+                            } catch (error) {
+                                console.error('Error al cambiar de mesa', error);
                             }
                         }
 
@@ -128,13 +150,13 @@ const ModalAccionesMesa = ({
                     onPress={() => {
                         setVisibility(false)
                         setMesasSeleccionadas([]);
+                        setMesaDestino(null);
                     }}
                 >
                     <AntDesign name="close-circle" size={24} color="red" />
                     <Text style = {styles.buttonText}>Salir</Text>
                 </Pressable>
             </View>
-            <Text>{JSON.stringify(mesasSeleccionadas, null, 2)}</Text>
         </View>
       </View>
     </Modal>
