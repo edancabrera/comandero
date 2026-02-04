@@ -1,8 +1,8 @@
 import { useComandero } from '../../../context/ComanderoContext'
 import { StyleSheet, Text, View, Modal, Pressable } from 'react-native'
 
-const ModalCancelarComanda = ({infoOnlyModal=false}) => {
-    const {modalCancelarComandaVisible, setModalCancelarComandaVisible} = useComandero();
+const ModalCancelarComanda = () => {
+    const {modalCancelarComandaVisible, setModalCancelarComandaVisible, pedidoACancelarEnviadoACocina} = useComandero();
   return (
     <Modal 
             animationType="slide"
@@ -11,10 +11,10 @@ const ModalCancelarComanda = ({infoOnlyModal=false}) => {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={[styles.modalText, styles.modalTextTitle, infoOnlyModal && {color:'green'}]}>{infoOnlyModal? "Comanda Cancelada": "¿Está seguro de cancelar la comanda?"}</Text>
-              <Text style={[styles.modalText, styles.modalTextParagraph]}>{infoOnlyModal? "Comanda cancelada exitosamente": "La comanda ya fue enviada a cocina, ¿está seguro de continuar?"}</Text>
+              <Text style={[styles.modalText, styles.modalTextTitle, pedidoACancelarEnviadoACocina && {color:'green'}]}>{pedidoACancelarEnviadoACocina? "Comanda Cancelada": "¿Está seguro de cancelar la comanda?"}</Text>
+              <Text style={[styles.modalText, styles.modalTextParagraph]}>{pedidoACancelarEnviadoACocina? "Comanda cancelada exitosamente": "La comanda ya fue enviada a cocina, ¿está seguro de continuar?"}</Text>
               <View style={{flexDirection: 'row'}}>
-                {!infoOnlyModal &&
+                {!pedidoACancelarEnviadoACocina &&
                     <Pressable
                         style={[styles.button, styles.buttonNo]}
                         onPress={()=>{setModalCancelarComandaVisible(false)}}
@@ -24,8 +24,15 @@ const ModalCancelarComanda = ({infoOnlyModal=false}) => {
                 }
                 <Pressable
                     style={[styles.button, styles.buttonSi]}
+                    onPress={() => {
+                        if(pedidoACancelarEnviadoACocina){
+                            //Cerrar la modal y resetear los estados
+                        }else{
+                            //Cerrar la modal, resetar los estados y llamar a la API al enpdoint correspondiente
+                        }
+                    }}
                 >
-                    <Text style={styles.buttonText}>{infoOnlyModal? "Aceptar": "Si"}</Text>
+                    <Text style={styles.buttonText}>{pedidoACancelarEnviadoACocina? "Aceptar": "Si"}</Text>
                 </Pressable>
               </View>
             </View>
