@@ -225,6 +225,41 @@ export const ComanderoProvider = ({children}) => {
         }
     }
 
+    //Método a llamar al presionar el botón VER CUENTA en la modal modalOpcionesDeMesa
+    const crearCuenta = async () => {
+        try {
+            const url = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}`);
+
+            const response = await fetch(url);
+
+            if(!response.ok) {
+                throw new Error("La mesa no tiene comanda activa")
+            }
+            
+            const detalleComanda = await response.json();
+
+            const separador = "=================================";
+
+            const lineas = detalleComanda.detalles.map(detalle => {
+                const subtotal = detalle.cantidad * detalle.precio;
+                return `${detalle.cantidad} ${detalle.nombre.trim()} $${subtotal.toFixed(2)}`;
+            });
+
+            const cuenta = [
+                separador,
+                ...lineas,
+                separador,
+                `TOTAL: $${detalleComanda.total.toFixed(2)}`,
+                separador
+            ].join("\n");
+
+            console.log(cuenta);
+
+        } catch (error) {
+            console.error("Error al obtener la cuenta", error);
+        }
+    }
+
     //Memoización del value para evitar re-renders
     const value = useMemo(()=>({
         usuario,
@@ -256,6 +291,8 @@ export const ComanderoProvider = ({children}) => {
 
         enviarComanda,
         abrirComandaMesa,
+
+        crearCuenta,
 
         descripcionMesa, 
         setDescripcionMesa,

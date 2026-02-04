@@ -9,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const ModalOpcionesDeMesa = () => {
-   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible, abrirComandaMesa, setModalEditarMesaVisible, setModalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaUnionDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible} = useComandero();
+   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible, abrirComandaMesa, crearCuenta, setModalEditarMesaVisible, setModalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaUnionDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible} = useComandero();
   return (
     <Modal 
         animationType="slide" 
@@ -29,10 +29,13 @@ const ModalOpcionesDeMesa = () => {
                     icono={<AntDesign name="printer" size={24} color="black" />}
                     opcion={'IMPRIMIR CUENTA'}
                 /> */}
-                {/* <OpcionesDeMesaButton
+                <OpcionesDeMesaButton
                     icono={<MaterialIcons name="account-balance-wallet" size={24} color="black" />}
                     opcion={'VER CUENTA'}
-                /> */}
+                    action={async () => {
+                        await crearCuenta();
+                    }}
+                />
                 <OpcionesDeMesaButton
                     icono={<Foundation name="clipboard-pencil" size={24} color="black" />}
                     opcion={'ABRIR COMANDA'}
