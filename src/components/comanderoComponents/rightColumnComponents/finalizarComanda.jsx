@@ -21,7 +21,10 @@ const FinalizarComanda = () => {
       </Pressable>
       <Pressable 
         style={{alignItems: 'center'}}
-        onPress={()=>{setModalCancelarComandaVisible(true)}}
+        onPress={()=>{
+          if(pedido.length===0)return;
+          setModalCancelarComandaVisible(true)
+        }}
       >
         <MaterialCommunityIcons name="printer-pos-cancel-outline" size={24} color="black" />
         <Text>Cancelar</Text>
