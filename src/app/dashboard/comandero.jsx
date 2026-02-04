@@ -17,6 +17,8 @@ import ModalConfirmarAccion from '../../components/comanderoComponents/rightColu
 
 import ModalComplementos from '../../components/comanderoComponents/rightColumnComponents/modalComplementos';
 
+import ModalCancelarComanda from '../../components/comanderoComponents/rightColumnComponents/modalCancelarComanda';
+
 const Comandero = () => {
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
         setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible, modalSalirDeLaComanda, 
@@ -90,7 +92,7 @@ const Comandero = () => {
             setVisiblity={setModalComandaVaciaVisible}
             infoOnlyModal = {true}
         />
-        
+        <ModalCancelarComanda />
         
         {/*Columna izquierda*/}
         <View style={styles.leftColumnContainer}>
