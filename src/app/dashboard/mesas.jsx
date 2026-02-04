@@ -13,6 +13,7 @@ import ModalOpcionesDeMesa from '../../components/modalOpcionesDeMesa';
 import ModalEditarMesa from '../../components/modalEditarMesa';
 import ModalMesaUnida from '../../components/modalMesaUnida';
 import ModalAccionesMesa from '../../components/modalAccionesMesa';
+import ModalVerCuenta from '../../components/modalVerCuenta';
 import { buildApiUrl } from '../../utils/apiConfig';
 
 
@@ -94,6 +95,8 @@ const Mesas = () => {
         area={areaSeleccionada?.nombre}
         mode = "CAMBIAR"
       />
+      <ModalVerCuenta />
+      
 
       <ScrollView 
         style={styles.layoutMesas}
