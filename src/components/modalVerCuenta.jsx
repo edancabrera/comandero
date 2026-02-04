@@ -36,7 +36,10 @@ const ModalVerCuenta = () => {
           <View style={{ flexDirection: "row" }}>
             <Pressable
               style={styles.button}
-              onPress={() => {setModalVerCuentaVisible(false)}}
+              onPress={() => {
+                setModalVerCuentaVisible(false);
+                setCuentaTexto("");
+            }}
             >
               <Text style={styles.buttonText}>Salir</Text>
             </Pressable>
