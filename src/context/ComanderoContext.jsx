@@ -82,7 +82,8 @@ export const ComanderoProvider = ({children}) => {
                     persona: personaActiva,
                     cantidad: 1,
                     comentarios: "",
-                    idCategoriaPlatillo: platillo.idCategoriaPlatillo
+                    idCategoriaPlatillo: platillo.idCategoriaPlatillo,
+                    estatusCocina: 0
                 },
                 ...prevPedido
             ];
@@ -209,7 +210,8 @@ export const ComanderoProvider = ({children}) => {
                     persona: detalle.persona,
                     cantidad: detalle.cantidad,
                     comentarios: detalle.comentarios ?? "",
-                    idCategoriaPlatillo: detalle.idCategoriaPlatillo
+                    idCategoriaPlatillo: detalle.idCategoriaPlatillo,
+                    estatusCocina: detalle.estatusCocina
 
                 }))
             )
