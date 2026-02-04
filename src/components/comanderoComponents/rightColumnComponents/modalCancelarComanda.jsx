@@ -1,11 +1,13 @@
+import { useComandero } from '../../../context/ComanderoContext'
 import { StyleSheet, Text, View, Modal, Pressable } from 'react-native'
 
-const ModalCancelarComanda = ({infoOnlyModal=true}) => {
+const ModalCancelarComanda = ({infoOnlyModal=false}) => {
+    const {modalCancelarComandaVisible, setModalCancelarComandaVisible} = useComandero();
   return (
     <Modal 
             animationType="slide"
             transparent={true} 
-            visible={true}
+            visible={modalCancelarComandaVisible}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -15,6 +17,7 @@ const ModalCancelarComanda = ({infoOnlyModal=true}) => {
                 {!infoOnlyModal &&
                     <Pressable
                         style={[styles.button, styles.buttonNo]}
+                        onPress={()=>{setModalCancelarComandaVisible(false)}}
                     >
                         <Text style={styles.buttonText}>NO</Text>
                     </Pressable>
