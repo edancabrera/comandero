@@ -191,22 +191,14 @@ export const ComanderoProvider = ({children}) => {
 
     const abrirComandaMesa = async () => {
         try {
-            const urlCurso = await buildApiUrl('/comanda/CURSO');
-            const responseCurso = await fetch(urlCurso);
-            if(!responseCurso.ok){
-                throw new Error("Error al obtener comandas en curso");
-            }
-            const comandas = await responseCurso.json();
+            const url = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}`);
+            const response = await fetch(url);
 
-            const comandaMesa = comandas.find(comanda => comanda.idMesa === mesaSeleccionada.id);
-            
-            const urlDetalle = await buildApiUrl(`/comanda/${comandaMesa.idComanda}`);
-            const responseDetalle = await fetch(urlDetalle);
-            if(!responseDetalle.ok){
-                throw new Error("Error al obtener el detalle de la comanda");
+            if(!response.ok) {
+                throw new Error("La mesa no tiene comanda activa")
             }
 
-            const detalleComanda = await responseDetalle.json();
+            const detalleComanda = await response.json();
 
             setPedido(
                 detalleComanda.detalles.map(detalle => ({
