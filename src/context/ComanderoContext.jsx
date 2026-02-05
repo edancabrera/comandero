@@ -194,6 +194,21 @@ export const ComanderoProvider = ({children}) => {
         }
     }
 
+    const cancelarComanda = () => {
+        if(pedidoACancelarEnviadoACocina){
+
+        } else {
+            seleccionarMesa(null);
+            seleccionarMenu(null);
+            seleccionarCategoria(null);
+            borrarPedido();
+            seleccionarLineaPedido(null);
+            seleccionarPersona(1);
+            restablecerArregloPersonas([1]);
+            router.replace("/dashboard/mesas");
+        }
+    }
+
     const abrirComandaMesa = async () => {
         try {
             const url = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}`);
@@ -299,6 +314,8 @@ export const ComanderoProvider = ({children}) => {
 
         enviarComanda,
         abrirComandaMesa,
+
+        cancelarComanda,
 
         crearCuenta,
 

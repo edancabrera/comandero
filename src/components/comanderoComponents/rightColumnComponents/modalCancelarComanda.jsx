@@ -2,7 +2,7 @@ import { useComandero } from '../../../context/ComanderoContext'
 import { StyleSheet, Text, View, Modal, Pressable } from 'react-native'
 
 const ModalCancelarComanda = () => {
-    const {modalCancelarComandaVisible, setModalCancelarComandaVisible, pedidoACancelarEnviadoACocina} = useComandero();
+    const {modalCancelarComandaVisible, setModalCancelarComandaVisible, pedidoACancelarEnviadoACocina, cancelarComanda} = useComandero();
   return (
     <Modal 
             animationType="slide"
@@ -28,7 +28,7 @@ const ModalCancelarComanda = () => {
                         if(pedidoACancelarEnviadoACocina){
                           //Cerrar la modal, resetar los estados y llamar a la API al enpdoint correspondiente
                         }else{
-                          //Cerrar la modal y resetear los estados
+                          cancelarComanda();
                           setModalCancelarComandaVisible(false);
                         }
                     }}
