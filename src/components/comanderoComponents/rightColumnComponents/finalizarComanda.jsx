@@ -5,7 +5,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { useComandero } from '../../../context/ComanderoContext';
 
 const FinalizarComanda = () => {
-  const {setModalEnviarACocinaVisible, setModalComandaVaciaVisible, pedido, setModalCancelarComandaVisible} = useComandero();
+  const {setModalEnviarACocinaVisible, setModalComandaVaciaVisible, pedido, setModalCancelarComandaVisible, setPedidoACancelarEnviadoACocina} = useComandero();
   return (
     <View style={{flex:1, flexDirection:'row', justifyContent: 'space-around', alignItems: 'center'}}>
       <Pressable 
@@ -23,6 +23,11 @@ const FinalizarComanda = () => {
         style={{alignItems: 'center'}}
         onPress={()=>{
           if(pedido.length===0)return;
+          if(pedido.every(item => item.estatusCocina === 0)){
+            setPedidoACancelarEnviadoACocina(false)
+          } else {
+            setPedidoACancelarEnviadoACocina(true)
+          }
           setModalCancelarComandaVisible(true)
         }}
       >

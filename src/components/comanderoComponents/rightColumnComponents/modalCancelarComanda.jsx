@@ -11,10 +11,10 @@ const ModalCancelarComanda = () => {
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text style={[styles.modalText, styles.modalTextTitle, pedidoACancelarEnviadoACocina && {color:'green'}]}>{pedidoACancelarEnviadoACocina? "Comanda Cancelada": "¿Está seguro de cancelar la comanda?"}</Text>
-              <Text style={[styles.modalText, styles.modalTextParagraph]}>{pedidoACancelarEnviadoACocina? "Comanda cancelada exitosamente": "La comanda ya fue enviada a cocina, ¿está seguro de continuar?"}</Text>
+              <Text style={[styles.modalText, styles.modalTextTitle, !pedidoACancelarEnviadoACocina && {color:'green'}]}>{pedidoACancelarEnviadoACocina? "¿Está seguro de cancelar la comanda?": "Comanda Cancelada"}</Text>
+              <Text style={[styles.modalText, styles.modalTextParagraph]}>{pedidoACancelarEnviadoACocina? "La comanda ya fue enviada a cocina, ¿está seguro de continuar?": "Comanda cancelada exitosamente"}</Text>
               <View style={{flexDirection: 'row'}}>
-                {!pedidoACancelarEnviadoACocina &&
+                {pedidoACancelarEnviadoACocina &&
                     <Pressable
                         style={[styles.button, styles.buttonNo]}
                         onPress={()=>{setModalCancelarComandaVisible(false)}}
@@ -26,13 +26,14 @@ const ModalCancelarComanda = () => {
                     style={[styles.button, styles.buttonSi]}
                     onPress={() => {
                         if(pedidoACancelarEnviadoACocina){
-                            //Cerrar la modal y resetear los estados
+                          //Cerrar la modal, resetar los estados y llamar a la API al enpdoint correspondiente
                         }else{
-                            //Cerrar la modal, resetar los estados y llamar a la API al enpdoint correspondiente
+                          //Cerrar la modal y resetear los estados
+                          setModalCancelarComandaVisible(false);
                         }
                     }}
                 >
-                    <Text style={styles.buttonText}>{pedidoACancelarEnviadoACocina? "Aceptar": "Si"}</Text>
+                    <Text style={styles.buttonText}>{pedidoACancelarEnviadoACocina? "Si" : "Aceptar"}</Text>
                 </Pressable>
               </View>
             </View>
