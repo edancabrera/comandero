@@ -24,13 +24,9 @@ const ModalCancelarComanda = () => {
                 }
                 <Pressable
                     style={[styles.button, styles.buttonSi]}
-                    onPress={() => {
-                        if(pedidoACancelarEnviadoACocina){
-                          //Cerrar la modal, resetar los estados y llamar a la API al enpdoint correspondiente
-                        }else{
-                          cancelarComanda();
+                    onPress={ async () => {
+                          await cancelarComanda();
                           setModalCancelarComandaVisible(false);
-                        }
                     }}
                 >
                     <Text style={styles.buttonText}>{pedidoACancelarEnviadoACocina? "Si" : "Aceptar"}</Text>

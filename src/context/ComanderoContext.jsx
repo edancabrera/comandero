@@ -194,10 +194,25 @@ export const ComanderoProvider = ({children}) => {
         }
     }
 
-    const cancelarComanda = () => {
+    const cancelarComanda = async () => {
         if(pedidoACancelarEnviadoACocina){
+            try {
+                const url = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}/cancelar/${usuario.idu}`);
+                const response = await fetch(url, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+            if(!response.ok){
+                throw new Error ('Error en la respuesta del servidor');
+            }
+                
+            } catch (error) {
+                console.error('Error al cancelar la comanda', error);
+            }
 
-        } else {
+        }
             seleccionarMesa(null);
             seleccionarMenu(null);
             seleccionarCategoria(null);
@@ -206,7 +221,6 @@ export const ComanderoProvider = ({children}) => {
             seleccionarPersona(1);
             restablecerArregloPersonas([1]);
             router.replace("/dashboard/mesas");
-        }
     }
 
     const abrirComandaMesa = async () => {
