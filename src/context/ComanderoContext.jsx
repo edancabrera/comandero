@@ -17,6 +17,7 @@ export const ComanderoProvider = ({children}) => {
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null); //objeto con la información de la categoría seleccionada
     const [pedido, setPedido] = useState([]); //arreglo con la información del pedido
     const [lineaPedidoSeleccionadaId, setLineaPedidoSeleccionadaId] = useState(null);//Estado con la información de la linea seleccionada del pedido en la tabla
+    const [detallesAEliminar, setDetallesAEliminar] = useState([]); //Objeto que almacena los platillos de un pedido cuya propiedad estatusCocina === 1 (es decir, que ya están registrados en la bd) y fueron seleccionados para eliminarse del pedido
     const [personas, setPersonas] = useState([1]); //Arreglo de personas a las que se les está tomando el pedido
     const [personaActiva, setPersonaActiva] = useState(1); //Estado para controlar qué persona de la mesa es a la que se le está tomando el pedido
 
@@ -100,9 +101,21 @@ export const ComanderoProvider = ({children}) => {
     const eliminarLineaPedidoSeleccionada = () => {
         if (!lineaPedidoSeleccionadaId) return;
 
-        setPedido(prev =>
-            prev.filter(item => item.idLinea !== lineaPedidoSeleccionadaId)
-        );
+        setPedido(prevPedido =>{
+            const linea = prevPedido.find(
+                item => item.idLinea === lineaPedidoSeleccionadaId
+            );
+
+            if(!linea) return prevPedido;
+
+            if (linea.estatusCocina === 1) {
+                setDetallesAEliminar(prev => [...prev, linea]);
+                console.log("Detalle marcado para eliminación: ", linea);
+            }
+            return prevPedido.filter(
+                item => item.idLinea !== lineaPedidoSeleccionadaId
+            );
+        });
 
         setLineaPedidoSeleccionadaId(null);
     };
