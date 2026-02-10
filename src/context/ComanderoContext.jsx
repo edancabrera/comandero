@@ -61,7 +61,15 @@ export const ComanderoProvider = ({children}) => {
     }
 
     const borrarPedido = () => {
-        setPedido([]);
+        setPedido(prevPedido => {
+            prevPedido.forEach(linea => {
+                if(linea.estatusCocina === 1){
+                    setDetallesAEliminar(prev => [...prev, linea]);
+                    console.log("Detalle marcado para eliminación:", linea);
+                }                
+            });
+            return [];
+        });
     }
 
     const agregarPlatillo = (platillo) => {
