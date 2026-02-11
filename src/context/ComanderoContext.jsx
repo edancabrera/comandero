@@ -220,7 +220,7 @@ export const ComanderoProvider = ({children}) => {
                 const data = await response.json();
                 console.log(data);
             }
-            
+
             seleccionarMesa(null);
             seleccionarMenu(null);
             seleccionarCategoria(null);
@@ -354,6 +354,7 @@ export const ComanderoProvider = ({children}) => {
         categoriaSeleccionada,
         seleccionarCategoria,
         pedido,
+        setPedido,
         agregarPlatillo, 
         borrarPedido,
 

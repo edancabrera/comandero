@@ -20,7 +20,7 @@ import ModalComplementos from '../../components/comanderoComponents/rightColumnC
 import ModalCancelarComanda from '../../components/comanderoComponents/rightColumnComponents/modalCancelarComanda';
 
 const Comandero = () => {
-    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
+    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, setPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
         setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible, modalSalirDeLaComanda, 
         setModalSalirDeLaComanda, seleccionarPersona, restablecerArregloPersonas, modalEnviarACocinaVisible, setModalEnviarACocinaVisible, enviarComanda, modalComandaVaciaVisible, setModalComandaVaciaVisible } = useComandero();
 
@@ -56,7 +56,7 @@ const Comandero = () => {
                 router.replace("/dashboard/mesas")
                 seleccionarMenu(null);
                 seleccionarCategoria(null);
-                borrarPedido();
+                setPedido([]);
                 seleccionarPersona(1);
                 restablecerArregloPersonas();
             }}
