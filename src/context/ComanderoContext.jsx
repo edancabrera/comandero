@@ -170,48 +170,68 @@ export const ComanderoProvider = ({children}) => {
 
     const enviarComanda = async () => {
         if(!mesaSeleccionada) return;
-        if(!pedido.length){
-            console.log('No se han añadido platillos al pedido');
+        if(!pedido.length && !detallesAEliminar.length){
+            console.log('No hay cambios que enviar');
             return
         }
 
-        const detalles = pedido.map(linea => ({
-            idPlatillo: linea.idPlatillo,
-            cantidad: linea.cantidad,
-            persona: linea.persona,
-            comentarios: linea.comentarios
-        }));
-
-        const payload = {
-            idMesa: mesaSeleccionada.id,
-            idMesero: usuario.idu,
-            detalles
-        }
-
         try {
-            const url = await buildApiUrl("/comanda");
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payload)
-            });
-            if(!response.ok){
-                throw new Error ('Error en la respuesta del servidor');
+            if(detallesAEliminar.length > 0){
+                const idsDetalles = detallesAEliminar
+                    .map(d => d.id);
+                if(idsDetalles.length > 0){
+                    const urlDelete = await buildApiUrl("/comanda/detalle");
+                    const responseDelete = await fetch(urlDelete, {
+                        method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(idsDetalles)
+                    });
+
+                    if(!responseDelete.ok){
+                        throw new Error("Error al eliminar detalles");
+                    }
+                }
             }
-            const data = await response.json();
-            console.log(data);
+
+            if(pedido.length > 0){
+                const detalles = pedido.map(linea => ({
+                idPlatillo: linea.idPlatillo,
+                cantidad: linea.cantidad,
+                persona: linea.persona,
+                comentarios: linea.comentarios
+            }));
+
+                const payload = {
+                    idMesa: mesaSeleccionada.id,
+                    idMesero: usuario.idu,
+                    detalles
+                }
+                const url = await buildApiUrl("/comanda");
+                const response = await fetch(url, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(payload)
+                });
+                if(!response.ok){
+                    throw new Error ('Error al enviar la comandar');
+                }
+                const data = await response.json();
+                console.log(data);
+            }
+            
             seleccionarMesa(null);
             seleccionarMenu(null);
             seleccionarCategoria(null);
-            borrarPedido();
+            setPedido([]);
             seleccionarLineaPedido(null);
             seleccionarPersona(1);
             restablecerArregloPersonas([1]);
+            setDetallesAEliminar([]);
             router.replace("/dashboard/mesas");
         } catch (error) {
-            console.error('Error al enviar la comanda', error);
+            console.error('Error al sincronizar comanda', error);
         }
     }
 
@@ -257,6 +277,8 @@ export const ComanderoProvider = ({children}) => {
 
             setPedido(
                 detalleComanda.detalles.map(detalle => ({
+                    id: detalle.id,
+                    idComanda: detalle.idComanda,
                     idLinea: Date.now().toString() + Math.random().toString(36).substring(2),
                     idPlatillo: detalle.idPlatillo,
                     nombre: detalle.nombre,
