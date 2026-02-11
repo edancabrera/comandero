@@ -190,6 +190,15 @@ export const ComanderoProvider = ({children}) => {
                     if(!responseDelete.ok){
                         throw new Error("Error al eliminar detalles");
                     }
+                    console.log(JSON.stringify({
+                        detallesEliminados: detallesAEliminar.map(detalle => ({
+                            id: detalle.id,
+                            idComanda: detalle.idComanda,
+                            nombre: detalle.nombre,
+                            persona: detalle.persona,
+                            cantidad: detalle.cantidad
+                        }))
+                        }, null, 2));
                 }
             }
 
