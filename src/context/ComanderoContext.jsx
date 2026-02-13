@@ -16,6 +16,7 @@ export const ComanderoProvider = ({children}) => {
     const [menuSeleccionado, setMenuSeleccionado] = useState(null); // cadena con la información del menú seleccionado
     const [categoriaSeleccionada, setCategoriaSeleccionada] = useState(null); //objeto con la información de la categoría seleccionada
     const [pedido, setPedido] = useState([]); //arreglo con la información del pedido
+    const [pedidoOriginal, setPedidoOriginal] = useState([]); //En este arregló se guardarán los detalles de una comanda, justo como el estado 'pedido', pero esté no mutará, sino que se utilizará para comparar cómo cambió el pedido obtenido de la API a diferencia de cuando se envía.
     const [lineaPedidoSeleccionadaId, setLineaPedidoSeleccionadaId] = useState(null);//Estado con la información de la linea seleccionada del pedido en la tabla
     const [detallesAEliminar, setDetallesAEliminar] = useState([]); //Objeto que almacena los platillos de un pedido cuya propiedad estatusCocina === 1 (es decir, que ya están registrados en la bd) y fueron seleccionados para eliminarse del pedido
     const [personas, setPersonas] = useState([1]); //Arreglo de personas a las que se les está tomando el pedido
@@ -226,6 +227,35 @@ export const ComanderoProvider = ({children}) => {
                 if(!response.ok){
                     throw new Error ('Error al enviar la comandar');
                 }
+
+                const agregados = []; //arreglo para guardar los objetos detalle nuevos
+                const nuevos = pedido.filter(detalle => !detalle.id); //Si el detalle en el pedido no tiene propiedad id, significa que es un detalle nuevo
+                agregados.push(...nuevos);
+                pedido.forEach(detalle => {
+                    if(!detalle.id) return;
+                    const original = pedidoOriginal.find(d => d.id === detalle.id);
+                    if(!original) return;
+                    const diferencia = detalle.cantidad - original.cantidad; //Calculamos únicamente la diferencia contra el estado original para mostrar a cocina lo que se agregó al modificar el pedido
+
+                    if(diferencia > 0){
+                        agregados.push({
+                            ...detalle,
+                            cantidad: diferencia //Obtenemos sólo la cantidad agregada
+                        });
+                    }
+                });
+
+                console.log(JSON.stringify({
+                    detallesAgregados: agregados.map(detalle => ({
+                        id: detalle.id ? detalle.id : "detalle sin id: detalle recién agregado",
+                        idComanda: detalle.idComanda,
+                        nombre: detalle.nombre,
+                        persona: detalle.persona,
+                        cantidad: detalle.cantidad
+                    }))
+                }, null, 2));
+                
+
                 const data = await response.json();
                 console.log(data);
             }
@@ -238,6 +268,7 @@ export const ComanderoProvider = ({children}) => {
             seleccionarPersona(1);
             restablecerArregloPersonas([1]);
             setDetallesAEliminar([]);
+            setPedidoOriginal([]);
             router.replace("/dashboard/mesas");
         } catch (error) {
             console.error('Error al sincronizar comanda', error);
@@ -266,7 +297,7 @@ export const ComanderoProvider = ({children}) => {
             seleccionarMesa(null);
             seleccionarMenu(null);
             seleccionarCategoria(null);
-            borrarPedido();
+            setPedido([]);
             seleccionarLineaPedido(null);
             seleccionarPersona(1);
             restablecerArregloPersonas([1]);
@@ -284,21 +315,21 @@ export const ComanderoProvider = ({children}) => {
 
             const detalleComanda = await response.json();
 
-            setPedido(
-                detalleComanda.detalles.map(detalle => ({
-                    id: detalle.id,
-                    idComanda: detalle.idComanda,
-                    idLinea: Date.now().toString() + Math.random().toString(36).substring(2),
-                    idPlatillo: detalle.idPlatillo,
-                    nombre: detalle.nombre,
-                    persona: detalle.persona,
-                    cantidad: detalle.cantidad,
-                    comentarios: detalle.comentarios ?? "",
-                    idCategoriaPlatillo: detalle.idCategoriaPlatillo,
-                    estatusCocina: detalle.estatusCocina
+            const detalleMapped = detalleComanda.detalles.map(detalle => ({
+                id: detalle.id,
+                idComanda: detalle.idComanda,
+                idLinea: Date.now().toString() + Math.random().toString(36).substring(2),
+                idPlatillo: detalle.idPlatillo,
+                nombre: detalle.nombre,
+                persona: detalle.persona,
+                cantidad: detalle.cantidad,
+                comentarios: detalle.comentarios ?? "",
+                idCategoriaPlatillo: detalle.idCategoriaPlatillo,
+                estatusCocina: detalle.estatusCocina
+            }));
 
-                }))
-            )
+            setPedido(detalleMapped);
+            setPedidoOriginal(detalleMapped);
 						
 						setPersonas([...new Set 
 							(detalleComanda.detalles
