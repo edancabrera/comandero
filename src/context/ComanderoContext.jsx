@@ -96,6 +96,8 @@ export const ComanderoProvider = ({children}) => {
                     cantidad: 1,
                     comentarios: "",
                     idCategoriaPlatillo: platillo.idCategoriaPlatillo,
+                    nombreCategoriaPlaitllo: platillo.nombreCategoria,
+                    menu: platillo.menu,
                     estatusCocina: 0
                 },
                 ...prevPedido
@@ -325,6 +327,8 @@ export const ComanderoProvider = ({children}) => {
                 cantidad: detalle.cantidad,
                 comentarios: detalle.comentarios ?? "",
                 idCategoriaPlatillo: detalle.idCategoriaPlatillo,
+                nombreCategoriaPlaitllo: detalle.nombreCategoria,
+                menu: detalle.menu,
                 estatusCocina: detalle.estatusCocina
             }));
 
