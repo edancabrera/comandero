@@ -96,7 +96,7 @@ export const ComanderoProvider = ({children}) => {
                     cantidad: 1,
                     comentarios: "",
                     idCategoriaPlatillo: platillo.idCategoriaPlatillo,
-                    nombreCategoriaPlaitllo: platillo.nombreCategoria,
+                    nombreCategoriaPlatillo: platillo.nombreCategoria,
                     menu: platillo.menu,
                     estatusCocina: 0
                 },
@@ -193,15 +193,6 @@ export const ComanderoProvider = ({children}) => {
                     if(!responseDelete.ok){
                         throw new Error("Error al eliminar detalles");
                     }
-                    console.log(JSON.stringify({
-                        detallesEliminados: detallesAEliminar.map(detalle => ({
-                            id: detalle.id,
-                            idComanda: detalle.idComanda,
-                            nombre: detalle.nombre,
-                            persona: detalle.persona,
-                            cantidad: detalle.cantidad
-                        }))
-                        }, null, 2));
                 }
             }
 
@@ -247,19 +238,13 @@ export const ComanderoProvider = ({children}) => {
                     }
                 });
 
-                console.log(JSON.stringify({
-                    detallesAgregados: agregados.map(detalle => ({
-                        id: detalle.id ? detalle.id : "detalle sin id: detalle recién agregado",
-                        idComanda: detalle.idComanda,
-                        nombre: detalle.nombre,
-                        persona: detalle.persona,
-                        cantidad: detalle.cantidad
-                    }))
-                }, null, 2));
-                
-
                 const data = await response.json();
                 console.log(data);
+                
+                const pedidoOrdenado = ordenarPedidoPorMenuYPersona(agregados);
+                console.log(`PEDIDO ORDENADO: ${JSON.stringify(pedidoOrdenado, null, 2)}`);
+                const detallesCancelados = ordenarPedidoPorMenuYPersona(detallesAEliminar);
+                console.log(`DETALLES CANCELADOS: ${JSON.stringify(detallesCancelados, null, 2)}`);
             }
 
             seleccionarMesa(null);
@@ -346,6 +331,25 @@ export const ComanderoProvider = ({children}) => {
             console.error("Error al obtener comanda", error);
         }
     }
+
+    const ordenarPedidoPorMenuYPersona = (pedido) => {
+        return pedido.reduce((acc, detalle) => {
+            const menu = detalle.menu.trim();
+            const persona = detalle.persona;
+
+            if (!acc[menu]) {
+                acc[menu] = {};
+            }
+
+            if (!acc[menu][persona]) {
+                acc[menu][persona] = [];
+            }
+
+            acc[menu][persona].push(detalle);
+
+            return acc;
+        }, {});
+    };
 
     //Método a llamar al presionar el botón VER CUENTA en la modal modalOpcionesDeMesa
     const crearCuenta = async () => {
