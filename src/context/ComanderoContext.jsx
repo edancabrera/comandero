@@ -240,11 +240,17 @@ export const ComanderoProvider = ({children}) => {
 
                 const data = await response.json();
                 console.log(data);
-                
+
                 const pedidoOrdenado = ordenarPedidoPorMenuYPersona(agregados);
-                console.log(`PEDIDO ORDENADO: ${JSON.stringify(pedidoOrdenado, null, 2)}`);
-                const detallesCancelados = ordenarPedidoPorMenuYPersona(detallesAEliminar);
-                console.log(`DETALLES CANCELADOS: ${JSON.stringify(detallesCancelados, null, 2)}`);
+                console.log(`DETALLES AGREGADOS: ${JSON.stringify(pedidoOrdenado, null, 2)}`);
+
+                if (detallesAEliminar.length > 0){
+                    const detallesCanceladosOrdenados = ordenarPedidoPorMenuYPersona(detallesAEliminar);
+
+                    detallesCanceladosOrdenados.CANCELADOS = true;
+
+                    console.log(`DETALLES CANCELADOS: ${JSON.stringify(detallesCanceladosOrdenados, null, 2)}`);
+                }
             }
 
             seleccionarMesa(null);
@@ -345,7 +351,13 @@ export const ComanderoProvider = ({children}) => {
                 acc[menu][persona] = [];
             }
 
-            acc[menu][persona].push(detalle);
+            acc[menu][persona].push({
+                persona: detalle.persona,
+                cantidad: detalle.cantidad,
+                nombre: detalle.nombre,
+                menu: detalle.menu.trim(),
+                comentarios: detalle.comentarios
+            });
 
             return acc;
         }, {});
