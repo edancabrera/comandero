@@ -242,14 +242,15 @@ export const ComanderoProvider = ({children}) => {
                 console.log(data);
 
                 const pedidoOrdenado = ordenarPedidoPorMenuYPersona(agregados);
-                console.log(`DETALLES AGREGADOS: ${JSON.stringify(pedidoOrdenado, null, 2)}`);
+                if(Object.keys(pedidoOrdenado).length > 0){
+                    const payloadTicket = construirPayloadTicket( pedidoOrdenado, "AGREGADOS" );
+                    console.log(JSON.stringify(payloadTicket, null, 2));
+                }
 
                 if (detallesAEliminar.length > 0){
                     const detallesCanceladosOrdenados = ordenarPedidoPorMenuYPersona(detallesAEliminar);
-
-                    detallesCanceladosOrdenados.CANCELADOS = true;
-
-                    console.log(`DETALLES CANCELADOS: ${JSON.stringify(detallesCanceladosOrdenados, null, 2)}`);
+                    const payloadCancelacion = construirPayloadTicket( detallesCanceladosOrdenados, "CANCELACION" );
+                    console.log(JSON.stringify(payloadCancelacion, null, 2));
                 }
             }
 
@@ -361,6 +362,16 @@ export const ComanderoProvider = ({children}) => {
 
             return acc;
         }, {});
+    };
+
+    const construirPayloadTicket = (detalleOrdenado, tipo) => {
+        return {
+            tipo, // "AGREGADOS" o "CANCELACION"
+            mesa: `${mesaSeleccionada.nombre} - ${areaSeleccionada.nombre}`,
+            mesero: usuario.nombre,
+            fecha: new Date().toISOString(),
+            detalle: detalleOrdenado
+        };
     };
 
     //Método a llamar al presionar el botón VER CUENTA en la modal modalOpcionesDeMesa
