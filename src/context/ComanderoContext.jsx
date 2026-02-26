@@ -373,7 +373,7 @@ export const ComanderoProvider = ({children}) => {
             tipo, // "AGREGADOS" o "CANCELACION"
             mesa: `${mesaSeleccionada.nombre} - ${areaSeleccionada.nombre}`,
             mesero: usuario.nombre,
-            fecha: new Date().toISOString(),
+            fecha: new Date().toLocaleString(),
             detalle: detalleOrdenado
         };
     };
