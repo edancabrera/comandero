@@ -241,14 +241,14 @@ export const ComanderoProvider = ({children}) => {
                 const data = await response.json();
                 console.log(data);
 
-                const pedidoOrdenado = ordenarPedidoConCategoriasEspeciales(agregados);
+                const pedidoOrdenado = ordenarPedidoPorMenuOCategoriaYPorPersona(agregados);
                 if(Object.keys(pedidoOrdenado).length > 0){
                     const payloadTicket = construirPayloadTicket( pedidoOrdenado, "AGREGADOS" );
                     console.log(JSON.stringify(payloadTicket, null, 2));
                 }
 
                 if (detallesAEliminar.length > 0){
-                    const detallesCanceladosOrdenados = ordenarPedidoConCategoriasEspeciales(detallesAEliminar);
+                    const detallesCanceladosOrdenados = ordenarPedidoPorMenuOCategoriaYPorPersona(detallesAEliminar);
                     const payloadCancelacion = construirPayloadTicket( detallesCanceladosOrdenados, "CANCELACION" );
                     console.log(JSON.stringify(payloadCancelacion, null, 2));
                 }
