@@ -241,14 +241,14 @@ export const ComanderoProvider = ({children}) => {
                 const data = await response.json();
                 console.log(data);
 
-                const pedidoOrdenado = ordenarPedidoPorMenuYPersona(agregados);
+                const pedidoOrdenado = ordenarPedidoConCategoriasEspeciales(agregados);
                 if(Object.keys(pedidoOrdenado).length > 0){
                     const payloadTicket = construirPayloadTicket( pedidoOrdenado, "AGREGADOS" );
                     console.log(JSON.stringify(payloadTicket, null, 2));
                 }
 
                 if (detallesAEliminar.length > 0){
-                    const detallesCanceladosOrdenados = ordenarPedidoPorMenuYPersona(detallesAEliminar);
+                    const detallesCanceladosOrdenados = ordenarPedidoConCategoriasEspeciales(detallesAEliminar);
                     const payloadCancelacion = construirPayloadTicket( detallesCanceladosOrdenados, "CANCELACION" );
                     console.log(JSON.stringify(payloadCancelacion, null, 2));
                 }
@@ -339,30 +339,37 @@ export const ComanderoProvider = ({children}) => {
         }
     }
 
-    const ordenarPedidoPorMenuYPersona = (pedido) => {
+    const ordenarPedidoPorMenuOCategoriaYPorPersona = (pedido) => {
         return pedido.reduce((acc, detalle) => {
-            const menu = detalle.menu.trim();
+            const categoria = detalle.nombreCategoriaPlatillo?.trim().toUpperCase();
+            const menu = detalle.menu?.trim().toUpperCase();
             const persona = detalle.persona;
 
-            if (!acc[menu]) {
-                acc[menu] = {};
+            const claveRaiz = categoria === "ZARANDEADOS" 
+                ? "ZARANDEADOS"
+                : menu;
+            
+            if(!acc[claveRaiz]) {
+                acc[claveRaiz] = {};
             }
 
-            if (!acc[menu][persona]) {
-                acc[menu][persona] = [];
+            if(!acc[claveRaiz][persona]) {
+                acc[claveRaiz][persona] = [];
             }
 
-            acc[menu][persona].push({
+            acc[claveRaiz][persona].push({
                 persona: detalle.persona,
                 cantidad: detalle.cantidad,
                 nombre: detalle.nombre,
-                menu: detalle.menu.trim(),
+                menu: categoria === "ZARANDEADOS" 
+                    ? "ZARANDEADOS"
+                    : menu,
                 comentarios: detalle.comentarios
             });
 
             return acc;
-        }, {});
-    };
+        }, {}); 
+    }
 
     const construirPayloadTicket = (detalleOrdenado, tipo) => {
         return {
