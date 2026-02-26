@@ -238,19 +238,16 @@ export const ComanderoProvider = ({children}) => {
                     }
                 });
 
-                const data = await response.json();
-                console.log(data);
-
                 const pedidoOrdenado = ordenarPedidoPorMenuOCategoriaYPorPersona(agregados);
                 if(Object.keys(pedidoOrdenado).length > 0){
                     const payloadTicket = construirPayloadTicket( pedidoOrdenado, "AGREGADOS" );
-                    console.log(JSON.stringify(payloadTicket, null, 2));
+                    await enviarTicket(payloadTicket);
                 }
 
                 if (detallesAEliminar.length > 0){
                     const detallesCanceladosOrdenados = ordenarPedidoPorMenuOCategoriaYPorPersona(detallesAEliminar);
                     const payloadCancelacion = construirPayloadTicket( detallesCanceladosOrdenados, "CANCELACION" );
-                    console.log(JSON.stringify(payloadCancelacion, null, 2));
+                    await enviarTicket(payloadCancelacion);
                 }
             }
 
@@ -379,6 +376,27 @@ export const ComanderoProvider = ({children}) => {
             fecha: new Date().toISOString(),
             detalle: detalleOrdenado
         };
+    };
+
+    const enviarTicket = async (payload) => {
+        try {
+            const url = await buildApiUrl('/ticket');
+            const response = await fetch(url, {
+                method: "POST", 
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if(!response.ok){
+                throw new Error ("Error al enviar ticket");
+            }
+
+        } catch (error) {
+            console.error("Error en enviarTicket:", error);
+            throw error;
+        }
     };
 
     //Método a llamar al presionar el botón VER CUENTA en la modal modalOpcionesDeMesa
