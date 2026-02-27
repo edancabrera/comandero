@@ -98,7 +98,8 @@ export const ComanderoProvider = ({children}) => {
                     idCategoriaPlatillo: platillo.idCategoriaPlatillo,
                     nombreCategoriaPlatillo: platillo.nombreCategoria,
                     menu: platillo.menu,
-                    estatusCocina: 0
+                    estatusCocina: 0,
+                    iva: platillo.iva
                 },
                 ...prevPedido
             ];
@@ -316,9 +317,10 @@ export const ComanderoProvider = ({children}) => {
                 cantidad: detalle.cantidad,
                 comentarios: detalle.comentarios ?? "",
                 idCategoriaPlatillo: detalle.idCategoriaPlatillo,
-                nombreCategoriaPlaitllo: detalle.nombreCategoria,
+                nombreCategoriaPlatillo: detalle.nombreCategoria,
                 menu: detalle.menu,
-                estatusCocina: detalle.estatusCocina
+                estatusCocina: detalle.estatusCocina,
+                iva: detalle.iva
             }));
 
             setPedido(detalleMapped);
