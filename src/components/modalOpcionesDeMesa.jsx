@@ -9,7 +9,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const ModalOpcionesDeMesa = () => {
-   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible, abrirComandaMesa, crearCuenta, setModalEditarMesaVisible, setModalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaUnionDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible, setModalVerCuentaVisible} = useComandero();
+   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible, abrirComandaMesa, crearCuenta, setModalEditarMesaVisible, setModalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaUnionDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible, setModalVerCuentaVisible, reimprimirTicket} = useComandero();
   return (
     <Modal 
         animationType="slide" 
@@ -69,10 +69,13 @@ const ModalOpcionesDeMesa = () => {
                         setModalOpcionesDeMesaVisible(false);
                     }}
                 />
-                {/* <OpcionesDeMesaButton
+                <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="printer-pos-refresh-outline" size={24} color="black" />}
                     opcion={'REIMPRIMIR PEDIDO'}
-                /> */}
+                    action={() => {
+                        reimprimirTicket();
+                    }}
+                />
                 {/* <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="pencil-box-multiple-outline" size={24} color="black" />}
                     opcion={'DIVIDIR COMANDA'}

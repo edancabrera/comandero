@@ -399,6 +399,40 @@ export const ComanderoProvider = ({children}) => {
         }
     };
 
+    const reimprimirTicket = async () => {
+        try {
+            const urlDetalles = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}`);
+            const response = await fetch(urlDetalles);
+            if(!response.ok) {
+                throw new Error ("La mesa no tiene comanda activa");
+            }
+            const detalleComanda = await response.json();
+            const detalleMapped = detalleComanda.detalles.map(detalle => ({
+                id: detalle.id,
+                idComanda: detalle.idComanda,
+                idPlatillo: detalle.idPlatillo,
+                nombre: detalle.nombre,
+                persona: detalle.persona,
+                cantidad: detalle.cantidad,
+                comentarios: detalle.comentarios ?? "",
+                idCategoriaPlatillo: detalle.idCategoriaPlatillo,
+                nombreCategoriaPlatillo: detalle.nombreCategoria,
+                menu: detalle.menu,
+                estatusCocina: detalle.estatusCocina
+            }));
+
+            const pedidoOrdenado = ordenarPedidoPorMenuOCategoriaYPorPersona(detalleMapped);
+            const ticketPayload = construirPayloadTicket(pedidoOrdenado, "REIMPRESION");
+
+            await enviarTicket(ticketPayload);
+            
+            seleccionarMesa(null);
+            setModalOpcionesDeMesaVisible(false);
+        } catch (error) {
+            console.error("Error en la reimpresión: ", error);
+        }
+    };
+
     //Método a llamar al presionar el botón VER CUENTA en la modal modalOpcionesDeMesa
     const crearCuenta = async () => {
         try {
@@ -468,6 +502,7 @@ export const ComanderoProvider = ({children}) => {
 
         enviarComanda,
         abrirComandaMesa,
+        reimprimirTicket,
 
         cancelarComanda,
 
