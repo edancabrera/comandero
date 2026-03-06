@@ -39,7 +39,7 @@ const Pedido = () => {
         </View>
         {/* Filas */}
         <ScrollView>
-          {pedido?.map(item => (
+          {pedido.sort((a,b) => a.persona - b.persona)?.map(item => (
             <Pressable 
               key={item.idLinea} 
               style={[
