@@ -21,7 +21,7 @@ const Mesas = () => {
 
   const router = useRouter();
 
-  const { areaSeleccionada, seleccionarMesa, mesaSeleccionada, setModalOpcionesDeMesaVisible, pedido, setModalMesaUnidaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaDesunionDeMesasVisible, modalAccionesMesaUnionDeMesaVisible, setModalAccionesMesaUnionDeMesaVisible, modalAccionesMesaCambioDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible } = useComandero();
+  const { areaSeleccionada, seleccionarMesa, mesaSeleccionada, setModalOpcionesDeMesaVisible, pedido, setModalMesaUnidaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaDesunionDeMesasVisible, modalAccionesMesaUnionDeMesaVisible, setModalAccionesMesaUnionDeMesaVisible, modalAccionesMesaCambioDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible, imprimirCuenta } = useComandero();
 
   const [mesas, setMesas] = useState([]);
   const [mesaUnida, setMesaUnida] = useState(null);
@@ -58,7 +58,7 @@ const Mesas = () => {
 
       useEffect( () => {
         obtenerMesasPorArea();
-      }, [areaSeleccionada, pedido, descripcionMesa, mesaSeleccionada]);
+      }, [areaSeleccionada, pedido, descripcionMesa, mesaSeleccionada, imprimirCuenta]);
 
   return (
     <SafeAreaView 

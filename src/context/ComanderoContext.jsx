@@ -435,6 +435,51 @@ export const ComanderoProvider = ({children}) => {
         }
     };
 
+    const imprimirCuenta = async () => {
+        try {
+            const urlComanda = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}`);
+
+            const responseComanda = await fetch(urlComanda);
+
+            if(!responseComanda.ok) {
+                throw new Error("La mesa no tiene comanda activa")
+            }
+            
+            const detalleComanda = await responseComanda.json();
+
+            const payloadTicketCobro = {
+                mesero: usuario.nombre,
+                mesa: `${mesaSeleccionada.nombre} - ${areaSeleccionada.nombre}`,
+                fecha: new Date().toLocaleString(),
+                detalle: detalleComanda.detalles.map(detalle => ({
+                    nombre: detalle.nombre,
+                    cantidad: detalle.cantidad,
+                    precioUnitario: detalle.precio,
+                    subtotal: detalle.cantidad * detalle.precio,
+                    iva: detalle.iva
+                })),
+                total: detalleComanda.total.toFixed(2)
+            }
+
+            const urlCobro = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}/cobrar`);
+
+            const responseCobro = await fetch(urlCobro, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(payloadTicketCobro)
+            });
+
+            if(!responseCobro.ok) {
+                throw new Error("Error al mandar a cobrar")
+            }
+            setModalOpcionesDeMesaVisible(false);
+        } catch (error) {
+            console.error("Error ", error);
+        }
+    }
+
     //Método a llamar al presionar el botón VER CUENTA en la modal modalOpcionesDeMesa
     const crearCuenta = async () => {
         try {
@@ -505,6 +550,7 @@ export const ComanderoProvider = ({children}) => {
         enviarComanda,
         abrirComandaMesa,
         reimprimirTicket,
+        imprimirCuenta,
 
         cancelarComanda,
 
