@@ -7,7 +7,7 @@ import { buildApiUrl } from '../../utils/apiConfig';
 const ListaMenus = () => {
     const [menus, setMenus] = useState([]);
 
-    const { seleccionarMenu } = useComandero();
+    const { seleccionarMenu, menuSeleccionado } = useComandero();
 
     const obtenerMenus = async () => {
         try {
@@ -38,8 +38,11 @@ const ListaMenus = () => {
       {menus?.map((menu, index) => (
         <Pressable 
             key={index} 
-            style={styles.menuButton}
             onPress={()=> seleccionarMenu(menu)}
+            style={[
+                styles.menuButton,
+                menu === menuSeleccionado && styles.menuButtonSelected
+                ]}
         >
             <Text style={styles.menuButtonText}>{menu}</Text>
         </Pressable>
@@ -59,6 +62,9 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginTop: 10,
         alignItems: 'center'
+    },
+    menuButtonSelected: {
+        backgroundColor: "#c68000"
     },
     menuButtonText: {
         color: '#fff',

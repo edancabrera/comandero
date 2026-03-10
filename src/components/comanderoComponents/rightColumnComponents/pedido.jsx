@@ -66,16 +66,24 @@ const Pedido = () => {
             setModalBorrarPedidoVisible(true)
             }}
           >
-            <Ionicons name="trash-outline" size={24} color="black" />
+            {({ pressed }) => (
+              <Ionicons 
+                name="trash-outline" 
+                size={24} 
+                color={pressed ? "red" : "black"}
+              />
+            )}
           </Pressable>
           <Pressable
             onPress={()=>{setModalComplementosVisible(true)}}
           >
-            <MaterialCommunityIcons
-              name="food-variant"
-              size={24}
-              color="black"
-            />
+            {({ pressed }) => (
+              <MaterialCommunityIcons
+                name="food-variant"
+                size={24}
+                color={pressed ? "lightblue" : "black"}
+              />
+            )}
           </Pressable>
           <View style={{flexDirection: 'row'}}>
             <View>
@@ -105,7 +113,14 @@ const Pedido = () => {
               />
             </View>
             <Pressable onPress={()=>{agregarPersona()}}>
-              <Feather name="user-plus" size={24} color="black" />
+              {({ pressed }) => (
+              <Feather 
+                name="user-plus" 
+                size={24} 
+                color={pressed ? "green" : "black"}
+              />
+            )}
+              
             </Pressable>
           </View>
           <Pressable onPress={()=> {
@@ -113,7 +128,13 @@ const Pedido = () => {
             setModalQuitarPlatilloVisible(true)
           }}
           >
-            <AntDesign name="close" size={24} color="red" />
+            {({ pressed }) => (
+              <AntDesign 
+                name="close" 
+                size={24} 
+                color={pressed ? "red" : "black"} 
+              />
+            )}
           </Pressable>
         </View>
 

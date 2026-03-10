@@ -40,7 +40,11 @@ const ListaPlatillos = () => {
             {platillos.map((platillo) => (
               <Pressable 
                 key={platillo.idProducto}
-                style={styles.platilloButton}
+                style={({ pressed }) => [
+                  styles.platilloButton,
+                  pressed && styles.platilloButtonPressed
+                ]
+                }
                 onPress={()=> agregarPlatillo(platillo)}
             >
                 <Text style={styles.platilloButtonText}>{platillo.nombre}</Text>
@@ -67,6 +71,9 @@ const styles = StyleSheet.create({
     margin: 5,
     alignItems: "center",
     width: 145,
+  },
+  platilloButtonPressed: {
+    backgroundColor: "#c68000"
   },
   platilloButtonText: {
     color: "#fff",

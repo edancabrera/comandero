@@ -8,7 +8,7 @@ import { buildApiUrl } from "../../utils/apiConfig";
 const ListaCategorias = () => {
   const [categorias, setCategorias] = useState([]);
 
-  const { menuSeleccionado, seleccionarCategoria } = useComandero();
+  const { menuSeleccionado, seleccionarCategoria, categoriaSeleccionada } = useComandero();
 
   const Obtenercategorias = async () => {
     try {
@@ -35,8 +35,11 @@ const ListaCategorias = () => {
         {categorias.map((categoria) => (
           <Pressable 
             key={categoria.id} 
-            style={styles.categoriaButton}
             onPress={()=> seleccionarCategoria(categoria)}
+            style={[
+              styles.categoriaButton,
+              categoria.nombre === categoriaSeleccionada?.nombre && styles.categoriaButtonSelected
+            ]}
           >
             <Text style={styles.categoriaButtonText}>{categoria.nombre}</Text>
           </Pressable>
@@ -61,6 +64,9 @@ const styles = StyleSheet.create({
     margin: 5,
     alignItems: "center",
     width: 145
+  },
+  categoriaButtonSelected: {
+    backgroundColor: "#c68000"
   },
   categoriaButtonText: {
     color: "#fff",

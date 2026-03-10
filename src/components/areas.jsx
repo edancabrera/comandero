@@ -4,7 +4,7 @@ import { useComandero } from '../context/ComanderoContext';
 import { buildApiUrl } from '../utils/apiConfig';
 
 const Areas = () => {
-    const { seleccionarArea } = useComandero();
+    const { seleccionarArea, areaSeleccionada  } = useComandero();
     const [areas, setAreas] = useState([]);
 
     useEffect(()=>{
@@ -31,7 +31,10 @@ const Areas = () => {
             <Pressable 
                 key={area.id}
                 onPress={() => seleccionarArea(area)}
-                style={styles.areaButton}
+                style={[
+                    styles.areaButton,
+                    area.nombre === areaSeleccionada?.nombre && styles.areaButtonSelected
+                ]}
             >
                 <Text style={styles.areaButtonText}>{area.nombre}</Text>
             </Pressable>
@@ -62,6 +65,9 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         marginTop:10,
         alignItems: 'center'
+    },
+    areaButtonSelected: {
+        backgroundColor: "#c68000"
     },
     areaButtonText:{
         color: "#fff",
