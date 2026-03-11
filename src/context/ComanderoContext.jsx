@@ -40,6 +40,7 @@ export const ComanderoProvider = ({children}) => {
     const [modalAccionesMesaCambioDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible] = useState(false);
     const [modalVerCuentaVisible, setModalVerCuentaVisible] = useState(false);
     const [modalCancelarComandaVisible, setModalCancelarComandaVisible] = useState(false);
+    const [modalDividirComandaVisible, setModalDividirComandaVisible] = useState(false);
     
 
     //Funciones para manipular el estado
@@ -599,8 +600,11 @@ export const ComanderoProvider = ({children}) => {
         setModalVerCuentaVisible,
 
         modalCancelarComandaVisible, setModalCancelarComandaVisible,
-        pedidoACancelarEnviadoACocina, setPedidoACancelarEnviadoACocina
-    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalComandaVaciaVisible, modalMesaUnidaVisible, modalEdiarMesaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, modalAccionesMesaUnionDeMesaVisible, modalAccionesMesaCambioDeMesaVisible, modalVerCuentaVisible, modalCancelarComandaVisible, pedidoACancelarEnviadoACocina])
+        pedidoACancelarEnviadoACocina, setPedidoACancelarEnviadoACocina,
+
+        modalDividirComandaVisible,
+        setModalDividirComandaVisible
+    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalComandaVaciaVisible, modalMesaUnidaVisible, modalEdiarMesaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, modalAccionesMesaUnionDeMesaVisible, modalAccionesMesaCambioDeMesaVisible, modalVerCuentaVisible, modalCancelarComandaVisible, pedidoACancelarEnviadoACocina, modalDividirComandaVisible])
 
     return (
         <ComanderoContext.Provider value={value}>
