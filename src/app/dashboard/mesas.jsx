@@ -14,6 +14,7 @@ import ModalEditarMesa from '../../components/modalEditarMesa';
 import ModalMesaUnida from '../../components/modalMesaUnida';
 import ModalAccionesMesa from '../../components/modalAccionesMesa';
 import ModalVerCuenta from '../../components/modalVerCuenta';
+import ModalDividirComanda from '../../components/modalDividirComanda';
 import { buildApiUrl } from '../../utils/apiConfig';
 
 
@@ -96,6 +97,7 @@ const Mesas = () => {
         mode = "CAMBIAR"
       />
       <ModalVerCuenta />
+      <ModalDividirComanda />
       
 
       <ScrollView 
