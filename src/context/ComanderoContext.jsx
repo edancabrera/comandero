@@ -303,6 +303,17 @@ export const ComanderoProvider = ({children}) => {
     }
 
     const abrirComandaMesa = async () => {
+        const detalleMapped = await obtenerComandaMesa();
+        setPedido(detalleMapped)
+        setPedidoOriginal(detalleMapped);
+						
+        setPersonas([...new Set 
+            (detalleMapped
+                .map(detalle => detalle.persona)
+                .sort((a, b) => a - b)
+            )]);
+    }
+    const obtenerComandaMesa = async () => {
         try {
             const url = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}`);
             const response = await fetch(url);
@@ -329,16 +340,8 @@ export const ComanderoProvider = ({children}) => {
                 iva: detalle.iva
             }));
 
-            setPedido(detalleMapped);
-            setPedidoOriginal(detalleMapped);
-						
-						setPersonas([...new Set 
-							(detalleComanda.detalles
-								.map(detalle => detalle.persona)
-								.sort((a, b) => a - b)
-							)]);
-
-            router.replace("/dashboard/comandero");
+            return detalleMapped;
+            
         } catch (error) {
             console.error("Error al obtener comanda", error);
         }
@@ -554,6 +557,7 @@ export const ComanderoProvider = ({children}) => {
         restablecerArregloPersonas,
 
         enviarComanda,
+        obtenerComandaMesa,
         abrirComandaMesa,
         reimprimirTicket,
         imprimirCuenta,
