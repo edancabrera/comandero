@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
 import { useComandero } from "../context/ComanderoContext";
+import { useRouter } from 'expo-router';
 
 import AntDesign from '@expo/vector-icons/AntDesign';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
@@ -10,6 +11,8 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 const ModalOpcionesDeMesa = () => {
    const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible, abrirComandaMesa, setModalEditarMesaVisible, setModalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaUnionDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible, setModalVerCuentaVisible, reimprimirTicket, imprimirCuenta, setModalDividirComandaVisible} = useComandero();
+
+   const router = useRouter();
   return (
     <Modal 
         animationType="slide" 
@@ -45,6 +48,7 @@ const ModalOpcionesDeMesa = () => {
                     opcion={'ABRIR COMANDA'}
                     action={async () =>{
                         await abrirComandaMesa();
+                        router.replace("/dashboard/comandero");
                         setModalOpcionesDeMesaVisible(false);
                     }}
                 />
