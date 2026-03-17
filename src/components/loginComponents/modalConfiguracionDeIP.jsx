@@ -94,6 +94,7 @@ const ModalConfiguracionDeIP = () => {
             value={ip}
             onChangeText={setIp}
             editable={status=== "Probando conexión..." ? false: true}
+            keyboardType="decimal-pad"
           />
           {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
           {status === "Probando conexión..." ?
