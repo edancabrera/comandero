@@ -7,13 +7,60 @@ import {
   ScrollView,
 } from "react-native";
 import { useComandero } from "../context/ComanderoContext";
+import { useEffect, useState } from "react";
 
 const ModalDividirComanda = () => {
   const { 
     modalDividirComandaVisible, 
     setModalDividirComandaVisible,
-    mesaSeleccionada
+    mesaSeleccionada,
+    obtenerComandaMesa,
+    pedido, setPedido,
   } = useComandero();
+
+  const [nuevoPedido, setNuevoPedido] = useState([]);
+  const [comandaActualLineaSeleccionada, setComandaActualLineaSeleccionada] = useState(null);
+  const [comandaNuevaLineaSeleccionada, setComandaNuevaLineaSeleccionada] = useState(null);
+
+  useEffect( () => {
+    if(mesaSeleccionada && modalDividirComandaVisible) {
+      cargarComanda();
+    };
+  }, [modalDividirComandaVisible]);
+
+  useEffect(() => {
+    if(!modalDividirComandaVisible){
+      setPedido([]);
+      setComandaActualLineaSeleccionada(null);
+      setNuevoPedido([]);
+    }
+  }, [modalDividirComandaVisible])
+
+  const cargarComanda = async () => {
+    setPedido(await obtenerComandaMesa());
+  }
+
+  const moverANuevaComanda = () => {
+    if(!comandaActualLineaSeleccionada) return;
+    const item = pedido.find(p => p.idLinea === comandaActualLineaSeleccionada);
+    if (!item) return;
+
+    setPedido(prev => prev.filter((p => p.idLinea !== comandaActualLineaSeleccionada)));
+    setNuevoPedido(prev => [...prev, item]);
+    setComandaActualLineaSeleccionada(null);
+  }
+
+  const regresarAOriginal = () => {
+    if(!comandaNuevaLineaSeleccionada) return;
+    const item = nuevoPedido.find(p => p.idLinea === comandaNuevaLineaSeleccionada);
+    if(!item) return;
+
+    setNuevoPedido(prev => prev.filter(p => p.idLinea !== comandaNuevaLineaSeleccionada));
+    setPedido(prev => [...prev, item]);
+    setComandaNuevaLineaSeleccionada(null);
+
+
+  }
 
   return (
     <Modal
@@ -37,7 +84,22 @@ const ModalDividirComanda = () => {
                 <Text style={styles.colPlatillo}>Platillo</Text>
                 <Text style={styles.colCantidad}>Cant.</Text>
               </View>
-              <ScrollView></ScrollView>
+              <ScrollView>
+                {pedido.sort((a,b) => a.persona - b.persona)?.map(item => (
+                  <Pressable
+                    key={item.idLinea}
+                    style={[
+                      styles.tableRow,
+                      item.idLinea === comandaActualLineaSeleccionada && styles.rowSelected
+                    ]}
+                    onPress={() => setComandaActualLineaSeleccionada(item.idLinea)}
+                  >
+                    <Text style={styles.colPersona}>{item.persona}</Text>
+                    <Text style={styles.colPlatillo}>{item.nombre}</Text>
+                    <Text style={styles.colCantidad}>{item.cantidad}</Text>
+                  </Pressable>
+                ))}
+              </ScrollView>
             </View>
 
             <View style={styles.actionButtonsContainer}>
@@ -46,6 +108,7 @@ const ModalDividirComanda = () => {
                   styles.actionButton,
                   pressed && styles.buttonPressed
                 ]}
+                onPress={moverANuevaComanda}
               >
                 <Text>→</Text>
               </Pressable>
@@ -55,6 +118,7 @@ const ModalDividirComanda = () => {
                   styles.actionButton,
                   pressed && styles.buttonPressed
                 ]}
+                onPress={regresarAOriginal}
               >
                 <Text>←</Text>
               </Pressable>
@@ -67,7 +131,22 @@ const ModalDividirComanda = () => {
                 <Text style={styles.colPlatillo}>Platillo</Text>
                 <Text style={styles.colCantidad}>Cant.</Text>
               </View>
-              <ScrollView></ScrollView>
+              <ScrollView>
+                {nuevoPedido.sort((a,b) => a.persona - b.persona)?.map(item => (
+                  <Pressable
+                    key={item.idLinea}
+                    style={[
+                      styles.tableRow,
+                      item.idLinea === comandaNuevaLineaSeleccionada && styles.rowSelected
+                    ]}
+                    onPress={() => setComandaNuevaLineaSeleccionada(item.idLinea)}
+                  >
+                    <Text style={styles.colPersona}>{item.persona}</Text>
+                    <Text style={styles.colPlatillo}>{item.nombre}</Text>
+                    <Text style={styles.colCantidad}>{item.cantidad}</Text>
+                  </Pressable>
+                ))}
+              </ScrollView>
             </View>
 
           </View>
@@ -78,7 +157,9 @@ const ModalDividirComanda = () => {
                 styles.button,
                 pressed && styles.buttonPressed
               ]}
-              onPress={() => setModalDividirComandaVisible(false)}
+              onPress={() => {
+                setModalDividirComandaVisible(false);
+              }}
             >
               <Text>Cancelar</Text>
             </Pressable>
@@ -164,6 +245,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     backgroundColor: "#fff",
     alignContent: "space-evenly",
+  },
+  tableRow:{
+    flexDirection: 'row',
+    paddingVertical: 4,
+    borderBottomWidth: .5,
+    borderColor: "#00000088",
+  },
+  rowSelected: {
+    backgroundColor: "#e0f2ff"
   },
   colPersona: {
     flex: 1,
