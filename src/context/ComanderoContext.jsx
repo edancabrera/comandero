@@ -337,7 +337,8 @@ export const ComanderoProvider = ({children}) => {
                 nombreCategoriaPlatillo: detalle.nombreCategoria,
                 menu: detalle.menu,
                 estatusCocina: detalle.estatusCocina,
-                iva: detalle.iva
+                iva: detalle.iva,
+                precio: detalle.precio
             }));
 
             return detalleMapped;

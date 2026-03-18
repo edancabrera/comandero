@@ -9,14 +9,16 @@ import {
 import { useComandero } from "../context/ComanderoContext";
 import { useEffect, useState } from "react";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import { buildApiUrl } from "../utils/apiConfig";
 
 const ModalDividirComanda = () => {
   const { 
     modalDividirComandaVisible, 
     setModalDividirComandaVisible,
-    mesaSeleccionada,
+    mesaSeleccionada, areaSeleccionada,
     obtenerComandaMesa,
     pedido, setPedido,
+    usuario
   } = useComandero();
 
   const [nuevoPedido, setNuevoPedido] = useState([]);
@@ -63,6 +65,8 @@ const ModalDividirComanda = () => {
     });
     setComandaNuevaLineaSeleccionada(comandaActualLineaSeleccionada);
     setComandaActualLineaSeleccionada(null);
+    console.log(JSON.stringify(pedido, null, 2))
+    //console.log(JSON.stringify(nuevoPedido, null, 2))
   }
 
   const regresarCompletoAOriginal = () => {
@@ -157,6 +161,46 @@ const ModalDividirComanda = () => {
     });
 
     setComandaActualLineaSeleccionada(id);
+  }
+
+  const imprimirNuevaComanda = async () => {
+    if(!nuevoPedido) return;
+
+    try {
+      const payloadTicket = {
+        mesero: usuario.nombre,
+        mesa: `${mesaSeleccionada.nombre} - ${areaSeleccionada.nombre}`,
+        fecha: new Date().toLocaleString(),
+        detalle: nuevoPedido.map(detalle => ({
+          nombre: detalle.nombre,
+          cantidad: detalle.cantidad,
+          precioUnitario: detalle.precio,
+          subtotal: detalle.cantidad * detalle.precio,
+          iva: detalle.iva
+        })),
+        total: nuevoPedido.reduce((acc, detalle) => { 
+          return acc + (detalle.cantidad * detalle.precio);
+        }, 0).toFixed(2)
+      }
+
+      const url = await buildApiUrl('/ticket-cobro');
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payloadTicket)
+      });
+
+      if(!response.ok) {
+                throw new Error("Error al mandar a cobrar")
+            }
+
+    } catch (error) {
+      console.error("Error ", error);
+    }
+
+    setNuevoPedido([]);
   }
 
   return (
@@ -295,6 +339,7 @@ const ModalDividirComanda = () => {
                 styles.button,
                 pressed && styles.buttonPressed
               ]}
+              onPress={imprimirNuevaComanda}
             >
               <Text>Imprimir</Text>
             </Pressable>
