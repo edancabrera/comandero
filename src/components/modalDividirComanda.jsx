@@ -65,8 +65,6 @@ const ModalDividirComanda = () => {
     });
     setComandaNuevaLineaSeleccionada(comandaActualLineaSeleccionada);
     setComandaActualLineaSeleccionada(null);
-    console.log(JSON.stringify(pedido, null, 2))
-    //console.log(JSON.stringify(nuevoPedido, null, 2))
   }
 
   const regresarCompletoAOriginal = () => {
