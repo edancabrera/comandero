@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useComandero } from "../context/ComanderoContext";
 import { useEffect, useState } from "react";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const ModalDividirComanda = () => {
   const { 
@@ -40,26 +41,122 @@ const ModalDividirComanda = () => {
     setPedido(await obtenerComandaMesa());
   }
 
-  const moverANuevaComanda = () => {
+  const moverCompletoANuevaComanda = () => {
     if(!comandaActualLineaSeleccionada) return;
     const item = pedido.find(p => p.idLinea === comandaActualLineaSeleccionada);
     if (!item) return;
 
     setPedido(prev => prev.filter((p => p.idLinea !== comandaActualLineaSeleccionada)));
-    setNuevoPedido(prev => [...prev, item]);
+
+    setNuevoPedido(prev => {
+      const existe = prev.find(p => p.idLinea === comandaActualLineaSeleccionada);
+
+      if (existe) {
+        return prev.map(p =>
+          p.idLinea === comandaActualLineaSeleccionada
+          ? { ...p, cantidad: p.cantidad + item.cantidad }
+          : p
+        );
+      } else {
+        return [...prev, {...item}];
+      }
+    });
+    setComandaNuevaLineaSeleccionada(comandaActualLineaSeleccionada);
     setComandaActualLineaSeleccionada(null);
   }
 
-  const regresarAOriginal = () => {
+  const regresarCompletoAOriginal = () => {
     if(!comandaNuevaLineaSeleccionada) return;
     const item = nuevoPedido.find(p => p.idLinea === comandaNuevaLineaSeleccionada);
     if(!item) return;
 
-    setNuevoPedido(prev => prev.filter(p => p.idLinea !== comandaNuevaLineaSeleccionada));
-    setPedido(prev => [...prev, item]);
+    setNuevoPedido(prev => prev.filter((p => p.idLinea !== comandaNuevaLineaSeleccionada)));
+
+    setPedido(prev => {
+      const existe = prev.find(p => p.idLinea === comandaNuevaLineaSeleccionada);
+      if(existe){
+        return prev.map(p =>
+          p.idLinea === comandaNuevaLineaSeleccionada
+          ? { ...p, cantidad: p.cantidad + item.cantidad }
+          : p
+        );
+      } else {
+        return [...prev, {...item}];
+      }
+    });
+
+    setComandaActualLineaSeleccionada(comandaNuevaLineaSeleccionada);
     setComandaNuevaLineaSeleccionada(null);
+  }
 
+  const moverParcialmenteANuevaComanda = () => {
+    if(!comandaActualLineaSeleccionada) return;
 
+    const id = comandaActualLineaSeleccionada;
+    const item = pedido.find(p => p.idLinea === id);
+    if (!item || item.cantidad <= 0) return;
+
+    const updated = pedido.map(p => 
+      p.idLinea === id
+      ? { ...p, cantidad: p.cantidad - 1 }
+      : p
+    ).filter( p => p.cantidad > 0);
+
+    const sigueExistiendo = updated.some(p => p.idLinea === id);
+
+    setPedido(updated);
+
+    if(!sigueExistiendo){ setComandaActualLineaSeleccionada(null) };
+
+    setNuevoPedido(prev => {
+      const existe = prev.find(p => p.idLinea === id);
+      if(existe){
+        return prev.map(p => 
+          p.idLinea === id
+          ? {...p, cantidad: p.cantidad + 1 }
+          : p
+        )
+      } else {
+        return [...prev, {...item, cantidad: 1}];
+      }
+    });
+
+    setComandaNuevaLineaSeleccionada(id)
+  }
+
+  const regresarParcialmenteAOriginal = () => {
+    if(!comandaNuevaLineaSeleccionada) return;
+
+    const id = comandaNuevaLineaSeleccionada;
+    const item = nuevoPedido.find(p => p.idLinea === id);
+    if(!item || item.cantidad <= 0) return;
+
+    const updated = nuevoPedido.map(p => 
+      p.idLinea === id
+      ? {...p, cantidad: p.cantidad - 1 }
+      : p
+    ).filter(p => p.cantidad > 0);
+
+    const sigueExistiendo = updated.some(p => p.idLinea === id);
+
+    setNuevoPedido(updated);
+
+    if(!sigueExistiendo){ setComandaNuevaLineaSeleccionada(null) }
+
+    setPedido(prev => {
+      const existe = prev.find(p => p.idLinea === id);
+      if(existe){
+        return prev.map(p => 
+          p.idLinea === id
+          ? {...p, cantidad: p.cantidad + 1 }
+          : p
+        );
+      } else {
+        return [...prev, {...item, cantidad: 1}];
+      }
+    });
+
+    setComandaActualLineaSeleccionada(id);
   }
 
   return (
@@ -85,7 +182,7 @@ const ModalDividirComanda = () => {
                 <Text style={styles.colCantidad}>Cant.</Text>
               </View>
               <ScrollView>
-                {pedido.sort((a,b) => a.persona - b.persona)?.map(item => (
+                {[...pedido].sort((a,b) => a.persona - b.persona)?.map(item => (
                   <Pressable
                     key={item.idLinea}
                     style={[
@@ -108,7 +205,7 @@ const ModalDividirComanda = () => {
                   styles.actionButton,
                   pressed && styles.buttonPressed
                 ]}
-                onPress={moverANuevaComanda}
+                onPress={moverParcialmenteANuevaComanda}
               >
                 <Text>→</Text>
               </Pressable>
@@ -118,9 +215,29 @@ const ModalDividirComanda = () => {
                   styles.actionButton,
                   pressed && styles.buttonPressed
                 ]}
-                onPress={regresarAOriginal}
+                onPress={regresarParcialmenteAOriginal}
               >
                 <Text>←</Text>
+              </Pressable>
+
+              <Pressable 
+                style={({pressed}) => [
+                  styles.actionButton,
+                  pressed && styles.buttonPressed
+                ]}
+                onPress={moverCompletoANuevaComanda}
+              >
+                <FontAwesome name="angle-double-right" size={24} color="black" />
+              </Pressable>
+
+              <Pressable 
+                style={({pressed}) => [
+                  styles.actionButton,
+                  pressed && styles.buttonPressed
+                ]}
+                onPress={regresarCompletoAOriginal}
+              >
+                <FontAwesome name="angle-double-left" size={24} color="black" />
               </Pressable>
             </View>
 
@@ -132,7 +249,7 @@ const ModalDividirComanda = () => {
                 <Text style={styles.colCantidad}>Cant.</Text>
               </View>
               <ScrollView>
-                {nuevoPedido.sort((a,b) => a.persona - b.persona)?.map(item => (
+                {[...nuevoPedido].sort((a,b) => a.persona - b.persona)?.map(item => (
                   <Pressable
                     key={item.idLinea}
                     style={[
@@ -277,9 +394,9 @@ const styles = StyleSheet.create({
   },
   actionButton:{
     backgroundColor: "#f5f5f5",
-    padding: 10,
+    padding: 5,
     borderRadius: 6,
-    margin: 10,
+    margin: 5,
     alignItems: "center",
     width: 40,
   },
