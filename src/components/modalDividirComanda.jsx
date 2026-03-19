@@ -24,6 +24,7 @@ const ModalDividirComanda = () => {
   const [nuevoPedido, setNuevoPedido] = useState([]);
   const [comandaActualLineaSeleccionada, setComandaActualLineaSeleccionada] = useState(null);
   const [comandaNuevaLineaSeleccionada, setComandaNuevaLineaSeleccionada] = useState(null);
+  const [comandasDivididas, setComandasDivididas] = useState([]);
 
   useEffect( () => {
     if(mesaSeleccionada && modalDividirComandaVisible) {
@@ -162,7 +163,7 @@ const ModalDividirComanda = () => {
   }
 
   const imprimirNuevaComanda = async () => {
-    if(!nuevoPedido) return;
+    if(!nuevoPedido.length) return;
 
     try {
       const payloadTicket = {
@@ -191,14 +192,33 @@ const ModalDividirComanda = () => {
       });
 
       if(!response.ok) {
-                throw new Error("Error al mandar a cobrar")
-            }
+        throw new Error("Error al mandar a cobrar")
+      }
+
+      setComandasDivididas(prev => [...prev, [...nuevoPedido]]);
+      setNuevoPedido([]);
+      setComandaNuevaLineaSeleccionada(null);
 
     } catch (error) {
       console.error("Error ", error);
     }
+  }
 
-    setNuevoPedido([]);
+  const construirPayloadComandasDivididas = (comandas) => {
+    const { id: idMesa } = mesaSeleccionada;
+    const { idu: idMesero } = usuario;
+
+    return comandas.map(comanda =>(
+      {
+        idMesa,
+        idMesero,
+        detalles: comanda.map(c => ({
+          idPlatillo: c.idPlatillo,
+          cantidad: c.cantidad,
+          persona: c.persona,
+          comentarios: c.comentarios
+        }))
+      }));
   }
 
   return (
@@ -328,6 +348,10 @@ const ModalDividirComanda = () => {
                 styles.button,
                 pressed && styles.buttonPressed
               ]}
+              onPress={() => {
+                console.log(JSON.stringify(comandasDivididas, null, 2))
+                console.log(JSON.stringify(construirPayloadComandasDivididas(comandasDivididas), null, 2))
+              }}
             >
               <Text>Guardar</Text>
             </Pressable>
