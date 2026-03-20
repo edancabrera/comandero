@@ -476,4 +476,111 @@ const ModalDividirComanda = () => {
 
 export default ModalDividirComanda;
 
-const styles = StyleSheet.create({ });
+const styles = StyleSheet.create({
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalView: {
+    width: "98%",
+    height: "90%",
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    padding: 15,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  title:{
+    backgroundColor: '#faa80f',
+    textAlign:'center',
+    fontWeight: 'bold',
+    fontSize: 16
+  },
+  tablesContainer: {
+    flexDirection: "row",
+    flex: 1,
+    gap: 5
+  },
+  tableTitle:{
+    backgroundColor: '#fff',
+    textAlign:'center',
+    fontWeight: 'bold',
+    fontSize: 10
+  },
+  table: {
+    flex: 1,
+    backgroundColor: "#f5f5f5",
+    borderRadius: 10,
+    padding: 10,
+  },
+  tableHeader: {
+    flexDirection: "row",
+    borderBottomWidth: 2,
+    borderColor: "#00000088",
+    paddingVertical: 5,
+    paddingHorizontal: 5,
+    backgroundColor: "#fff",
+    alignContent: "space-evenly",
+  },
+  tableRow:{
+    flexDirection: 'row',
+    paddingVertical: 4,
+    borderBottomWidth: .5,
+    borderColor: "#00000088",
+  },
+  rowSelected: {
+    backgroundColor: "#e0f2ff"
+  },
+  colPersona: {
+    flex: 1,
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  colPlatillo: {
+    flex: 2,
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  colCantidad: {
+    flex: 1,
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  actionButtonsContainer:{
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 5
+  },
+  actionButton:{
+    backgroundColor: "#f5f5f5",
+    padding: 5,
+    borderRadius: 6,
+    margin: 5,
+    alignItems: "center",
+    width: 40,
+  },
+  buttonsContainer:{
+    flexDirection: 'row',
+    justifyContent: 'space-between'
+  },
+  button: {
+      backgroundColor: "#f5f5f5",
+      padding: 20,
+      borderRadius: 5,
+      margin: 5,
+      alignItems: "center",
+      width: 145,
+    },
+  buttonPressed: {
+    backgroundColor: "#e0e0e0"
+  }
+});
