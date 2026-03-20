@@ -204,6 +204,33 @@ const ModalDividirComanda = () => {
     }
   }
 
+  const guardarComandasDivididas = async () => {
+    if(comandasDivididas.length === 0) return; 
+
+    const idComandaPrincipal = comandasDivididas[0][0].idComanda;
+
+    const payload = construirPayloadComandasDivididas(comandasDivididas);
+
+    try {
+      const url = await buildApiUrl(`/comanda/${idComandaPrincipal}/guardar-divididos`);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if(!response.ok) {
+        throw new Error(`Error al guardar comandas divididas de la comanda principal ${idComandaPrincipal}`);
+      }
+      
+      setComandasDivididas([]);
+    } catch (error) {
+      console.error("Error ", error);
+    }
+  }
+
   const construirPayloadComandasDivididas = (comandas) => {
     const { id: idMesa } = mesaSeleccionada;
     const { idu: idMesero } = usuario;
@@ -349,8 +376,15 @@ const ModalDividirComanda = () => {
                 pressed && styles.buttonPressed
               ]}
               onPress={() => {
-                console.log(JSON.stringify(comandasDivididas, null, 2))
-                console.log(JSON.stringify(construirPayloadComandasDivididas(comandasDivididas), null, 2))
+                if(pedido.length !== 0 || nuevoPedido.length !== 0) {
+                  console.log('No deben exisitr platillos en ningua de las tablas');
+                  return
+                };
+                if(comandasDivididas.length === 0){
+                  console.log('No hay comandas nuevas que guardar');
+                  return
+                }
+                guardarComandasDivididas();
               }}
             >
               <Text>Guardar</Text>
