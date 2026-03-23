@@ -4,10 +4,10 @@ import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Tabs, useRouter } from 'expo-router';
 
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Ionicons } from "@expo/vector-icons";
 
 import ListaMenus from '../../components/comanderoComponents/listaMenus';
+import BotonCobrarCuenta from '../../components/comanderoComponents/botonCobrarCuenta';
 import ListaCategorias from '../../components/comanderoComponents/listaCategorias';
 import ListaPlatillos from '../../components/comanderoComponents/listaPlatillos';
 import Pedido from '../../components/comanderoComponents/rightColumnComponents/pedido';
@@ -106,10 +106,7 @@ const Comandero = () => {
         <View style={styles.leftColumnContainer}>
             <Text style={{ color: '#000', alignSelf: 'center'}}>{mesaSeleccionada?.nombre} {areaSeleccionada?.nombre}</Text>
             <ListaMenus />
-            <Pressable style={styles.cobrarButton}>
-                <MaterialCommunityIcons name="account-cash-outline" size={24} color="#000" />
-                <Text>Cobrar Cuenta</Text>
-            </Pressable>
+            <BotonCobrarCuenta />
         </View>
         
         {/*Columna central*/}
@@ -166,12 +163,5 @@ const styles = StyleSheet.create({
     },
     rightColumnContainer: {
         flex:0.45,
-    },
-    cobrarButton: {
-        padding:10,
-        borderRadius: 5,
-        alignItems: 'center',
-        backgroundColor: '#faa80f',
-        margin: 5
     }
 })
