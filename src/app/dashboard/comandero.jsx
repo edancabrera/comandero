@@ -22,7 +22,8 @@ import ModalCancelarComanda from '../../components/comanderoComponents/rightColu
 const Comandero = () => {
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, setPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
         setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible, modalSalirDeLaComanda, 
-        setModalSalirDeLaComanda, seleccionarPersona, restablecerArregloPersonas, modalEnviarACocinaVisible, setModalEnviarACocinaVisible, enviarComanda, modalComandaVaciaVisible, setModalComandaVaciaVisible } = useComandero();
+        setModalSalirDeLaComanda, seleccionarPersona, restablecerArregloPersonas, modalEnviarACocinaVisible, setModalEnviarACocinaVisible, modalEnviarACocinaUrgenteVisible, 
+        setModalEnviarACocinaUrgenteVisible, enviarComanda, modalComandaVaciaVisible, setModalComandaVaciaVisible } = useComandero();
 
     const router = useRouter();
 
@@ -84,6 +85,13 @@ const Comandero = () => {
             action={()=> enviarComanda()}
             visiblity={modalEnviarACocinaVisible}
             setVisiblity={setModalEnviarACocinaVisible}
+        />
+        <ModalConfirmarAccion 
+            title='¿Enviar Comanda a cocina?'
+            paragraph='La Comanda se generará para empezar a cocinarla'
+            action={()=> enviarComanda(true)}
+            visiblity={modalEnviarACocinaUrgenteVisible}
+            setVisiblity={setModalEnviarACocinaUrgenteVisible}
         />
         <ModalConfirmarAccion 
             title='Comanda vacía'

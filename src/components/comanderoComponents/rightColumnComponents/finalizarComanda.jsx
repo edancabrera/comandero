@@ -5,7 +5,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { useComandero } from '../../../context/ComanderoContext';
 
 const FinalizarComanda = () => {
-  const {setModalEnviarACocinaVisible, setModalComandaVaciaVisible, pedido, setModalCancelarComandaVisible, setPedidoACancelarEnviadoACocina} = useComandero();
+  const {setModalEnviarACocinaVisible, setModalEnviarACocinaUrgenteVisible, setModalComandaVaciaVisible, pedido, setModalCancelarComandaVisible, setPedidoACancelarEnviadoACocina} = useComandero();
   return (
     <View style={{flex:1, flexDirection:'row', justifyContent: 'space-around', alignItems: 'center'}}>
       <Pressable 
@@ -15,7 +15,10 @@ const FinalizarComanda = () => {
         <MaterialCommunityIcons name="chef-hat" size={24} color="black" />
         <Text>Enviar a cocina</Text>
       </Pressable>
-      <Pressable style={{alignItems: 'center'}}>
+      <Pressable 
+        style={{alignItems: 'center'}}
+        onPress={() => { !pedido.length ? setModalComandaVaciaVisible(true) : setModalEnviarACocinaUrgenteVisible(true) }}
+      >
         <AntDesign name="fire" size={24} color="red" />
         <Text>Enviar urgente</Text>
       </Pressable>

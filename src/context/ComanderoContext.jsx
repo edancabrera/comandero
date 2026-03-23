@@ -32,6 +32,7 @@ export const ComanderoProvider = ({children}) => {
     const [modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible] = useState(false);
     const [modalComplementosVisible, setModalComplementosVisible] = useState(false); //Estado para controlar la visibilidad de modalComplementos
     const [modalEnviarACocinaVisible, setModalEnviarACocinaVisible] = useState(false);
+    const [modalEnviarACocinaUrgenteVisible, setModalEnviarACocinaUrgenteVisible] = useState(false);
     const [modalComandaVaciaVisible, setModalComandaVaciaVisible] = useState(false);
 	const [modalMesaUnidaVisible, setModalMesaUnidaVisible] = useState(false);
     const [modalEdiarMesaVisible, setModalEditarMesaVisible] = useState(false);
@@ -178,7 +179,7 @@ export const ComanderoProvider = ({children}) => {
         setPersonas([1])
     }
 
-    const enviarComanda = async () => {
+    const enviarComanda = async (urgente = false) => {
         if(!mesaSeleccionada) return;
         if(!pedido.length && !detallesAEliminar.length){
             console.log('No hay cambios que enviar');
@@ -247,7 +248,7 @@ export const ComanderoProvider = ({children}) => {
 
                 const pedidoOrdenado = ordenarPedidoPorMenuOCategoriaYPorPersona(agregados);
                 if(Object.keys(pedidoOrdenado).length > 0){
-                    const payloadTicket = construirPayloadTicket( pedidoOrdenado, "AGREGADOS" );
+                    const payloadTicket = construirPayloadTicket( pedidoOrdenado, "AGREGADOS", urgente );
                     await enviarTicket(payloadTicket);
                 }
 
@@ -380,12 +381,13 @@ export const ComanderoProvider = ({children}) => {
         }, {}); 
     }
 
-    const construirPayloadTicket = (detalleOrdenado, tipo) => {
+    const construirPayloadTicket = (detalleOrdenado, tipo, urgente) => {
         return {
             tipo, // "AGREGADOS" o "CANCELACION"
             mesa: `${mesaSeleccionada.nombre} - ${areaSeleccionada.nombre}`,
             mesero: usuario.nombre,
             fecha: new Date().toLocaleString(),
+            urgente: urgente,
             detalle: detalleOrdenado
         };
     };
@@ -585,6 +587,8 @@ export const ComanderoProvider = ({children}) => {
 
         modalEnviarACocinaVisible, 
         setModalEnviarACocinaVisible,
+        modalEnviarACocinaUrgenteVisible, 
+        setModalEnviarACocinaUrgenteVisible,
         modalComandaVaciaVisible, 
         setModalComandaVaciaVisible,
 
@@ -609,7 +613,7 @@ export const ComanderoProvider = ({children}) => {
 
         modalDividirComandaVisible,
         setModalDividirComandaVisible
-    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalComandaVaciaVisible, modalMesaUnidaVisible, modalEdiarMesaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, modalAccionesMesaUnionDeMesaVisible, modalAccionesMesaCambioDeMesaVisible, modalVerCuentaVisible, modalCancelarComandaVisible, pedidoACancelarEnviadoACocina, modalDividirComandaVisible])
+    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalEnviarACocinaUrgenteVisible, modalComandaVaciaVisible, modalMesaUnidaVisible, modalEdiarMesaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, modalAccionesMesaUnionDeMesaVisible, modalAccionesMesaCambioDeMesaVisible, modalVerCuentaVisible, modalCancelarComandaVisible, pedidoACancelarEnviadoACocina, modalDividirComandaVisible])
 
     return (
         <ComanderoContext.Provider value={value}>
