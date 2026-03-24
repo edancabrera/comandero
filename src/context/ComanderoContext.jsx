@@ -472,7 +472,7 @@ export const ComanderoProvider = ({children}) => {
             }));
 
             const pedidoOrdenado = ordenarPedidoPorMenuOCategoriaYPorPersona(detalleMapped);
-            const ticketPayload = construirPayloadTicket(pedidoOrdenado, "REIMPRESION");
+            const ticketPayload = construirPayloadTicket(pedidoOrdenado, "REIMPRESION", false);
 
             await enviarTicket(ticketPayload);
             
