@@ -82,6 +82,7 @@ const Comandero = () => {
                 try {
                     await enviarComanda();
                     limpiarEstado();
+                    router.replace("/dashboard/mesas")
                 } catch (error) {
                     console.error("Error al enviar comanda:", error);
                 }
