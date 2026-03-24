@@ -23,7 +23,7 @@ const Comandero = () => {
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, setPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
         setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible, modalSalirDeLaComanda, 
         setModalSalirDeLaComanda, seleccionarPersona, restablecerArregloPersonas, modalEnviarACocinaVisible, setModalEnviarACocinaVisible, modalEnviarACocinaUrgenteVisible, 
-        setModalEnviarACocinaUrgenteVisible, enviarComanda, modalComandaVaciaVisible, setModalComandaVaciaVisible } = useComandero();
+        setModalEnviarACocinaUrgenteVisible, enviarComanda, modalComandaVaciaVisible, setModalComandaVaciaVisible, limpiarEstado } = useComandero();
 
     const router = useRouter();
 
@@ -54,12 +54,8 @@ const Comandero = () => {
             title='¿Estás seguro de salir de la comanda?'
             paragraph='Los datos no guardados se perderan'
             action={() => {
+                limpiarEstado();
                 router.replace("/dashboard/mesas")
-                seleccionarMenu(null);
-                seleccionarCategoria(null);
-                setPedido([]);
-                seleccionarPersona(1);
-                restablecerArregloPersonas();
             }}
             visiblity={modalSalirDeLaComanda}
             setVisiblity={setModalSalirDeLaComanda}
@@ -82,7 +78,14 @@ const Comandero = () => {
         <ModalConfirmarAccion 
             title='¿Enviar Comanda a cocina?'
             paragraph='La Comanda se generará para empezar a cocinarla'
-            action={()=> enviarComanda()}
+            action={async ()=> {
+                try {
+                    await enviarComanda();
+                    limpiarEstado();
+                } catch (error) {
+                    console.error("Error al enviar comanda:", error);
+                }
+            }}
             visiblity={modalEnviarACocinaVisible}
             setVisiblity={setModalEnviarACocinaVisible}
         />

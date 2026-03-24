@@ -192,10 +192,10 @@ export const ComanderoProvider = ({children}) => {
                 const agregados = calcularAgregados();
                 await procesarTickets(agregados, urgente);
             }
-            limpiarEstado();
             
         } catch (error) {
             console.error('Error al sincronizar comanda', error);
+            throw error;
         }
     }
 
@@ -206,7 +206,7 @@ export const ComanderoProvider = ({children}) => {
     }
 
     const eliminarDetalles = async () => {
-        if(!detallesAEliminar.length > 0) return;
+        if(!detallesAEliminar.length) return;
         const idsDetalles = detallesAEliminar.map( d => d.id).filter(Boolean);
         if(!idsDetalles.length) return;
 
@@ -306,8 +306,6 @@ export const ComanderoProvider = ({children}) => {
         restablecerArregloPersonas([1]);
         setDetallesAEliminar([]);
         setPedidoOriginal([]);
-        
-        router.replace("/dashboard/mesas");
     }
     //--- Enviar comanda: FIN ---[
 
@@ -621,6 +619,7 @@ export const ComanderoProvider = ({children}) => {
         abrirComandaMesa,
         reimprimirTicket,
         imprimirCuenta,
+        limpiarEstado,
 
         cancelarComanda,
 
