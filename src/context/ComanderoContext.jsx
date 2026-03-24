@@ -484,50 +484,72 @@ export const ComanderoProvider = ({children}) => {
         }
     };
 
+// --- Imprimir cuenta: INICIO ---
     const imprimirCuenta = async () => {
         try {
-            const urlComanda = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}`);
+            const comanda = await obtenerComanda();
 
-            const responseComanda = await fetch(urlComanda);
-
-            if(!responseComanda.ok) {
-                throw new Error("La mesa no tiene comanda activa")
-            }
-            
-            const detalleComanda = await responseComanda.json();
-
-            const payloadTicketCobro = {
-                mesero: usuario.nombre,
-                mesa: `${mesaSeleccionada.nombre} - ${areaSeleccionada.nombre}`,
-                fecha: new Date().toLocaleString(),
-                detalle: detalleComanda.detalles.map(detalle => ({
-                    nombre: detalle.nombre,
-                    cantidad: detalle.cantidad,
-                    precioUnitario: detalle.precio,
-                    subtotal: detalle.cantidad * detalle.precio,
-                    iva: detalle.iva
-                })),
-                total: detalleComanda.total.toFixed(2)
-            }
-
-            const urlCobro = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}/cobrar`);
-
-            const responseCobro = await fetch(urlCobro, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(payloadTicketCobro)
+            const payload = construirPayloadCobro({
+                comanda, 
+                mesa: mesaSeleccionada, 
+                area: areaSeleccionada, 
+                usuario
             });
 
-            if(!responseCobro.ok) {
-                throw new Error("Error al mandar a cobrar")
-            }
+            await enviarCobro(payload);
+
             setModalOpcionesDeMesaVisible(false);
         } catch (error) {
-            console.error("Error ", error);
+            console.error("Error ", error);  
         }
     }
+
+    const obtenerComanda = async () => {
+        const url = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}`);
+
+        const response = await fetch(url);
+
+        if(!response.ok){
+            throw new Error("La mesa no tiene comanda activa")
+        }
+
+        return await response.json();
+    }
+
+    const construirPayloadCobro = ({ comanda, mesa, area, usuario}) => {
+        if(!comanda?.detalles?.length){
+            throw new Error("Comanda sin detalles");
+        }
+
+        return {
+            mesero: usuario.nombre,
+            mesa: `${mesa.nombre} - ${area.nombre}`,
+            fecha: new Date().toLocaleString(),
+            detalle: comanda.detalles.map(detalle => ({
+                nombre: detalle.nombre,
+                cantidad: detalle.cantidad,
+                precioUnitario: detalle.precio,
+                subtotal: detalle.cantidad * detalle.precio,
+                iva: detalle.iva
+            })),
+            total: comanda.total.toFixed(2)
+        }
+    }
+
+    const enviarCobro = async (payload) => {
+        const url = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}/cobrar`);
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if(!response.ok) {
+            throw new Error("Error al mandar a cobrar")
+        }
+    }
+// --- Imprimir cuenta: FIN ---
 
     //Método a llamar al presionar el botón VER CUENTA en la modal modalOpcionesDeMesa
     const crearCuenta = async () => {
