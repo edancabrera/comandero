@@ -179,100 +179,137 @@ export const ComanderoProvider = ({children}) => {
         setPersonas([1])
     }
 
+    //--- Enviar comanda: INICIO ---
     const enviarComanda = async (urgente = false) => {
-        if(!mesaSeleccionada) return;
-        if(!pedido.length && !detallesAEliminar.length){
-            console.log('No hay cambios que enviar');
-            return
-        }
+        if(!validarEnvio()) return;
 
         try {
-            if(detallesAEliminar.length > 0){
-                const idsDetalles = detallesAEliminar
-                    .map(d => d.id);
-                if(idsDetalles.length > 0){
-                    const urlDelete = await buildApiUrl("/comanda/detalle");
-                    const responseDelete = await fetch(urlDelete, {
-                        method: "DELETE",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify(idsDetalles)
-                    });
+            await eliminarDetalles();
+            
+            const huboEnvio = await enviarDetalles();
 
-                    if(!responseDelete.ok){
-                        throw new Error("Error al eliminar detalles");
-                    }
-                }
+            if(huboEnvio) {
+                const agregados = calcularAgregados();
+                await procesarTickets(agregados, urgente);
             }
-
-            if(pedido.length > 0){
-                const detalles = pedido.map(linea => ({
-                idPlatillo: linea.idPlatillo,
-                cantidad: linea.cantidad,
-                persona: linea.persona,
-                comentarios: linea.comentarios
-            }));
-
-                const payload = {
-                    idMesa: mesaSeleccionada.id,
-                    idMesero: usuario.idu,
-                    detalles
-                }
-                const url = await buildApiUrl("/comanda");
-                const response = await fetch(url, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(payload)
-                });
-                if(!response.ok){
-                    throw new Error ('Error al enviar la comandar');
-                }
-
-                const agregados = []; //arreglo para guardar los objetos detalle nuevos
-                const nuevos = pedido.filter(detalle => !detalle.id); //Si el detalle en el pedido no tiene propiedad id, significa que es un detalle nuevo
-                agregados.push(...nuevos);
-                pedido.forEach(detalle => {
-                    if(!detalle.id) return;
-                    const original = pedidoOriginal.find(d => d.id === detalle.id);
-                    if(!original) return;
-                    const diferencia = detalle.cantidad - original.cantidad; //Calculamos únicamente la diferencia contra el estado original para mostrar a cocina lo que se agregó al modificar el pedido
-
-                    if(diferencia > 0){
-                        agregados.push({
-                            ...detalle,
-                            cantidad: diferencia //Obtenemos sólo la cantidad agregada
-                        });
-                    }
-                });
-
-                const pedidoOrdenado = ordenarPedidoPorMenuOCategoriaYPorPersona(agregados);
-                if(Object.keys(pedidoOrdenado).length > 0){
-                    const payloadTicket = construirPayloadTicket( pedidoOrdenado, "AGREGADOS", urgente );
-                    await enviarTicket(payloadTicket);
-                }
-
-                if (detallesAEliminar.length > 0){
-                    const detallesCanceladosOrdenados = ordenarPedidoPorMenuOCategoriaYPorPersona(detallesAEliminar);
-                    const payloadCancelacion = construirPayloadTicket( detallesCanceladosOrdenados, "CANCELACION" );
-                    await enviarTicket(payloadCancelacion);
-                }
-            }
-
-            seleccionarMesa(null);
-            seleccionarMenu(null);
-            seleccionarCategoria(null);
-            setPedido([]);
-            seleccionarLineaPedido(null);
-            seleccionarPersona(1);
-            restablecerArregloPersonas([1]);
-            setDetallesAEliminar([]);
-            setPedidoOriginal([]);
-            router.replace("/dashboard/mesas");
+            limpiarEstado();
+            
         } catch (error) {
             console.error('Error al sincronizar comanda', error);
         }
     }
+
+    const validarEnvio = () => {
+        if(!mesaSeleccionada) return false;
+        if(!pedido.length && detallesAEliminar.length) return false;
+        return true;
+    }
+
+    const eliminarDetalles = async () => {
+        if(!detallesAEliminar.length > 0) return;
+        const idsDetalles = detallesAEliminar.map( d => d.id).filter(Boolean);
+        if(!idsDetalles.length) return;
+
+        const url = await buildApiUrl("/comanda/detalle");
+
+        const response = await fetch(url, {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(idsDetalles)
+        });
+
+        if(!response.ok) {
+            throw new Error("Error al eliminar detalles");
+        }
+    }
+
+    const enviarDetalles = async () => {
+        if(!pedido.length) return false;
+        const detalles = pedido.map(linea => ({
+            idPlatillo: linea.idPlatillo,
+            cantidad: linea.cantidad,
+            persona: linea.persona,
+            comentarios: linea.comentarios
+        }));
+
+        const payload = {
+            idMesa: mesaSeleccionada.id,
+            idMesero: usuario.idu,
+            detalles
+        }
+
+        const url = await buildApiUrl("/comanda");
+
+        const response = await fetch(url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+        });
+
+        if(!response.ok){
+            throw new Error ('Error al enviar la comandar');
+        }
+
+        return true;
+    }
+
+    const calcularAgregados = () => {
+        const agregados = []; //arreglo para guardar los objetos detalle nuevos
+        const nuevos = pedido.filter(detalle => !detalle.id); //Si el detalle en el pedido no tiene propiedad id, significa que es un detalle nuevo
+        agregados.push(...nuevos);
+        
+        pedido.forEach(detalle => {
+            if(!detalle.id) return;
+            
+            const original = pedidoOriginal.find(d => d.id === detalle.id);
+            if(!original) return;
+
+            const diferencia = detalle.cantidad - original.cantidad; //Calculamos únicamente la diferencia contra el estado original para mostrar a cocina lo que se agregó al modificar el pedido
+
+            if(diferencia > 0){
+                agregados.push({
+                    ...detalle,
+                    cantidad: diferencia //Obtenemos sólo la cantidad agregada
+                });
+            }
+        });
+
+        return agregados;
+    }
+
+    const procesarTickets = async (agregados, urgente) => {
+        if(agregados.length > 0) {
+            const ordenado = ordenarPedidoPorMenuOCategoriaYPorPersona(agregados);
+
+            if(Object.keys(ordenado).length > 0) {
+                const payload = construirPayloadTicket(ordenado, "AGREGADOS", urgente);
+                await enviarTicket(payload);
+            }
+        }
+
+        if(detallesAEliminar.length > 0) {
+            const detallesCanceladosOrdenados = ordenarPedidoPorMenuOCategoriaYPorPersona(detallesAEliminar);
+            
+            const payloadCancelacion = construirPayloadTicket( detallesCanceladosOrdenados, "CANCELACION", urgente );
+            
+            await enviarTicket(payloadCancelacion);
+        }
+    }
+
+    const limpiarEstado = () => {
+        seleccionarMesa(null);
+        seleccionarMenu(null);
+        seleccionarCategoria(null);
+        setPedido([]);
+        seleccionarLineaPedido(null);
+        seleccionarPersona(1);
+        restablecerArregloPersonas([1]);
+        setDetallesAEliminar([]);
+        setPedidoOriginal([]);
+        
+        router.replace("/dashboard/mesas");
+    }
+    //--- Enviar comanda: FIN ---[
 
     const cancelarComanda = async () => {
         if(pedidoACancelarEnviadoACocina){
