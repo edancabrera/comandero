@@ -497,8 +497,6 @@ export const ComanderoProvider = ({children}) => {
             });
 
             await enviarCobro(payload);
-
-            setModalOpcionesDeMesaVisible(false);
         } catch (error) {
             console.error("Error ", error);  
         }

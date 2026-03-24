@@ -31,8 +31,13 @@ const ModalOpcionesDeMesa = () => {
                 <OpcionesDeMesaButton
                     icono={<AntDesign name="printer" size={24} color="black" />}
                     opcion={'IMPRIMIR CUENTA'}
-                    action={() => {
-                        imprimirCuenta();
+                    action={async () => {
+                        try {
+                            await imprimirCuenta();
+                        } catch (error) {
+                            console.error("Error al imprimir cuenta:", error);
+                        }
+                        setModalOpcionesDeMesaVisible(false);
                     }}
                 />
                 <OpcionesDeMesaButton
