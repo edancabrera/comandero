@@ -201,7 +201,7 @@ export const ComanderoProvider = ({children}) => {
 
     const validarEnvio = () => {
         if(!mesaSeleccionada) return false;
-        if(!pedido.length && detallesAEliminar.length) return false;
+        if(!pedido.length && !detallesAEliminar.length) return false;
         return true;
     }
 
@@ -497,6 +497,7 @@ export const ComanderoProvider = ({children}) => {
             await enviarCobro(payload);
         } catch (error) {
             console.error("Error ", error);  
+            throw error;
         }
     }
 
@@ -546,6 +547,18 @@ export const ComanderoProvider = ({children}) => {
         }
     }
 // --- Imprimir cuenta: FIN ---
+
+    const enviarComandaACocinaYCobrarCuenta = async () => {
+        try {
+            await enviarComanda();
+            await imprimirCuenta();
+
+            limpiarEstado();
+        } catch (error) {
+            console.error("Error en flujo de cobrar cuenta:", error);
+        throw error;
+        }
+    }
 
     //Método a llamar al presionar el botón VER CUENTA en la modal modalOpcionesDeMesa
     const crearCuenta = async () => {
