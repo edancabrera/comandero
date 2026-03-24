@@ -33,6 +33,7 @@ export const ComanderoProvider = ({children}) => {
     const [modalComplementosVisible, setModalComplementosVisible] = useState(false); //Estado para controlar la visibilidad de modalComplementos
     const [modalEnviarACocinaVisible, setModalEnviarACocinaVisible] = useState(false);
     const [modalEnviarACocinaUrgenteVisible, setModalEnviarACocinaUrgenteVisible] = useState(false);
+    const [modalEnviarACocinaYCobrar, setModalEnviarACocinaYCobrar] = useState(false);
     const [modalComandaVaciaVisible, setModalComandaVaciaVisible] = useState(false);
 	const [modalMesaUnidaVisible, setModalMesaUnidaVisible] = useState(false);
     const [modalEdiarMesaVisible, setModalEditarMesaVisible] = useState(false);
@@ -552,8 +553,6 @@ export const ComanderoProvider = ({children}) => {
         try {
             await enviarComanda();
             await imprimirCuenta();
-
-            limpiarEstado();
         } catch (error) {
             console.error("Error en flujo de cobrar cuenta:", error);
         throw error;
@@ -633,6 +632,7 @@ export const ComanderoProvider = ({children}) => {
         reimprimirTicket,
         imprimirCuenta,
         limpiarEstado,
+        enviarComandaACocinaYCobrarCuenta,
 
         cancelarComanda,
 
@@ -658,6 +658,8 @@ export const ComanderoProvider = ({children}) => {
         setModalEnviarACocinaVisible,
         modalEnviarACocinaUrgenteVisible, 
         setModalEnviarACocinaUrgenteVisible,
+        modalEnviarACocinaYCobrar, 
+        setModalEnviarACocinaYCobrar,
         modalComandaVaciaVisible, 
         setModalComandaVaciaVisible,
 
@@ -682,7 +684,7 @@ export const ComanderoProvider = ({children}) => {
 
         modalDividirComandaVisible,
         setModalDividirComandaVisible
-    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalEnviarACocinaUrgenteVisible, modalComandaVaciaVisible, modalMesaUnidaVisible, modalEdiarMesaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, modalAccionesMesaUnionDeMesaVisible, modalAccionesMesaCambioDeMesaVisible, modalVerCuentaVisible, modalCancelarComandaVisible, pedidoACancelarEnviadoACocina, modalDividirComandaVisible])
+    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalEnviarACocinaUrgenteVisible, modalEnviarACocinaYCobrar, modalComandaVaciaVisible, modalMesaUnidaVisible, modalEdiarMesaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, modalAccionesMesaUnionDeMesaVisible, modalAccionesMesaCambioDeMesaVisible, modalVerCuentaVisible, modalCancelarComandaVisible, pedidoACancelarEnviadoACocina, modalDividirComandaVisible])
 
     return (
         <ComanderoContext.Provider value={value}>

@@ -23,7 +23,7 @@ const Comandero = () => {
     const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, setPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
         setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible, modalSalirDeLaComanda, 
         setModalSalirDeLaComanda, seleccionarPersona, restablecerArregloPersonas, modalEnviarACocinaVisible, setModalEnviarACocinaVisible, modalEnviarACocinaUrgenteVisible, 
-        setModalEnviarACocinaUrgenteVisible, enviarComanda, modalComandaVaciaVisible, setModalComandaVaciaVisible, limpiarEstado } = useComandero();
+        setModalEnviarACocinaUrgenteVisible, enviarComanda, modalComandaVaciaVisible, setModalComandaVaciaVisible, limpiarEstado, enviarComandaACocinaYCobrarCuenta, modalEnviarACocinaYCobrar, setModalEnviarACocinaYCobrar } = useComandero();
 
     const router = useRouter();
 
@@ -103,6 +103,21 @@ const Comandero = () => {
             visiblity={modalComandaVaciaVisible}
             setVisiblity={setModalComandaVaciaVisible}
             infoOnlyModal = {true}
+        />
+        <ModalConfirmarAccion 
+            title='¿Mandar a cobrar cuenta?'
+            paragraph='Se enviarán los platillos restantes a la cocina y se enviará a cobrar la cuenta'
+            action={async ()=> {
+                try {
+                    await enviarComandaACocinaYCobrarCuenta();
+                    limpiarEstado();
+                    router.replace("/dashboard/mesas")
+                } catch (error) {
+                    console.error("Error al cobrar cuenta:", error);
+                }
+            } }
+            visiblity={modalEnviarACocinaYCobrar}
+            setVisiblity={setModalEnviarACocinaYCobrar}
         />
         <ModalCancelarComanda />
         
