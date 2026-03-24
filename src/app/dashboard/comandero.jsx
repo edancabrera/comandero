@@ -93,7 +93,15 @@ const Comandero = () => {
         <ModalConfirmarAccion 
             title='¿Enviar Comanda a cocina?'
             paragraph='La Comanda se generará para empezar a cocinarla'
-            action={()=> enviarComanda(true)}
+            action={async ()=> {
+                try {
+                    await enviarComanda(true);
+                    limpiarEstado();
+                    router.replace("/dashboard/mesas")
+                } catch (error) {
+                    console.error("Error al enviar comanda:", error);
+                }
+            }}
             visiblity={modalEnviarACocinaUrgenteVisible}
             setVisiblity={setModalEnviarACocinaUrgenteVisible}
         />
