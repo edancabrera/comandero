@@ -28,7 +28,7 @@ const initialModals = Object.values(MODALS).reduce((acc, key) => {
 const UIContext = createContext(null);
 
 export const UIProvider = ({ children }) => {
-    const [modals, setModals] = useState({initialModals});
+    const [modals, setModals] = useState(initialModals);
 
     const openModal = useCallback((name) => {
         setModals(prev => ({ ...prev, [name]: true }));
