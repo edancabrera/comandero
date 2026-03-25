@@ -1,10 +1,13 @@
 import { Slot } from "expo-router";
 import { ComanderoProvider } from "../context/ComanderoContext";
+import { UIProvider } from "../context/UIContext";
 
 export default function RootLayout () {
     return (
-        <ComanderoProvider>
-            <Slot />
-        </ComanderoProvider>
+        <UIProvider>
+            <ComanderoProvider>
+                <Slot />
+            </ComanderoProvider>
+        </UIProvider>
     )
 }
