@@ -6,8 +6,8 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { useComandero } from '../context/ComanderoContext';
 
 const ModalAccionesMesa = ({
-    visibility, 
-    setVisibility,
+    visible, 
+    onClose,
     title,
     description, 
     mesaPrincipal, 
@@ -21,7 +21,7 @@ const ModalAccionesMesa = ({
     const [mesaDestino, setMesaDestino] = useState(null);
 
     useEffect( () => {
-        if(!visibility || !mesaSeleccionada) return;
+        if(!visible || !mesaSeleccionada) return;
         
         const obtenerMesas = async () => {
             let url = "";
@@ -38,7 +38,7 @@ const ModalAccionesMesa = ({
         };
 
         obtenerMesas();
-    }, [visibility, mesaSeleccionada]);
+    }, [visible, mesaSeleccionada]);
 
     const toggleMesa = (mesa) => {
         setMesasSeleccionadas(prev => 
@@ -52,7 +52,7 @@ const ModalAccionesMesa = ({
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={visibility}
+        visible={visible}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -138,7 +138,7 @@ const ModalAccionesMesa = ({
                             }
                         }
 
-                        setVisibility(false);
+                        onClose();
                         seleccionarMesa(null);
                     }}
                 >
@@ -148,7 +148,7 @@ const ModalAccionesMesa = ({
                 <Pressable
                     style = {styles.button}
                     onPress={() => {
-                        setVisibility(false)
+                        onClose();
                         setMesasSeleccionadas([]);
                         setMesaDestino(null);
                     }}

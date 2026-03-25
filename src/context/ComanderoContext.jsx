@@ -23,24 +23,6 @@ export const ComanderoProvider = ({children}) => {
     const [descripcionMesa, setDescripcionMesa] = useState("");
 
     const [pedidoACancelarEnviadoACocina, setPedidoACancelarEnviadoACocina] = useState(false);
-
-    const [modalBorrarPedidoVisible, setModalBorrarPedidoVisible] = useState(false);//Estado para controlar la visibilidad de la modal para confirmar el borrar un pedido en pedido.jsx (Confirma o aborta el borrado de todos los platillos de la tabla del pedido)
-    const [modalQuitarPlatilloVisible, setModalQuitarPlatilloVisible] = useState(false);//Estado para controlar la visibilidad de la modal para confirmar el quitar un platillo seleccionado de la tabla del pedido
-    const [modalSalirDeLaComanda, setModalSalirDeLaComanda] = useState(false);
-    const [modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible] = useState(false);
-    const [modalComplementosVisible, setModalComplementosVisible] = useState(false); //Estado para controlar la visibilidad de modalComplementos
-    const [modalEnviarACocinaVisible, setModalEnviarACocinaVisible] = useState(false);
-    const [modalEnviarACocinaUrgenteVisible, setModalEnviarACocinaUrgenteVisible] = useState(false);
-    const [modalEnviarACocinaYCobrar, setModalEnviarACocinaYCobrar] = useState(false);
-    const [modalComandaVaciaVisible, setModalComandaVaciaVisible] = useState(false);
-	const [modalMesaUnidaVisible, setModalMesaUnidaVisible] = useState(false);
-    const [modalEdiarMesaVisible, setModalEditarMesaVisible] = useState(false);
-    const [modalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaDesunionDeMesasVisible] = useState(false);
-    const [modalAccionesMesaUnionDeMesaVisible, setModalAccionesMesaUnionDeMesaVisible] = useState(false);
-    const [modalAccionesMesaCambioDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible] = useState(false);
-    const [modalVerCuentaVisible, setModalVerCuentaVisible] = useState(false);
-    const [modalCancelarComandaVisible, setModalCancelarComandaVisible] = useState(false);
-    const [modalDividirComandaVisible, setModalDividirComandaVisible] = useState(false);
     
 
     //Funciones para manipular el estado
@@ -468,7 +450,6 @@ export const ComanderoProvider = ({children}) => {
             await enviarTicket(ticketPayload);
             
             seleccionarMesa(null);
-            setModalOpcionesDeMesaVisible(false);
         } catch (error) {
             console.error("Error en la reimpresión: ", error);
         }
@@ -632,50 +613,9 @@ export const ComanderoProvider = ({children}) => {
         descripcionMesa, 
         setDescripcionMesa,
 
-        modalBorrarPedidoVisible,
-        setModalBorrarPedidoVisible,
-        modalQuitarPlatilloVisible,
-        setModalQuitarPlatilloVisible,
-        modalSalirDeLaComanda, 
-        setModalSalirDeLaComanda,
-
-        modalOpcionesDeMesaVisible, 
-        setModalOpcionesDeMesaVisible,
-
-        modalComplementosVisible, 
-        setModalComplementosVisible,
-
-        modalEnviarACocinaVisible, 
-        setModalEnviarACocinaVisible,
-        modalEnviarACocinaUrgenteVisible, 
-        setModalEnviarACocinaUrgenteVisible,
-        modalEnviarACocinaYCobrar, 
-        setModalEnviarACocinaYCobrar,
-        modalComandaVaciaVisible, 
-        setModalComandaVaciaVisible,
-
-        modalMesaUnidaVisible, 
-		setModalMesaUnidaVisible,
-
-        modalEdiarMesaVisible, 
-        setModalEditarMesaVisible,
-
-        modalAccionesMesaDesunionDeMesasVisible, 
-        setModalAccionesMesaDesunionDeMesasVisible,
-        modalAccionesMesaUnionDeMesaVisible, 
-        setModalAccionesMesaUnionDeMesaVisible,
-        modalAccionesMesaCambioDeMesaVisible,
-        setModalAccionesMesaCambioDeMesaVisible,
-
-        modalVerCuentaVisible, 
-        setModalVerCuentaVisible,
-
-        modalCancelarComandaVisible, setModalCancelarComandaVisible,
-        pedidoACancelarEnviadoACocina, setPedidoACancelarEnviadoACocina,
-
-        modalDividirComandaVisible,
-        setModalDividirComandaVisible
-    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, modalBorrarPedidoVisible, modalQuitarPlatilloVisible, modalSalirDeLaComanda,modalOpcionesDeMesaVisible, personas, personaActiva, modalComplementosVisible, modalEnviarACocinaVisible, modalEnviarACocinaUrgenteVisible, modalEnviarACocinaYCobrar, modalComandaVaciaVisible, modalMesaUnidaVisible, modalEdiarMesaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, modalAccionesMesaUnionDeMesaVisible, modalAccionesMesaCambioDeMesaVisible, modalVerCuentaVisible, modalCancelarComandaVisible, pedidoACancelarEnviadoACocina, modalDividirComandaVisible])
+        pedidoACancelarEnviadoACocina, setPedidoACancelarEnviadoACocina
+        
+    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, personas, personaActiva, descripcionMesa, pedidoACancelarEnviadoACocina])
 
     return (
         <ComanderoContext.Provider value={value}>

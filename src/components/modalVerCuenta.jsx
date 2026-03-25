@@ -1,14 +1,17 @@
-import { StyleSheet, Text, View, Modal, Pressable, ScrollView } from 'react-native'
-import { useComandero } from '../context/ComanderoContext'
+import { StyleSheet, Text, View, Modal, Pressable, ScrollView } from 'react-native';
+import { useComandero } from '../context/ComanderoContext';
+import { useUI, MODALS } from '../context/UIContext';
 import { useEffect, useState } from 'react';
 
 const ModalVerCuenta = () => {
-    const {modalVerCuentaVisible, setModalVerCuentaVisible, mesaSeleccionada, crearCuenta} = useComandero();
+    const { mesaSeleccionada, crearCuenta } = useComandero();
+
+    const { modals, closeModal } = useUI();
 
     const [cuentaTexto, setCuentaTexto] = useState("");
 
     useEffect( ()=>{
-        if (!modalVerCuentaVisible || !mesaSeleccionada) return;
+        if (!modals[MODALS.VER_CUENTA] || !mesaSeleccionada) return;
         const cargarCuenta = async () => {
             const cuenta = await crearCuenta();
             if (cuenta) {
@@ -16,12 +19,12 @@ const ModalVerCuenta = () => {
         }
     };
     cargarCuenta();
-    },[modalVerCuentaVisible, mesaSeleccionada])
+    },[modals[MODALS.VER_CUENTA], mesaSeleccionada])
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={modalVerCuentaVisible}
+        visible={modals[MODALS.VER_CUENTA]}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -37,7 +40,7 @@ const ModalVerCuenta = () => {
             <Pressable
               style={styles.button}
               onPress={() => {
-                setModalVerCuentaVisible(false);
+                closeModal(MODALS.VER_CUENTA);
                 setCuentaTexto("");
             }}
             >

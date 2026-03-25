@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react'
 import { useComandero } from '../../../context/ComanderoContext'
+import { useUI, MODALS } from '../../../context/UIContext'
 import { Modal, StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import { Checkbox } from 'expo-checkbox'
 import { buildApiUrl } from '../../../utils/apiConfig'
 
 const ModalComplementos = () => {
-    const {modalComplementosVisible, setModalComplementosVisible, pedido, lineaPedidoSeleccionadaId, agregarComentarioLinea} = useComandero();
+    const { pedido, lineaPedidoSeleccionadaId, agregarComentarioLinea} = useComandero();
+    const { modals, closeModal } = useUI();
     const [complementos, setComplementos] = useState([]);
     const [comentario, setComentario] = useState("");
     const [seleccionados, setSeleccionados] = useState([]);
@@ -46,7 +48,7 @@ const ModalComplementos = () => {
     }, [lineaPedidoSeleccionadaId]);
 
     useEffect(() => {
-        if (!modalComplementosVisible || !lineaPedidoSeleccionadaId) return;
+        if (!modals[MODALS.COMPLEMENTOS] || !lineaPedidoSeleccionadaId) return;
         
         const linea = pedido.find(
             platillo => platillo.idLinea === lineaPedidoSeleccionadaId
@@ -66,13 +68,13 @@ const ModalComplementos = () => {
         setSeleccionados(comentariosArray);
         setComentario(comentariosArray.join(', '));
 
-    }, [modalComplementosVisible, lineaPedidoSeleccionadaId]);
+    }, [modals[MODALS.COMPLEMENTOS], lineaPedidoSeleccionadaId]);
 
   return (
     <Modal
         animationType='slide'
         transparent={true}
-        visible={modalComplementosVisible}
+        visible={ modals[MODALS.COMPLEMENTOS] }
     >
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -96,9 +98,9 @@ const ModalComplementos = () => {
                 <Pressable
                     onPress={()=>{
                         agregarComentarioLinea(comentario);
-                        setModalComplementosVisible(false);
-                        setSeleccionados([]);
                         setComentario("");
+                        setSeleccionados([]);
+                        closeModal(MODALS.COMPLEMENTOS);
                     }}
                     style={styles.button}
                 >

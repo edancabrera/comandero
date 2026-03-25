@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import { useComandero } from "../context/ComanderoContext";
+import { useUI, MODALS } from "../context/UIContext";
 import { useEffect, useState } from "react";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { buildApiUrl } from "../utils/apiConfig";
@@ -14,12 +15,12 @@ import ModalAccionesDividirComanda from "./modalAccionesDividirComanda";
 
 const ModalDividirComanda = () => {
   const { 
-    modalDividirComandaVisible, 
-    setModalDividirComandaVisible,
     mesaSeleccionada, areaSeleccionada,
     obtenerComandaMesa,
     usuario
   } = useComandero();
+
+  const { modals, closeModal } = useUI();
 
   const [pedido, setPedido] = useState([]);
   const [nuevoPedido, setNuevoPedido] = useState([]);
@@ -34,18 +35,18 @@ const ModalDividirComanda = () => {
   const [modalCuentasGuardadasExitosamente, setModalCuentasGuardadasExitosamente] = useState(false);
 
   useEffect( () => {
-    if(mesaSeleccionada && modalDividirComandaVisible) {
+    if(mesaSeleccionada && modals[MODALS.DIVIDIR_COMANDA]) {
       cargarComanda();
     };
-  }, [modalDividirComandaVisible]);
+  }, [modals[MODALS.DIVIDIR_COMANDA]]);
 
   useEffect(() => {
-    if(!modalDividirComandaVisible){
+    if(!modals[MODALS.DIVIDIR_COMANDA]){
       setPedido([]);
       setComandaActualLineaSeleccionada(null);
       setNuevoPedido([]);
     }
-  }, [modalDividirComandaVisible])
+  }, [modals[MODALS.DIVIDIR_COMANDA]])
 
   const cargarComanda = async () => {
     setPedido(await obtenerComandaMesa());
@@ -260,13 +261,13 @@ const ModalDividirComanda = () => {
     <Modal
       animationType="slide"
       transparent={true}
-      visible={modalDividirComandaVisible}
+      visible={modals[MODALS.DIVIDIR_COMANDA]}
       //onRequestClose={() => setModalDividirComandaVisible(false)}
     >
       <ModalAccionesDividirComanda 
         title="Advertencia"
         paragraph="Se perderán todas las modificaciones, ¿Aún así desea cancelar?"
-        action={() => setModalDividirComandaVisible(false)}
+        action={() => closeModal(MODALS.DIVIDIR_COMANDA)}
         visiblity={modalCancelar}
         setVisiblity={setModalCancelar}
         alert = {true}
@@ -323,7 +324,7 @@ const ModalDividirComanda = () => {
       <ModalAccionesDividirComanda 
         title={"Cuenta dividida"}
         paragraph={"Cuenta separada correctamente"}
-        action={() => setModalDividirComandaVisible(false)}
+        action={() => closeModal(MODALS.DIVIDIR_COMANDA)}
         visiblity={modalCuentasGuardadasExitosamente}
         setVisiblity={setModalCuentasGuardadasExitosamente}
         infoOnlyModal={true}

@@ -1,4 +1,5 @@
 import { useComandero } from '../../context/ComanderoContext';
+import { useUI, MODALS } from '../../context/UIContext';
 
 import { StyleSheet, Text, View, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -14,16 +15,22 @@ import Pedido from '../../components/comanderoComponents/rightColumnComponents/p
 import FinalizarComanda from '../../components/comanderoComponents/rightColumnComponents/finalizarComanda';
 
 import ModalConfirmarAccion from '../../components/comanderoComponents/rightColumnComponents/modalConfirmarAccion';
-
 import ModalComplementos from '../../components/comanderoComponents/rightColumnComponents/modalComplementos';
-
 import ModalCancelarComanda from '../../components/comanderoComponents/rightColumnComponents/modalCancelarComanda';
 
 const Comandero = () => {
-    const {areaSeleccionada, mesaSeleccionada, menuSeleccionado, seleccionarMenu, seleccionarCategoria, borrarPedido, setPedido, eliminarLineaPedidoSeleccionada, modalQuitarPlatilloVisible,
-        setModalQuitarPlatilloVisible, modalBorrarPedidoVisible, setModalBorrarPedidoVisible, modalSalirDeLaComanda, 
-        setModalSalirDeLaComanda, seleccionarPersona, restablecerArregloPersonas, modalEnviarACocinaVisible, setModalEnviarACocinaVisible, modalEnviarACocinaUrgenteVisible, 
-        setModalEnviarACocinaUrgenteVisible, enviarComanda, modalComandaVaciaVisible, setModalComandaVaciaVisible, limpiarEstado, enviarComandaACocinaYCobrarCuenta, modalEnviarACocinaYCobrar, setModalEnviarACocinaYCobrar } = useComandero();
+    const {
+        areaSeleccionada,
+        mesaSeleccionada,
+        menuSeleccionado,
+        borrarPedido,
+        eliminarLineaPedidoSeleccionada,
+        limpiarEstado,
+        enviarComanda,
+        enviarComandaACocinaYCobrarCuenta
+    } = useComandero();
+    
+    const { modals, openModal, closeModal } = useUI();
 
     const router = useRouter();
 
@@ -33,7 +40,7 @@ const Comandero = () => {
         options={{
             headerRight: ()=>(
                 <Pressable
-                    onPress={() =>{ setModalSalirDeLaComanda(true);}}
+                    onPress={() =>{ openModal(MODALS.SALIR_COMANDA) }}
                     style={{ marginRight: 60 }}
                 >
                     <Ionicons
@@ -53,32 +60,32 @@ const Comandero = () => {
         <ModalConfirmarAccion 
             title='¿Estás seguro de salir de la comanda?'
             paragraph='Los datos no guardados se perderan'
-            action={() => {
+            onConfirm={() => {
                 limpiarEstado();
                 router.replace("/dashboard/mesas")
             }}
-            visiblity={modalSalirDeLaComanda}
-            setVisiblity={setModalSalirDeLaComanda}
+            visible={ modals[MODALS.SALIR_COMANDA] }
+            onClose={ () => closeModal(MODALS.SALIR_COMANDA) }
         />
         <ModalConfirmarAccion
             title='¿Desea borrar todos los platillos?'
             paragraph='La tabla del pedido quedará vacía'
-            action={()=> borrarPedido()}
-            visiblity={modalBorrarPedidoVisible}
-            setVisiblity={setModalBorrarPedidoVisible}
+            onConfirm={()=> borrarPedido()}
+            visible={ modals[MODALS.BORRAR_PEDIDO] }
+            onClose={ () => closeModal(MODALS.BORRAR_PEDIDO) }
         />
         <ModalConfirmarAccion
             title='¿Desea quitar el platillo?'
             paragraph='Solo se eliminará el platillo seleccionado'
-            action={()=> eliminarLineaPedidoSeleccionada()}
-            visiblity={modalQuitarPlatilloVisible}
-            setVisiblity={setModalQuitarPlatilloVisible}
+            onConfirm={()=> eliminarLineaPedidoSeleccionada()}
+            visible={ modals[MODALS.QUITAR_PLATILLO] }
+            onClose={ () => closeModal(MODALS.QUITAR_PLATILLO) }
         />
         <ModalComplementos />
         <ModalConfirmarAccion 
             title='¿Enviar Comanda a cocina?'
             paragraph='La Comanda se generará para empezar a cocinarla'
-            action={async ()=> {
+            onConfirm={async ()=> {
                 try {
                     await enviarComanda();
                     limpiarEstado();
@@ -87,13 +94,13 @@ const Comandero = () => {
                     console.error("Error al enviar comanda:", error);
                 }
             }}
-            visiblity={modalEnviarACocinaVisible}
-            setVisiblity={setModalEnviarACocinaVisible}
+            visible={ modals[MODALS.ENVIAR_COCINA] }
+            onClose={ () => closeModal(MODALS.ENVIAR_COCINA) }
         />
         <ModalConfirmarAccion 
             title='¿Enviar Comanda a cocina?'
             paragraph='La Comanda se generará para empezar a cocinarla'
-            action={async ()=> {
+            onConfirm={async ()=> {
                 try {
                     await enviarComanda(true);
                     limpiarEstado();
@@ -102,20 +109,20 @@ const Comandero = () => {
                     console.error("Error al enviar comanda:", error);
                 }
             }}
-            visiblity={modalEnviarACocinaUrgenteVisible}
-            setVisiblity={setModalEnviarACocinaUrgenteVisible}
+            visible={ modals[MODALS.ENVIAR_URGENTE] }
+            onClose={ () => closeModal(MODALS.ENVIAR_URGENTE) }
         />
         <ModalConfirmarAccion 
             title='Comanda vacía'
             paragraph='Comanda vacia, agrega platillo/bebida para enviar a cocina'
-            visiblity={modalComandaVaciaVisible}
-            setVisiblity={setModalComandaVaciaVisible}
+            visible={ modals[MODALS.COMANDA_VACIA] }
+            onClose={ () => closeModal(MODALS.COMANDA_VACIA) }
             infoOnlyModal = {true}
         />
         <ModalConfirmarAccion 
             title='¿Mandar a cobrar cuenta?'
             paragraph='Se enviarán los platillos restantes a la cocina y se enviará a cobrar la cuenta'
-            action={async ()=> {
+            onConfirm={async ()=> {
                 try {
                     await enviarComandaACocinaYCobrarCuenta();
                     limpiarEstado();
@@ -124,8 +131,8 @@ const Comandero = () => {
                     console.error("Error al cobrar cuenta:", error);
                 }
             } }
-            visiblity={modalEnviarACocinaYCobrar}
-            setVisiblity={setModalEnviarACocinaYCobrar}
+            visible={ modals[MODALS.ENVIAR_Y_COBRAR] }
+            onClose={ () => closeModal(MODALS.ENVIAR_Y_COBRAR) }
         />
         <ModalCancelarComanda />
         

@@ -1,5 +1,6 @@
 import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
 import { useComandero } from "../context/ComanderoContext";
+import { useUI, MODALS } from "../context/UIContext";
 import { useRouter } from 'expo-router';
 
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -10,19 +11,21 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const ModalOpcionesDeMesa = () => {
-   const {modalOpcionesDeMesaVisible, setModalOpcionesDeMesaVisible, abrirComandaMesa, setModalEditarMesaVisible, setModalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaUnionDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible, setModalVerCuentaVisible, reimprimirTicket, imprimirCuenta, setModalDividirComandaVisible} = useComandero();
+   const { abrirComandaMesa, reimprimirTicket, imprimirCuenta } = useComandero();
+
+   const { modals, openModal, closeModal } = useUI();
 
    const router = useRouter();
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={modalOpcionesDeMesaVisible}
+        visible={modals[MODALS.OPCIONES_MESA]}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
             <Pressable 
-                onPress={()=>setModalOpcionesDeMesaVisible(false)}
+                onPress={()=> closeModal(MODALS.OPCIONES_MESA) }
                 style={{ position: 'absolute', top: 5, right: 10}}
             >
                 <Ionicons name="close" size={36} color="red" />
@@ -37,15 +40,15 @@ const ModalOpcionesDeMesa = () => {
                         } catch (error) {
                             console.error("Error al imprimir cuenta:", error);
                         }
-                        setModalOpcionesDeMesaVisible(false);
+                        closeModal(MODALS.OPCIONES_MESA);
                     }}
                 />
                 <OpcionesDeMesaButton
                     icono={<MaterialIcons name="account-balance-wallet" size={24} color="black" />}
                     opcion={'VER CUENTA'}
                     action={async () => {
-                        setModalOpcionesDeMesaVisible(false);
-                        setModalVerCuentaVisible(true);
+                        closeModal(MODALS.OPCIONES_MESA);
+                        openModal(MODALS.VER_CUENTA);
                     }}
                 />
                 <OpcionesDeMesaButton
@@ -54,31 +57,31 @@ const ModalOpcionesDeMesa = () => {
                     action={async () =>{
                         await abrirComandaMesa();
                         router.replace("/dashboard/comandero");
-                        setModalOpcionesDeMesaVisible(false);
+                        closeModal(MODALS.OPCIONES_MESA);
                     }}
                 />
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}
                     opcion={'UNIR MESAS'}
                     action={() => {
-                        setModalAccionesMesaUnionDeMesaVisible(true); 
-                        setModalOpcionesDeMesaVisible(false);
+                        closeModal(MODALS.OPCIONES_MESA);
+                        openModal(MODALS.UNION_MESAS);
                     }}
                 />
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}
                     opcion={'CAMBIAR DE MESA'}
                     action={()=> {
-                        setModalAccionesMesaCambioDeMesaVisible(true);
-                        setModalOpcionesDeMesaVisible(false);
+                        closeModal(MODALS.OPCIONES_MESA);
+                        openModal(MODALS.CAMBIO_MESA);
                     }}
                 />
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}
                     opcion={'DESUNIR MESA'}
                     action={() => {
-                        setModalAccionesMesaDesunionDeMesasVisible(true); 
-                        setModalOpcionesDeMesaVisible(false);
+                        closeModal(MODALS.OPCIONES_MESA);
+                        openModal(MODALS.DESUNION_MESAS);
                     }}
                 />
                 <OpcionesDeMesaButton
@@ -86,22 +89,23 @@ const ModalOpcionesDeMesa = () => {
                     opcion={'REIMPRIMIR PEDIDO'}
                     action={() => {
                         reimprimirTicket();
+                        closeModal(MODALS.OPCIONES_MESA);
                     }}
                 />
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="pencil-box-multiple-outline" size={24} color="black" />}
                     opcion={'DIVIDIR COMANDA'}
                     action={() => {
-                        setModalOpcionesDeMesaVisible(false);
-                        setModalDividirComandaVisible(true)
+                        closeModal(MODALS.OPCIONES_MESA);
+                        openModal(MODALS.DIVIDIR_COMANDA);
                     }}
                 />
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="pencil-box-multiple" size={24} color="black" />}
                     opcion={'EDITAR MESA'}
                     action={()=>{
-                        setModalOpcionesDeMesaVisible(false);
-                        setModalEditarMesaVisible(true);
+                        closeModal(MODALS.OPCIONES_MESA);
+                        openModal(MODALS.EDITAR_MESA);
                     }}
                 />
             </View>

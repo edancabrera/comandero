@@ -1,20 +1,23 @@
 import { useComandero } from '../../../context/ComanderoContext'
+import { useUI, MODALS } from '../../../context/UIContext';
 import { StyleSheet, Text, View, Modal, Pressable } from 'react-native'
 import { useRouter } from 'expo-router';
 
 const ModalCancelarComanda = () => {
     const {
-      modalCancelarComandaVisible, setModalCancelarComandaVisible, pedidoACancelarEnviadoACocina, 
-      cancelarComanda, 
+      pedidoACancelarEnviadoACocina, 
+      cancelarComanda,
       limpiarEstado
     } = useComandero();
+
+    const { modals, closeModal } = useUI();
 
     const router = useRouter();
   return (
     <Modal 
             animationType="slide"
             transparent={true} 
-            visible={modalCancelarComandaVisible}
+            visible={ modals[MODALS.CANCELAR_COMANDA]}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -24,7 +27,7 @@ const ModalCancelarComanda = () => {
                 {pedidoACancelarEnviadoACocina &&
                     <Pressable
                         style={[styles.button, styles.buttonNo]}
-                        onPress={()=>{setModalCancelarComandaVisible(false)}}
+                        onPress={()=>{closeModal(MODALS.CANCELAR_COMANDA)}}
                     >
                         <Text style={styles.buttonText}>NO</Text>
                     </Pressable>
@@ -36,7 +39,7 @@ const ModalCancelarComanda = () => {
                         await cancelarComanda();
                         limpiarEstado();
                         router.replace("/dashboard/mesas");
-                        setModalCancelarComandaVisible(false);
+                        closeModal(MODALS.CANCELAR_COMANDA);
                       } catch (error) {
                         console.error('Error', error)
                       }

@@ -1,15 +1,19 @@
 import { StyleSheet, Text, View, TextInput, Modal, Pressable } from 'react-native'
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { useComandero } from '../context/ComanderoContext';
+import { useUI, MODALS } from '../context/UIContext';
 import { buildApiUrl } from '../utils/apiConfig';
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const ModalEditarMesa = () => {
-    const {modalEdiarMesaVisible, setModalEditarMesaVisible, mesaSeleccionada, descripcionMesa, setDescripcionMesa } = useComandero();
+    const { mesaSeleccionada, descripcionMesa, setDescripcionMesa } = useComandero();
+
+    const { modals, openModal, closeModal } = useUI();
+
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={modalEdiarMesaVisible}
+        visible={modals[MODALS.EDITAR_MESA]}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -23,14 +27,14 @@ const ModalEditarMesa = () => {
             <View style={{flexDirection: 'row'}}>
                 <Pressable 
                     style={[styles.button, {backgroundColor: 'red'}]}
-                    onPress={() => setModalEditarMesaVisible(false)}
+                    onPress={() => closeModal(MODALS.EDITAR_MESA)}
                 >
                     <Text style={{color: '#fff', fontWeight: 'bold'}}>Cancelar</Text>
                 </Pressable>
                 <Pressable 
                     style={[styles.button, {backgroundColor: 'green'}]}
                     onPress={async () => {
-                        if(!descripcionMesa){setModalEditarMesaVisible(false); return}
+                        if(!descripcionMesa){closeModal(MODALS.EDITAR_MESA); return}
                         
                         try {
                             const url = await buildApiUrl(`/mesas/${mesaSeleccionada.id}/descripcion`);
@@ -48,7 +52,7 @@ const ModalEditarMesa = () => {
                         } catch (error) {
                             console.error('Error al añadir la descripción', error);
                         }
-                        setModalEditarMesaVisible(false);
+                        closeModal(MODALS.EDITAR_MESA);
                     }}
                 >
                     <Text style={{color: '#fff', fontWeight: 'bold'}}>Aceptar</Text>

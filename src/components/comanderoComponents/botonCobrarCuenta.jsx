@@ -1,9 +1,11 @@
 import { StyleSheet, Text, Pressable } from 'react-native'
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { useComandero } from '../../context/ComanderoContext';
+import { useUI, MODALS } from '../../context/UIContext';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const BotonCobrarCuenta = () => {
-    const { setModalComandaVaciaVisible, setModalEnviarACocinaYCobrar, pedido } = useComandero();
+    const { pedido } = useComandero();
+    const { openModal } = useUI();
   return (
     <Pressable 
         style={({ pressed }) => [
@@ -11,7 +13,7 @@ const BotonCobrarCuenta = () => {
             pressed && styles.buttonPressed
         ]}
 
-         onPress={() => { !pedido.length ? setModalComandaVaciaVisible(true) : setModalEnviarACocinaYCobrar(true) }}
+         onPress={() => { !pedido.length ? openModal(MODALS.COMANDA_VACIA) : openModal(MODALS.ENVIAR_Y_COBRAR) }}
     >
         <MaterialCommunityIcons name="cash-edit" size={24} color="green" />
         <Text style = {styles.buttonText}>Cobrar cuenta</Text>

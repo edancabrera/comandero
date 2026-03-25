@@ -1,15 +1,17 @@
-import { useComandero } from "../context/ComanderoContext";
+import { useUI, MODALS } from "../context/UIContext";
 import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 
 const ModalMesaUnida = ({mesa}) => {
-    const { modalMesaUnidaVisible, setModalMesaUnidaVisible } = useComandero();
+
+    const { modals, toggleModal } = useUI();
+
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={modalMesaUnidaVisible}
+        visible={ modals[MODALS.MESA_UNIDA] }
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -24,7 +26,7 @@ const ModalMesaUnida = ({mesa}) => {
           <View style={{ flexDirection: "row" }}>
             <Pressable
               style={styles.button}
-              onPress={() => setModalMesaUnidaVisible(!modalMesaUnidaVisible)}
+              onPress={ () => toggleModal(MODALS.MESA_UNIDA) }
             >
               <Text style={styles.buttonText}>OK</Text>
             </Pressable>

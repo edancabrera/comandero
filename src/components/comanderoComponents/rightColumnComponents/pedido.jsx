@@ -1,14 +1,27 @@
 import { useState, useEffect } from "react";
+import { useComandero } from "../../../context/ComanderoContext";
+import { useUI, MODALS } from "../../../context/UIContext";
 import { StyleSheet, Text, View, ScrollView, Pressable, TextInput } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { useComandero } from "../../../context/ComanderoContext";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Feather from "@expo/vector-icons/Feather";
 
 const Pedido = () => {
-  const { pedido, setModalBorrarPedidoVisible, setModalQuitarPlatilloVisible ,lineaPedidoSeleccionadaId, seleccionarLineaPedido, agregarComentarioLinea, borrarComentarioLinea, personas, personaActiva, agregarPersona, seleccionarPersona, setModalComplementosVisible } = useComandero();
+  const { 
+    pedido, 
+    lineaPedidoSeleccionadaId, 
+    seleccionarLineaPedido, 
+    agregarComentarioLinea, 
+    borrarComentarioLinea, 
+    personas, 
+    personaActiva, 
+    agregarPersona, 
+    seleccionarPersona
+  } = useComandero();
+
+  const { openModal } = useUI();
 
   const [comentario, setComentario] = useState("");
 
@@ -63,7 +76,7 @@ const Pedido = () => {
         <View style={{ flexDirection: "row", justifyContent: 'space-around', marginVertical: 5 }}>
           <Pressable onPress={()=> {
             if(pedido.length <= 0) return;
-            setModalBorrarPedidoVisible(true)
+            openModal(MODALS.BORRAR_PEDIDO);
             }}
           >
             {({ pressed }) => (
@@ -75,7 +88,7 @@ const Pedido = () => {
             )}
           </Pressable>
           <Pressable
-            onPress={()=>{setModalComplementosVisible(true)}}
+            onPress={() => openModal(MODALS.COMPLEMENTOS) }
           >
             {({ pressed }) => (
               <MaterialCommunityIcons
@@ -125,7 +138,7 @@ const Pedido = () => {
           </View>
           <Pressable onPress={()=> {
             if(!lineaPedidoSeleccionadaId)return;
-            setModalQuitarPlatilloVisible(true)
+            openModal(MODALS.QUITAR_PLATILLO);
           }}
           >
             {({ pressed }) => (

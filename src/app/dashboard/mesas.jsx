@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useComandero } from '../../context/ComanderoContext';
+import { useUI, MODALS } from '../../context/UIContext';
 
 import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -22,7 +23,16 @@ const Mesas = () => {
 
   const router = useRouter();
 
-  const { areaSeleccionada, seleccionarMesa, mesaSeleccionada, setModalOpcionesDeMesaVisible, pedido, setModalMesaUnidaVisible, descripcionMesa, modalAccionesMesaDesunionDeMesasVisible, setModalAccionesMesaDesunionDeMesasVisible, modalAccionesMesaUnionDeMesaVisible, setModalAccionesMesaUnionDeMesaVisible, modalAccionesMesaCambioDeMesaVisible, setModalAccionesMesaCambioDeMesaVisible, imprimirCuenta } = useComandero();
+  const { 
+    areaSeleccionada, 
+    seleccionarMesa, 
+    mesaSeleccionada, 
+    pedido, 
+    descripcionMesa, 
+    imprimirCuenta 
+  } = useComandero();
+
+  const { modals, openModal, closeModal } = useUI();
 
   const [mesas, setMesas] = useState([]);
   const [mesaUnida, setMesaUnida] = useState(null);
@@ -59,7 +69,7 @@ const Mesas = () => {
 
       useEffect( () => {
         obtenerMesasPorArea();
-      }, [areaSeleccionada, pedido, descripcionMesa, mesaSeleccionada, imprimirCuenta]);
+      }, [areaSeleccionada, pedido, descripcionMesa, mesaSeleccionada, imprimirCuenta, modals[MODALS.OPCIONES_MESA]]);
 
   return (
     <SafeAreaView 
@@ -70,8 +80,8 @@ const Mesas = () => {
       <ModalEditarMesa />
       <ModalMesaUnida mesa={mesaUnida}/>
       <ModalAccionesMesa
-        visibility={modalAccionesMesaDesunionDeMesasVisible}
-        setVisibility={setModalAccionesMesaDesunionDeMesasVisible}
+        visible={modals[MODALS.DESUNION_MESAS]}
+        onClose={ () => closeModal(MODALS.DESUNION_MESAS) }
         title="Desunión de mesas"
         description="Selecciona las mesas a DESUNIR"
         mesaPrincipal={mesaSeleccionada?.nombre} 
@@ -79,8 +89,8 @@ const Mesas = () => {
         mode = "DESUNIR"
       />
       <ModalAccionesMesa
-        visibility={modalAccionesMesaUnionDeMesaVisible}
-        setVisibility={setModalAccionesMesaUnionDeMesaVisible}
+        visible={modals[MODALS.UNION_MESAS]}
+        onClose={ () => closeModal(MODALS.UNION_MESAS) }
         title="Unión de mesas"
         description="Selecciona las mesas a UNIR"
         mesaPrincipal={mesaSeleccionada?.nombre} 
@@ -88,8 +98,8 @@ const Mesas = () => {
         mode = "UNIR"
       />
       <ModalAccionesMesa
-        visibility={modalAccionesMesaCambioDeMesaVisible}
-        setVisibility={setModalAccionesMesaCambioDeMesaVisible}
+        visible={modals[MODALS.CAMBIO_MESA]}
+        onClose={ () => closeModal(MODALS.CAMBIO_MESA) }
         title="Cambio de mesas"
         description="Selecciona la mesa de destino"
         mesaPrincipal={mesaSeleccionada?.nombre} 
@@ -120,7 +130,7 @@ const Mesas = () => {
                   if(mesa.estatus === 'DISPONIBLE'){
                     router.push('dashboard/comandero');
                   } else if(mesa.estatus === 'OCUPADO'){
-                    setModalOpcionesDeMesaVisible(true)
+                    openModal(MODALS.OPCIONES_MESA);
                   } else if(mesa.estatus === 'UNIDA'){
                     const mesaPrincipal = mesas.find(
                       m => m.id === mesa.mesaPrincipalId
@@ -129,7 +139,7 @@ const Mesas = () => {
                       ...mesa,
                       mesaPrincipal
                     });
-                    setModalMesaUnidaVisible(true);
+                    openModal(MODALS.MESA_UNIDA);
                   }
                 }}
               >
