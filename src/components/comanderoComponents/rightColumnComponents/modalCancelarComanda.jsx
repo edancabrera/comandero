@@ -1,8 +1,15 @@
 import { useComandero } from '../../../context/ComanderoContext'
 import { StyleSheet, Text, View, Modal, Pressable } from 'react-native'
+import { useRouter } from 'expo-router';
 
 const ModalCancelarComanda = () => {
-    const {modalCancelarComandaVisible, setModalCancelarComandaVisible, pedidoACancelarEnviadoACocina, cancelarComanda} = useComandero();
+    const {
+      modalCancelarComandaVisible, setModalCancelarComandaVisible, pedidoACancelarEnviadoACocina, 
+      cancelarComanda, 
+      limpiarEstado
+    } = useComandero();
+
+    const router = useRouter();
   return (
     <Modal 
             animationType="slide"
@@ -25,8 +32,14 @@ const ModalCancelarComanda = () => {
                 <Pressable
                     style={[styles.button, styles.buttonSi]}
                     onPress={ async () => {
-                          await cancelarComanda();
-                          setModalCancelarComandaVisible(false);
+                      try {
+                        await cancelarComanda();
+                        limpiarEstado();
+                        router.replace("/dashboard/mesas");
+                        setModalCancelarComandaVisible(false);
+                      } catch (error) {
+                        console.error('Error', error)
+                      }
                     }}
                 >
                     <Text style={styles.buttonText}>{pedidoACancelarEnviadoACocina? "Si" : "Aceptar"}</Text>
