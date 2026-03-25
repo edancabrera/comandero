@@ -21,7 +21,7 @@ const ModalConfirmarAccion = ({title, paragraph, onConfirm, visible, onClose, in
           <View style={{ flexDirection: "row" }}>
             <Pressable
               style={[styles.button, styles.buttonNo]}
-              onPress={() => setVisiblity(!visiblity)}
+              onPress={onClose}
             >
               <Text style={styles.buttonText}>{infoOnlyModal? "Aceptar": "No"}</Text>
             </Pressable>
