@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-const ModalConfirmarAccion = ({title, paragraph, action, visiblity, setVisiblity, infoOnlyModal = false}) => {
+const ModalConfirmarAccion = ({title, paragraph, onConfirm, visible, onClose, infoOnlyModal = false}) => {
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={visiblity}
+        visible={visible}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -29,8 +29,8 @@ const ModalConfirmarAccion = ({title, paragraph, action, visiblity, setVisiblity
               <Pressable
                 style={[styles.button, styles.buttonSi]}
                 onPress={() => {
-                  action();
-                  setVisiblity(!visiblity)
+                  onConfirm?.();
+                  onClose();
               }}
               >
                 <Text style={styles.buttonText}>Sí</Text>
