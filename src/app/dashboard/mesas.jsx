@@ -69,7 +69,7 @@ const Mesas = () => {
 
       useEffect( () => {
         obtenerMesasPorArea();
-      }, [areaSeleccionada, pedido, descripcionMesa, mesaSeleccionada, imprimirCuenta, modals[MODALS.OPCIONES_MESA]]);
+      }, [areaSeleccionada, pedido, descripcionMesa, mesaSeleccionada, imprimirCuenta, modals[MODALS.OPCIONES_MESA], modals[MODALS.DIVIDIR_COMANDA]]); //remover eventualmente del arreglo de dependencias las modals, por algo más específico
 
   return (
     <SafeAreaView 
