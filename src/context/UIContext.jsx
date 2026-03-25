@@ -1,27 +1,34 @@
 import { createContext, useCallback, useContext, useMemo, useState } from "react";
 
+export const MODALS = {
+    BORRAR_PEDIDO: 'borrarPedido',
+    QUITAR_PLATILLO: 'quitarPlatillo',
+    SALIR_COMANDA: 'salirDeLaComanda',
+    OPCIONES_MESA: 'opcionesDeMesa',
+    COMPLEMENTOS: 'complementos',
+    ENVIAR_COCINA: 'enviarACocina',
+    ENVIAR_URGENTE: 'enviarACocinaUrgente',
+    ENVIAR_Y_COBRAR: 'enviarYCobrar',
+    COMANDA_VACIA: 'comandaVacia',
+    MESA_UNIDA: 'mesaUnida',
+    EDITAR_MESA: 'editarMesa',
+    DESUNION_MESAS: 'desunionMesas',
+    UNION_MESAS: 'unionMesas',
+    CAMBIO_MESA: 'cambioMesa',
+    VER_CUENTA: 'verCuenta',
+    CANCELAR_COMANDA: 'cancelarComanda',
+    DIVIDIR_COMANDA: 'dividirComanda'
+};
+
+const initialModals = Object.values(MODALS).reduce((acc, key) => {
+    acc[key] = false;
+    return acc;
+}, {});
+
 const UIContext = createContext(null);
 
 export const UIProvider = ({ children }) => {
-    const [modals, setModals] = useState({
-        borrarPedido: false,
-        quitarPlatillo: false,
-        salirDeLaComanda: false,
-        opcionesDeMesa: false,
-        complementos: false,
-        enviarACocina: false,
-        enviarACocinaUrgente: false,
-        enviarYCobrar: false,
-        comandaVacia: false,
-        mesaUnida: false,
-        editarMesa: false,
-        desunionMesas: false,
-        unionMesas: false,
-        cambioMesa: false,
-        verCuenta: false,
-        cancelarComanda: false,
-        dividirComanda: false
-    });
+    const [modals, setModals] = useState({initialModals});
 
     const openModal = useCallback((name) => {
         setModals(prev => ({ ...prev, [name]: true }));
@@ -40,7 +47,7 @@ export const UIProvider = ({ children }) => {
         openModal,
         closeModal,
         toggleModal
-    }));
+    }), [modals, openModal, closeModal, toggleModal]);
 
     return (
         <UIContext.Provider value = {value}>
