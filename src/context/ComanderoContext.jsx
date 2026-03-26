@@ -323,14 +323,7 @@ export const ComanderoProvider = ({children}) => {
     }
     const obtenerComandaMesa = async () => {
         try {
-            const url = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}`);
-            const response = await fetch(url);
-
-            if(!response.ok) {
-                throw new Error("La mesa no tiene comanda activa")
-            }
-
-            const detalleComanda = await response.json();
+            const detalleComanda = await obtenerComanda();
 
             const detalleMapped = detalleComanda.detalles.map(detalle => ({
                 id: detalle.id,
@@ -422,12 +415,7 @@ export const ComanderoProvider = ({children}) => {
 
     const reimprimirTicket = async () => {
         try {
-            const urlDetalles = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}`);
-            const response = await fetch(urlDetalles);
-            if(!response.ok) {
-                throw new Error ("La mesa no tiene comanda activa");
-            }
-            const detalleComanda = await response.json();
+            const detalleComanda = await obtenerComanda();
             const detalleMapped = detalleComanda.detalles.map(detalle => ({
                 id: detalle.id,
                 idComanda: detalle.idComanda,
@@ -532,15 +520,7 @@ export const ComanderoProvider = ({children}) => {
     //Método a llamar al presionar el botón VER CUENTA en la modal modalOpcionesDeMesa
     const crearCuenta = async () => {
         try {
-            const url = await buildApiUrl(`/comanda/mesa/${mesaSeleccionada.id}`);
-
-            const response = await fetch(url);
-
-            if(!response.ok) {
-                throw new Error("La mesa no tiene comanda activa")
-            }
-            
-            const detalleComanda = await response.json();
+            const detalleComanda = await obtenerComanda();
 
             const separador = "=================================";
 
