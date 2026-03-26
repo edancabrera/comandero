@@ -5,9 +5,9 @@ import { buildApiUrl } from '../utils/apiConfig';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 const ModalEditarMesa = () => {
-    const { mesaSeleccionada, descripcionMesa, setDescripcionMesa } = useComandero();
+    const { mesaSeleccionada } = useComandero();
 
-    const { modals, openModal, closeModal } = useUI();
+    const { modals, openModal, closeModal, descripcionMesa, setDescripcionMesa } = useUI();
 
   return (
     <Modal 

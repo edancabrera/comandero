@@ -28,6 +28,8 @@ const initialModals = Object.values(MODALS).reduce((acc, key) => {
 const UIContext = createContext(null);
 
 export const UIProvider = ({ children }) => {
+    const [descripcionMesa, setDescripcionMesa] = useState("");
+
     const [modals, setModals] = useState(initialModals);
 
     const openModal = useCallback((name) => {
@@ -42,12 +44,14 @@ export const UIProvider = ({ children }) => {
         setModals(prev => ({ ...prev, [name]: !prev[name] }));
     }, []);
 
+
     const value = useMemo( () => ({
         modals,
         openModal,
         closeModal,
-        toggleModal
-    }), [modals, openModal, closeModal, toggleModal]);
+        toggleModal,
+        descripcionMesa, setDescripcionMesa
+    }), [modals, openModal, closeModal, toggleModal, descripcionMesa]);
 
     return (
         <UIContext.Provider value = {value}>

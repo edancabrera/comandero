@@ -27,12 +27,11 @@ const Mesas = () => {
     areaSeleccionada, 
     seleccionarMesa, 
     mesaSeleccionada, 
-    pedido, 
-    descripcionMesa, 
+    pedido,
     imprimirCuenta 
   } = useComandero();
 
-  const { modals, openModal, closeModal } = useUI();
+  const { modals, openModal, closeModal, descripcionMesa } = useUI();
 
   const [mesas, setMesas] = useState([]);
   const [mesaUnida, setMesaUnida] = useState(null);

@@ -20,8 +20,6 @@ export const ComanderoProvider = ({children}) => {
     const [personas, setPersonas] = useState([1]); //Arreglo de personas a las que se les está tomando el pedido
     const [personaActiva, setPersonaActiva] = useState(1); //Estado para controlar qué persona de la mesa es a la que se le está tomando el pedido
 
-    const [descripcionMesa, setDescripcionMesa] = useState("");
-
     const [pedidoACancelarEnviadoACocina, setPedidoACancelarEnviadoACocina] = useState(false);
     
 
@@ -610,12 +608,9 @@ export const ComanderoProvider = ({children}) => {
 
         crearCuenta,
 
-        descripcionMesa, 
-        setDescripcionMesa,
-
         pedidoACancelarEnviadoACocina, setPedidoACancelarEnviadoACocina
         
-    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, personas, personaActiva, descripcionMesa, pedidoACancelarEnviadoACocina])
+    }), [usuario, areaSeleccionada, mesaSeleccionada, menuSeleccionado, categoriaSeleccionada, pedido, lineaPedidoSeleccionadaId, personas, personaActiva, pedidoACancelarEnviadoACocina])
 
     return (
         <ComanderoContext.Provider value={value}>
