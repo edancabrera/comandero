@@ -158,6 +158,23 @@ export const ComanderoProvider = ({children}) => {
         setPersonas([1])
     }
 
+
+    const verificarImpresora = async (impresora) => {
+        try {
+            const url = await buildApiUrl(`/printer-configured?printerType=${impresora}`);
+
+            const response = await fetch(url);
+
+            if(!response.ok){
+                const errorData = await response.json();
+                throw new Error(errorData.message || `Verificar la impresora de ${impresora}`);
+            }
+            
+        } catch (error) {
+            throw error
+        }
+    }
+
     //--- Enviar comanda: INICIO ---
     const enviarComanda = async (urgente = false) => {
         if(!validarEnvio()) return;
@@ -583,6 +600,7 @@ export const ComanderoProvider = ({children}) => {
         imprimirCuenta,
         limpiarEstado,
         enviarComandaACocinaYCobrarCuenta,
+        verificarImpresora,
 
         cancelarComanda,
 

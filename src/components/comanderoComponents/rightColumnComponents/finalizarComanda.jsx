@@ -1,28 +1,52 @@
 import { useComandero } from '../../../context/ComanderoContext';
 import { useUI, MODALS } from '../../../context/UIContext';
 
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable, Alert } from 'react-native'
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 const FinalizarComanda = () => {
-  const {pedido, setPedidoACancelarEnviadoACocina} = useComandero();
+  const {pedido, setPedidoACancelarEnviadoACocina, verificarImpresora} = useComandero();
 
-  const { openModal } = useUI();
+  const { openModal, setPrintConfErrorMsg } = useUI();
 
   return (
     <View style={{flex:1, flexDirection:'row', justifyContent: 'space-around', alignItems: 'center'}}>
       <Pressable 
         style={{alignItems: 'center'}}
-        onPress={() => { !pedido.length ? openModal(MODALS.COMANDA_VACIA) : openModal(MODALS.ENVIAR_COCINA) }}
+        onPress={async () => { 
+          try {
+            if(!pedido.length){
+              openModal(MODALS.COMANDA_VACIA);
+              return;
+            }
+            await verificarImpresora("COCINA");
+            openModal(MODALS.ENVIAR_COCINA);
+          } catch (error) {
+            setPrintConfErrorMsg(error.message);
+            openModal(MODALS.ERROR_IMPRESORA);
+          }
+        }}
       >
         <MaterialCommunityIcons name="chef-hat" size={24} color="black" />
         <Text>Enviar a cocina</Text>
       </Pressable>
       <Pressable 
         style={{alignItems: 'center'}}
-        onPress={() => { !pedido.length ? openModal(MODALS.COMANDA_VACIA) : openModal(MODALS.ENVIAR_URGENTE) }}
+        onPress={async () => { 
+          try {
+            if(!pedido.length){
+              openModal(MODALS.COMANDA_VACIA);
+              return;
+            }
+            await verificarImpresora("COCINA");
+            openModal(MODALS.ENVIAR_URGENTE)
+          } catch (error) {
+            setPrintConfErrorMsg(error.message);
+            openModal(MODALS.ERROR_IMPRESORA);
+          }
+        }}
       >
         <AntDesign name="fire" size={24} color="red" />
         <Text>Enviar urgente</Text>

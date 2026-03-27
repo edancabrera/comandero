@@ -11,9 +11,9 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const ModalOpcionesDeMesa = () => {
-   const { abrirComandaMesa, reimprimirTicket, imprimirCuenta } = useComandero();
+   const { abrirComandaMesa, reimprimirTicket, imprimirCuenta, verificarImpresora } = useComandero();
 
-   const { modals, openModal, closeModal } = useUI();
+   const { modals, openModal, closeModal, setPrintConfErrorMsg } = useUI();
 
    const router = useRouter();
   return (
@@ -36,9 +36,12 @@ const ModalOpcionesDeMesa = () => {
                     opcion={'IMPRIMIR CUENTA'}
                     action={async () => {
                         try {
+                            await verificarImpresora("COCINA");
+                            await verificarImpresora("ADMIN");
                             await imprimirCuenta();
                         } catch (error) {
-                            console.error("Error al imprimir cuenta:", error);
+                            setPrintConfErrorMsg(error.message);
+                            openModal(MODALS.ERROR_IMPRESORA);
                         }
                         closeModal(MODALS.OPCIONES_MESA);
                     }}
@@ -87,8 +90,14 @@ const ModalOpcionesDeMesa = () => {
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="printer-pos-refresh-outline" size={24} color="black" />}
                     opcion={'REIMPRIMIR PEDIDO'}
-                    action={() => {
-                        reimprimirTicket();
+                    action={async () => {
+                        try {
+                            await verificarImpresora("COCINA");
+                            await reimprimirTicket();
+                        } catch (error) {
+                            setPrintConfErrorMsg(error.message);
+                            openModal(MODALS.ERROR_IMPRESORA);
+                        }
                         closeModal(MODALS.OPCIONES_MESA);
                     }}
                 />

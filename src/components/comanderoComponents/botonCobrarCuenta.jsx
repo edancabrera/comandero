@@ -1,11 +1,11 @@
-import { StyleSheet, Text, Pressable } from 'react-native'
+import { StyleSheet, Text, Pressable, Alert } from 'react-native'
 import { useComandero } from '../../context/ComanderoContext';
 import { useUI, MODALS } from '../../context/UIContext';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const BotonCobrarCuenta = () => {
-    const { pedido } = useComandero();
-    const { openModal } = useUI();
+    const { pedido, verificarImpresora } = useComandero();
+    const { openModal, setPrintConfErrorMsg } = useUI();
   return (
     <Pressable 
         style={({ pressed }) => [
@@ -13,7 +13,20 @@ const BotonCobrarCuenta = () => {
             pressed && styles.buttonPressed
         ]}
 
-         onPress={() => { !pedido.length ? openModal(MODALS.COMANDA_VACIA) : openModal(MODALS.ENVIAR_Y_COBRAR) }}
+         onPress={async () => { 
+            try {
+                if(!pedido.length){
+                openModal(MODALS.COMANDA_VACIA);
+                return;
+                }
+                await verificarImpresora("COCINA");
+                await verificarImpresora("ADMIN");
+                openModal(MODALS.ENVIAR_Y_COBRAR);
+            } catch (error) {
+                setPrintConfErrorMsg(error.message);
+                openModal(MODALS.ERROR_IMPRESORA);
+            }
+        }}
     >
         <MaterialCommunityIcons name="cash-edit" size={24} color="green" />
         <Text style = {styles.buttonText}>Cobrar cuenta</Text>

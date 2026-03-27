@@ -30,7 +30,7 @@ const Comandero = () => {
         enviarComandaACocinaYCobrarCuenta
     } = useComandero();
     
-    const { modals, openModal, closeModal } = useUI();
+    const { modals, openModal, closeModal, printConfErrorMsg } = useUI();
 
     const router = useRouter();
 
@@ -133,6 +133,13 @@ const Comandero = () => {
             } }
             visible={ modals[MODALS.ENVIAR_Y_COBRAR] }
             onClose={ () => closeModal(MODALS.ENVIAR_Y_COBRAR) }
+        />
+        <ModalConfirmarAccion 
+            title='Impresora no configurada'
+            paragraph={printConfErrorMsg || 'Error desconocido'}
+            visible={ modals[MODALS.ERROR_IMPRESORA] }
+            onClose={ () => closeModal(MODALS.ERROR_IMPRESORA) }
+            infoOnlyModal = {true}
         />
         <ModalCancelarComanda />
         

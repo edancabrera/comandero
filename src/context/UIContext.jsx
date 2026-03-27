@@ -17,7 +17,8 @@ export const MODALS = {
     CAMBIO_MESA: 'cambioMesa',
     VER_CUENTA: 'verCuenta',
     CANCELAR_COMANDA: 'cancelarComanda',
-    DIVIDIR_COMANDA: 'dividirComanda'
+    DIVIDIR_COMANDA: 'dividirComanda',
+    ERROR_IMPRESORA: 'errorConfiguracionImpresora'
 };
 
 const initialModals = Object.values(MODALS).reduce((acc, key) => {
@@ -29,6 +30,8 @@ const UIContext = createContext(null);
 
 export const UIProvider = ({ children }) => {
     const [descripcionMesa, setDescripcionMesa] = useState("");
+
+    const [printConfErrorMsg, setPrintConfErrorMsg] = useState("");
 
     const [modals, setModals] = useState(initialModals);
 
@@ -50,8 +53,9 @@ export const UIProvider = ({ children }) => {
         openModal,
         closeModal,
         toggleModal,
-        descripcionMesa, setDescripcionMesa
-    }), [modals, openModal, closeModal, toggleModal, descripcionMesa]);
+        descripcionMesa, setDescripcionMesa,
+        printConfErrorMsg, setPrintConfErrorMsg
+    }), [modals, openModal, closeModal, toggleModal, descripcionMesa, printConfErrorMsg ]);
 
     return (
         <UIContext.Provider value = {value}>

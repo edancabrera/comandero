@@ -17,10 +17,11 @@ const ModalDividirComanda = () => {
   const { 
     mesaSeleccionada, areaSeleccionada,
     obtenerComandaMesa,
-    usuario
+    usuario,
+    verificarImpresora 
   } = useComandero();
 
-  const { modals, closeModal } = useUI();
+  const { modals, closeModal, openModal, printConfErrorMsg, setPrintConfErrorMsg } = useUI();
 
   const [pedido, setPedido] = useState([]);
   const [nuevoPedido, setNuevoPedido] = useState([]);
@@ -474,7 +475,15 @@ const ModalDividirComanda = () => {
                 styles.button,
                 pressed && styles.buttonPressed
               ]}
-              onPress={() =>{ setModalImprimir(true) }}
+              onPress={async () =>{
+                try {
+                  await verificarImpresora("ADMIN");
+                  setModalImprimir(true) 
+                } catch (error) {
+                  setPrintConfErrorMsg(error.message);
+                  openModal(MODALS.ERROR_IMPRESORA);
+                }
+              }}
             >
               <Text>Imprimir</Text>
             </Pressable>
