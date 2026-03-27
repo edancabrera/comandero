@@ -257,6 +257,14 @@ const ModalDividirComanda = () => {
       }));
   }
 
+  const limpiarEstados = () => {
+    setPedido([]);
+    setNuevoPedido([]);
+    setComandaActualLineaSeleccionada(null);
+    setComandaNuevaLineaSeleccionada(null);
+    setComandasDivididas([]);
+  }
+
   return (
     <Modal
       animationType="slide"
@@ -267,7 +275,10 @@ const ModalDividirComanda = () => {
       <ModalAccionesDividirComanda 
         title="Advertencia"
         paragraph="Se perderán todas las modificaciones, ¿Aún así desea cancelar?"
-        action={() => closeModal(MODALS.DIVIDIR_COMANDA)}
+        action={() =>{
+          limpiarEstados();
+           closeModal(MODALS.DIVIDIR_COMANDA);
+          }}
         visiblity={modalCancelar}
         setVisiblity={setModalCancelar}
         alert = {true}
