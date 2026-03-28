@@ -11,7 +11,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 
 
 const ModalOpcionesDeMesa = () => {
-   const { abrirComandaMesa, reimprimirTicket, imprimirCuenta, verificarImpresora } = useComandero();
+   const { abrirComandaMesa, reimprimirTicket, imprimirCuenta, verificarImpresora, mesaSeleccionada } = useComandero();
 
    const { modals, openModal, closeModal, setPrintConfErrorMsg } = useUI();
 
@@ -74,6 +74,7 @@ const ModalOpcionesDeMesa = () => {
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}
                     opcion={'CAMBIAR DE MESA'}
+                    disabled = {mesaSeleccionada?.mesasHijasIds.length > 0}
                     action={()=> {
                         closeModal(MODALS.OPCIONES_MESA);
                         openModal(MODALS.CAMBIO_MESA);
@@ -82,6 +83,7 @@ const ModalOpcionesDeMesa = () => {
                 <OpcionesDeMesaButton
                     icono={<MaterialCommunityIcons name="table-furniture" size={24} color="black" />}
                     opcion={'DESUNIR MESA'}
+                    disabled = {mesaSeleccionada?.mesasHijasIds.length <= 0}
                     action={() => {
                         closeModal(MODALS.OPCIONES_MESA);
                         openModal(MODALS.DESUNION_MESAS);
@@ -124,14 +126,21 @@ const ModalOpcionesDeMesa = () => {
   );
 };
 
-const OpcionesDeMesaButton = ({icono, opcion, action}) => {
+const OpcionesDeMesaButton = ({icono, opcion, action, disabled = false}) => {
     return (
         <Pressable 
-            style={styles.button}
+            style={[
+                styles.button,
+                disabled && styles.buttonDisabled
+            ]}
             onPress={action}
+            disabled={disabled}
         >
             {icono}
-            <Text style={styles.buttonText}>{opcion}</Text>
+            <Text style={[
+                styles.buttonText,
+                disabled && styles.buttonDisabledText
+            ]}>{opcion}</Text>
         </Pressable>
     )
 }
@@ -168,9 +177,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     width: 120
   },
+  buttonDisabled:{
+    backgroundColor: "#185e78",
+  },
   buttonText: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
+  },
+  buttonDisabledText: {
+    color: "#cabebe"
   }
 });
