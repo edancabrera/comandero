@@ -143,7 +143,11 @@ const Mesas = () => {
                 }}
               >
                 <MaterialIcons name="table-bar" size={32} color="#cf8a5e" />
-                <Text style={styles.mesasButtonText}>
+                <Text 
+                  style={styles.mesasButtonText}
+                  numberOfLines={2}
+                  ellipsizeMode="tail"
+                >
                   {mesa.mesaPrincipalId 
                     ? `${mesa.nombre} - Unida con: ${ mesas.find(m => m.id === mesa.mesaPrincipalId)?.nombre }`
                     : mesa.nombre}
