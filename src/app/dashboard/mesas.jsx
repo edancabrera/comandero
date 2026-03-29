@@ -114,7 +114,23 @@ const Mesas = () => {
         stickyHeaderIndices={[0]}
       >
         <View style={styles.stickyHeader}>
-          <Text style={styles.mesasTitle}>{areaSeleccionada?.nombre}</Text>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <Text style={styles.mesasTitle}>{areaSeleccionada?.nombre}</Text>
+            {areaSeleccionada && 
+              <Pressable 
+                onPress={obtenerMesasPorArea}
+                style={({ pressed }) => [
+                  styles.refreshButton,
+                  pressed && styles.refreshButtonPressed
+                ]}
+              >
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                  <Text style={styles.refreshButtonText}
+                  >Actualizar</Text>
+                  <MaterialIcons name="refresh" size={24} color="#fff" />
+                </View>
+            </Pressable>}
+          </View>
         </View>
         
         {areaSeleccionada ? (
@@ -212,5 +228,21 @@ const styles = StyleSheet.create({
   },
   layoutAreas: {
     flex:0.2,
+  },
+  refreshButton: {
+    backgroundColor: '#faa80f',
+    padding: 5,
+    borderRadius: 5,
+    margin: 10,
+    alignItems: 'center',
+    width: 150
+  },
+  refreshButtonPressed: {
+    backgroundColor: "#c68000"
+  },
+  refreshButtonText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#fff'
   }
 })
