@@ -534,6 +534,16 @@ export const ComanderoProvider = ({children}) => {
         }
     }
 
+    const verificarEstatusMesa = async (idMesa) => {
+        const url = await buildApiUrl(`/mesas/${idMesa}/verificar-estatus`)
+        const response = await fetch(url);
+        if(!response.ok) {
+            throw new Error("Error al verificar disponibilidad")
+        }
+        const data = await response.json();
+        return data;
+    }
+
     //Método a llamar al presionar el botón VER CUENTA en la modal modalOpcionesDeMesa
     const crearCuenta = async () => {
         try {
@@ -601,6 +611,7 @@ export const ComanderoProvider = ({children}) => {
         limpiarEstado,
         enviarComandaACocinaYCobrarCuenta,
         verificarImpresora,
+        verificarEstatusMesa,
 
         cancelarComanda,
 

@@ -17,6 +17,7 @@ import ModalAccionesMesa from '../../components/modalAccionesMesa';
 import ModalVerCuenta from '../../components/modalVerCuenta';
 import ModalDividirComanda from '../../components/modalDividirComanda';
 import { buildApiUrl } from '../../utils/apiConfig';
+import ModalConfirmarAccion from '../../components/comanderoComponents/rightColumnComponents/modalConfirmarAccion';
 
 
 const Mesas = () => {
@@ -28,13 +29,15 @@ const Mesas = () => {
     seleccionarMesa, 
     mesaSeleccionada, 
     pedido,
-    imprimirCuenta 
+    imprimirCuenta,
+    verificarEstatusMesa
   } = useComandero();
 
   const { modals, openModal, closeModal, descripcionMesa } = useUI();
 
   const [mesas, setMesas] = useState([]);
   const [mesaUnida, setMesaUnida] = useState(null);
+  const [estatusMesaResponse, setEstatusMesaResponse] = useState(null);
 
     const getMesasButtonBackgroundColor = (estatus) => {
       switch(estatus){
@@ -107,6 +110,17 @@ const Mesas = () => {
       />
       <ModalVerCuenta />
       <ModalDividirComanda />
+      <ModalConfirmarAccion 
+        title={estatusMesaResponse?.message || ""}
+        paragraph={
+          estatusMesaResponse
+          ? `${estatusMesaResponse.nombre} tiene estatus ${estatusMesaResponse.estatus}`
+          : ""
+        }
+        visible={ modals[MODALS.VERIFICAR_ESTATUS_MESA] }
+        onClose={ () => closeModal(MODALS.VERIFICAR_ESTATUS_MESA) }
+        infoOnlyModal = {true}
+      />
       
 
       <ScrollView 
@@ -140,12 +154,32 @@ const Mesas = () => {
               <Pressable 
                 key={mesa.id} 
                 style={[styles.mesasButton, {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)}]}
-                onPress={() => {
+                onPress={async () => {
                   seleccionarMesa(mesa);
                   if(mesa.estatus === 'DISPONIBLE'){
-                    router.push('dashboard/comandero');
+                    try {
+                      const response = await verificarEstatusMesa(mesa.id);
+                      if(!response.disponible){
+                        setEstatusMesaResponse(response);
+                        openModal(MODALS.VERIFICAR_ESTATUS_MESA);
+                      } else {
+                        router.push('dashboard/comandero');
+                      }
+                    } catch (error) {
+                      console.error(error)
+                    }
                   } else if(mesa.estatus === 'OCUPADO'){
-                    openModal(MODALS.OPCIONES_MESA);
+                    try {
+                      const response = await verificarEstatusMesa(mesa.id);
+                      if(!response.ocupada){
+                        setEstatusMesaResponse(response);
+                        openModal(MODALS.VERIFICAR_ESTATUS_MESA);
+                      } else {
+                        openModal(MODALS.OPCIONES_MESA);
+                      }
+                    } catch (error) {
+                      console.error(error)
+                    }
                   } else if(mesa.estatus === 'UNIDA'){
                     const mesaPrincipal = mesas.find(
                       m => m.id === mesa.mesaPrincipalId
