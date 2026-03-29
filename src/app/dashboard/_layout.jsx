@@ -1,5 +1,5 @@
 import { StyleSheet, Pressable } from 'react-native';
-import { Tabs, useRouter } from 'expo-router';
+import { Tabs, useRouter, Redirect } from 'expo-router';
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useComandero } from '../../context/ComanderoContext';
@@ -8,6 +8,9 @@ import { useComandero } from '../../context/ComanderoContext';
 const dashbaordLayout = () => {
     const {seleccionarArea, usuario, setUsuario} = useComandero();
     const router = useRouter();
+    if (!usuario) {
+        return <Redirect href="/login" />;
+    }
   return (
     <Tabs
         screenOptions={{
