@@ -24,7 +24,10 @@ const ModalLoginError = ({error}) => {
                 {error?.title && <Text style={styles.title}>{error?.title}</Text>}
                 <Text style={styles.paragraph}>{error?.message}</Text>
                 <Pressable 
-                    style={styles.button} 
+                    style={({ pressed }) => [
+                      styles.button,
+                      pressed && styles.buttonPressed
+                    ]} 
                     onPress={()=>{
                         closeModal(MODALS.LOGIN_ERROR)
                         if(!serverIp){openModal(MODALS.CONFIG_IP)}
@@ -70,6 +73,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 15,
     marginVertical: 10
+  },
+  buttonPressed:{
+    backgroundColor: '#c58612',
   },
   buttonText: {
     color:'#fff',

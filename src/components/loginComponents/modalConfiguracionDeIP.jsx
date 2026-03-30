@@ -90,13 +90,18 @@ const ModalConfiguracionDeIP = () => {
                   setStatus("");
                   setError("");
                 }}
-                style={{ position: 'absolute', top: 5, right: 10}}
+                style={({ pressed }) => [
+                  { position: 'absolute', top: 5, right: 10, borderRadius: 5},
+                pressed && {backgroundColor: 'rgba(255,0,0,0.5)'}]
+                }
             >
                 <Ionicons name="close" size={36} color="red" />
             </Pressable>
+            <Text style = {styles.title}>Configuración de IP del servidor</Text>
             {error ? <MaterialIcons name="error-outline" size={48} color="red" />: null}
-            {status === "Probando conexión..." ? <ActivityIndicator size="large"/> : null}
-            {status === "Conexión exitosa con la API" ? <AntDesign name="check-circle" size={36} color="green" /> : null}
+            {status === "Probando conexión..." ? <ActivityIndicator size="48"/> : null}
+            {status === "Conexión exitosa con la API" ? <AntDesign name="check-circle" size={48} color="green" /> : null}
+            {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
           <TextInput 
             style={styles.input}
             placeholder="Ingresa la IP del servidor"
@@ -105,10 +110,13 @@ const ModalConfiguracionDeIP = () => {
             editable={status=== "Probando conexión..." ? false: true}
             keyboardType="decimal-pad"
           />
-          {error ? <Text style={{ color: "red" }}>{error}</Text> : null}
           {status === "Probando conexión..." ?
             <Pressable 
-              style={[styles.testButton, {backgroundColor: 'grey'}]}
+              style={({ pressed })=> [
+                styles.testButton, 
+                styles.testButtonDisabled,
+                pressed && styles.testButtonDisabledPressed
+              ]}
               onPress={cancelRequest}
             >
               <Text style={styles.testButtonText}>
@@ -116,9 +124,21 @@ const ModalConfiguracionDeIP = () => {
               </Text>
             </Pressable>:
             <Pressable 
-              style={[styles.testButton, ip ? {} : { backgroundColor: 'grey' }]}
-              onPress={testApiConnection}
-              disabled={!ip}
+              style={({ pressed }) => [
+                styles.testButton, 
+                pressed && ip && styles.testButtonPressed,
+                !ip && styles.testButtonDisabled,
+                pressed && !ip && styles.testButtonDisabledPressed
+                
+              ]}
+              onPress={async () => {
+                if(!ip){
+                  setError('Ingresa una IP');
+                  return;
+                }
+                await testApiConnection();
+              }}
+              //disabled={!ip}
             >
               <Text style={styles.testButtonText}>
                 Probar conexión
@@ -146,8 +166,9 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     backgroundColor: "white",
-    borderRadius: 20,
-    padding: 30,
+    borderRadius: 10,
+    paddingTop: 35,
+    paddingBottom: 20,
     alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
@@ -158,6 +179,11 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 5,
     width: "50%",
+  },
+  title:{
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginBottom: 20
   },
   input: {
     backgroundColor: "#fff",
@@ -172,6 +198,15 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 15,
     marginVertical: 10
+  },
+  testButtonPressed:{
+    backgroundColor: '#28a244',
+  },
+  testButtonDisabled: {
+    backgroundColor: 'grey'
+  },
+  testButtonDisabledPressed: {
+    backgroundColor: '#bdb9b9'
   },
   testButtonText: {
     color: '#fff',
