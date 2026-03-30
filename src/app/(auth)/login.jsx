@@ -4,7 +4,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import { useLogin } from "../../context/LoginContext";
-import { buildApiUrl } from "../../utils/apiConfig";
 import { useComandero } from "../../context/ComanderoContext";
 import { useUI, MODALS } from "../../context/UIContext";
 
@@ -13,6 +12,7 @@ import ModalConfiguracionDeIP from "../../components/loginComponents/modalConfig
 import ModalLoginError from "../../components/loginComponents/modalLoginError";
 
 import Logo from "../../../assets/crovrestaurante.png";
+import { loginRequest } from "../../services/authService";
 
 const login = () => {
 
@@ -44,19 +44,8 @@ const login = () => {
       try {
         setLoading(true);
 
-        const url = await buildApiUrl(`/login/${numeroEmpleado}`);
-        const response = await fetch(url);
+        const data = await loginRequest(numeroEmpleado);
 
-        if(!response.ok){
-          let message = "Error desconocido";
-          try {
-            const errorJson = await response.json();
-            message = errorJson.message;
-          } catch {}
-          throw new Error(message);
-        }
-
-        const data = await response.json();
         setUsuario(data);
         setNumeroEmpleado("");
         router.replace('/dashboard');
