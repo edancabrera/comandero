@@ -1,13 +1,15 @@
-import { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, View, Modal, TextInput, Pressable, ActivityIndicator } from "react-native";
+import { useState, useRef, useEffect } from "react";
 import { useLogin } from "../../context/LoginContext";
+import { useUI, MODALS } from "../../context/UIContext";
 
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 const ModalConfiguracionDeIP = () => {
-    const {modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible, serverIp, saveIp} = useLogin();
+    const { serverIp, saveIp } = useLogin();
+    const { modals, closeModal } = useUI();
     const [ip, setIp] = useState("");
     const [status, setStatus] = useState("");
     const [error, setError] = useState("");
@@ -37,9 +39,9 @@ const ModalConfiguracionDeIP = () => {
 
             if(response.ok) {
               await saveIp(ip);
-              setStatus(data.message);
+              setStatus(data?.message ?? "Conexión exitosa");
               setTimeout(() => {
-                setModalConfiguracionDeIPVisible(false);
+                closeModal(MODALS.CONFIG_IP);
             }, 1000);
             }
         } catch (error) {
@@ -61,23 +63,29 @@ const ModalConfiguracionDeIP = () => {
     }
 
     useEffect( () => {
-        if (modalConfiguracionDeIPVisible) {
+        if (modals[MODALS.CONFIG_IP]) {
           setIp(serverIp ?? "");
         }
-    }, [modalConfiguracionDeIPVisible]);
+    }, [modals[MODALS.CONFIG_IP]]);
 
   return (
     <Modal 
         animationType="slide" 
         transparent={true} 
-        visible={modalConfiguracionDeIPVisible}
+        visible={modals[MODALS.CONFIG_IP]}
+        onRequestClose={() => {
+          cancelRequest();
+          closeModal(MODALS.CONFIG_IP);
+          setStatus("");
+          setError("");
+        }}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
             <Pressable 
                 onPress={()=>{
                   cancelRequest();
-                  setModalConfiguracionDeIPVisible(false);
+                  closeModal(MODALS.CONFIG_IP);
                   setStatus("");
                   setError("");
                 }}

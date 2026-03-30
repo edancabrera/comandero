@@ -19,7 +19,10 @@ export const MODALS = {
     CANCELAR_COMANDA: 'cancelarComanda',
     DIVIDIR_COMANDA: 'dividirComanda',
     ERROR_IMPRESORA: 'errorConfiguracionImpresora',
-    VERIFICAR_ESTATUS_MESA: 'verificarEstatusMesa'
+    VERIFICAR_ESTATUS_MESA: 'verificarEstatusMesa',
+
+    LOGIN_ERROR: 'loginError',
+    CONFIG_IP: 'configuracionDeIp'
 };
 
 const initialModals = Object.values(MODALS).reduce((acc, key) => {

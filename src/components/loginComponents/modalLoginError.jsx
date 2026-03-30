@@ -1,13 +1,20 @@
 import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
 import { useLogin } from "../../context/LoginContext";
+import { useUI, MODALS } from "../../context/UIContext";
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 
-const ModalLoginError = () => {
-    const {modalLoginErrorVisible, setModalLoginErrorVisible, error, serverIp, setModalConfiguracionDeIPVisible} = useLogin();
+const ModalLoginError = ({error}) => {
+    const { serverIp } = useLogin();
+    const {modals, openModal, closeModal} = useUI();
   return (
     <Modal
         transparent={true}
-        visible={modalLoginErrorVisible}
+        onRequestClose={() => {
+          closeModal(MODALS.LOGIN_ERROR)
+          if(!serverIp){openModal(MODALS.CONFIG_IP)}
+      }}
+        visible={modals[MODALS.LOGIN_ERROR]}
     >
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -17,8 +24,8 @@ const ModalLoginError = () => {
                 <Pressable 
                     style={styles.button} 
                     onPress={()=>{
-                        setModalLoginErrorVisible(false);
-                        if(!serverIp){setModalConfiguracionDeIPVisible(true)}
+                        closeModal(MODALS.LOGIN_ERROR)
+                        if(!serverIp){openModal(MODALS.CONFIG_IP)}
                     }}
                 >
                     <Text style={styles.buttonText}>Aceptar</Text>
