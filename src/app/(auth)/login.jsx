@@ -1,7 +1,12 @@
 import { StyleSheet, Text, View, Image, TextInput, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { useState } from "react";
+import { useRouter } from "expo-router";
 import { useLogin } from "../../context/LoginContext";
+import { buildApiUrl } from "../../utils/apiConfig";
+import { useComandero } from "../../context/ComanderoContext";
+import { useUI, MODALS } from "../../context/UIContext";
 
 import Numpad from "../../components/loginComponents/numpad";
 import ModalConfiguracionDeIP from "../../components/loginComponents/modalConfiguracionDeIP";
@@ -10,12 +15,65 @@ import ModalLoginError from "../../components/loginComponents/modalLoginError";
 import Logo from "../../../assets/crovrestaurante.png";
 
 const login = () => {
-    const { numeroEmpleado, setModalConfiguracionDeIPVisible, serverIp, clearServerIp } = useLogin();
+
+    const router = useRouter();
+    const { serverIp, clearServerIp } = useLogin();
+    const { setUsuario } = useComandero();
+    const { openModal } = useUI();
+
+    const [numeroEmpleado, setNumeroEmpleado] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState (null);
+    
+
+    const handleLogin = async () => {
+      if(loading) return;
+
+      if(!serverIp){
+        setError({title:"No se ha configurado la IP", message:"Por favor, configura la IP"});
+        openModal(MODALS.LOGIN_ERROR);
+        return;
+      }
+
+      if(numeroEmpleado.length !== 6){
+        setError({title:"Error de formato", message:"La clave debe tener exactamente 6 caracteres"});
+        openModal(MODALS.LOGIN_ERROR);
+        return;
+      }
+
+      try {
+        setLoading(true);
+
+        const url = await buildApiUrl(`/login/${numeroEmpleado}`);
+        const response = await fetch(url);
+
+        if(!response.ok){
+          let message = "Error desconocido";
+          try {
+            const errorJson = await response.json();
+            message = errorJson.message;
+          } catch {}
+          throw new Error(message);
+        }
+
+        const data = await response.json();
+        setUsuario(data);
+        setNumeroEmpleado("");
+        router.replace('/dashboard');
+        
+      } catch (error) {
+        setError({ message: error.message});
+        openModal(MODALS.LOGIN_ERROR);
+        setNumeroEmpleado("");
+      } finally {
+        setLoading(false);
+      }
+    }
 
   return (
     <SafeAreaView style={styles.container}>
       <ModalConfiguracionDeIP />
-      <ModalLoginError />
+      <ModalLoginError error={error}/>
       <View style={{flex:0.6, alignItems: 'center'}}>
         <Image source={Logo} />
         <Text style={styles.title}>Autenticación</Text>
@@ -27,14 +85,18 @@ const login = () => {
           value={numeroEmpleado}
         />
         {serverIp ? (
-          <Text>Conectado al servidor con la IP: {serverIp}</Text>
+          <Text style = {{color: '#fff'}}>Conectado al servidor con la IP: {serverIp}</Text>
           ) : (
-          <Text>No se ha configurado la IP</Text>
+          <Text style = {{color: '#fff'}}>No se ha configurado la IP</Text>
         )}
           <Pressable 
-            style = {styles.configButton}
+            style = {[
+              styles.configButton,
+              loading && { opacity: 0.6 }
+            ]}
             onPress={() => {
-              setModalConfiguracionDeIPVisible(true)
+              if(loading) return;
+              openModal(MODALS.CONFIG_IP);
             }}
           >
             <Text style = {styles.configButtonText}>
@@ -52,7 +114,14 @@ const login = () => {
         </Pressable>
       </View>
       <View style={{flex:0.4}}>
-        <Numpad />
+        <Numpad
+          value={numeroEmpleado}
+          onAppend={(d) => setNumeroEmpleado(prev => prev + d)}
+          onBackspace={() => setNumeroEmpleado(prev => prev.slice(0, -1))}
+  onClear={() => setNumeroEmpleado("")}
+          onSubmit={handleLogin}
+          loading={loading}
+        />
       </View>
     </SafeAreaView>
   );
