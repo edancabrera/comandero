@@ -1,15 +1,10 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import { useRouter } from 'expo-router';
+import { Pressable, StyleSheet, Text, View, ActivityIndicator } from "react-native";
+
 import Ionicons from '@expo/vector-icons/Ionicons';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { useComandero } from "../../context/ComanderoContext";
-import { useLogin } from "../../context/LoginContext";
-import { buildApiUrl } from "../../utils/apiConfig";
 
-const Numpad = () => {
-    const {numeroEmpleado, setNumeroEmpleado, serverIp, error, setError, setModalLoginErrorVisible} = useLogin();
-    const {setUsuario} = useComandero();
-    const router = useRouter();
+const Numpad = ({value, onAppend, onBackspace, onClear, onSubmit, loading}) => {
+    const isReady = value.length === 6 && !loading;
 
     const numpadContent = [
     [
@@ -30,69 +25,43 @@ const Numpad = () => {
     [
       { id: '#0', display: <Text style={styles.innerButton}>0</Text>, value: 0 },
       { id: '#backspace', display: <Ionicons name="backspace-outline" size={24} color="#000" />, value: -1 },
-      { id: '#submit', display: <AntDesign name="check" size={24} color="#000" />, value: 10 },
+      { id: '#submit', display: <AntDesign name="check" size={24} color="#000" />, value: 'submit' },
     ]
   ]
 
-  const handlePress = async (value) => {
-    if(value === -1){
-        setNumeroEmpleado(numeroEmpleado.slice(0, -1));
-    } else if (value === 10){
-      if(!serverIp) {
-        setError({title:"No se ha configurado la IP", message:"Por favor, configura la IP"});
-        setModalLoginErrorVisible(true);
-        return;
-      }
-      if(numeroEmpleado.length != 6) {
-        setError({title:"Error de formato", message:"La clave debe tener exactamente 6 caracteres"});
-        setModalLoginErrorVisible(true);
-        setNumeroEmpleado("")
-        return;
-      }
-        try {
-          const url = await buildApiUrl(`/login/${numeroEmpleado}`);
-          const response = await fetch(url,{
-            method: 'GET',
-            headers: {
-              'Content-Type': 'application/json'
-            }
-          });
-          if(!response.ok){
-            setNumeroEmpleado("");
-            const errorJson = await response.json();
-            setError({ message:errorJson.message});
-            setModalLoginErrorVisible(true);
-            throw new Error(JSON.stringify(errorJson));
-          }
-          const data = await response.json();
-          setUsuario(data);
-          setNumeroEmpleado("");
-          router.push('/dashboard');
-        } catch (error) {
-          //console.error('Error en la petición:', error);
-        }
-    } else {
-        setError(null);
-        if(numeroEmpleado.length < 6){
-            setNumeroEmpleado(prev => prev + value);
-        }
-    }
+  const handlePress = (value) => {
+    if(loading) return;
+    if(value === -1) return onBackspace();
+    if(value === 'clear')return onClear();
+    if(value === 'submit') return onSubmit();
+    onAppend(String(value));
   }
 
   return (
     <View style={styles.container}>
+      {loading && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size='120' />
+        </View>
+      )}
       {numpadContent.map((row, rowIndex) => (
         <View key={rowIndex} style={styles.row}>
             {row.map((button) => (
                 <Pressable
                     key={button.id}
                     onPress={() => handlePress(button.value)}
-                    onLongPress={() => {if (button.id === '#backspace'){setNumeroEmpleado(""); }} }
+                    onLongPress={() => {
+                      if (button.id === '#backspace'){
+                        handlePress('clear') 
+                      }}}
                     delayLongPress={300}
                     style={({ pressed }) => [
                         styles.button,
-                        pressed && styles.buttonPressed
+                        pressed && styles.buttonPressed,
+                        loading && {backgroundColor: '#ccc', opacity: 0.6},
+                        button.id === '#submit' && !isReady && { backgroundColor: '#ccc', opacity: 0.6 }
                     ]}
+                    disabled={button.id === '#submit' ? !isReady : loading}
                 >
                     {button.display}
                 </Pressable>
@@ -109,7 +78,8 @@ const styles = StyleSheet.create({
     container:{
         flex: 1,
         justifyContent:'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'relative'
     },
     innerButton: {
         fontSize: 20
@@ -127,7 +97,13 @@ const styles = StyleSheet.create({
         borderRadius: 10
     },
     buttonPressed: {
-        backgroundColor:'#e0e0e0',
-        transform: [{ scale: 0.95 }]
+        backgroundColor:'#faa80f',
+        //transform: [{ scale: 0.95 }]
+    },
+    loadingOverlay: {
+      ...StyleSheet.absoluteFillObject,
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 10
     }
 });
