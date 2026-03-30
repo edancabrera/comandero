@@ -9,12 +9,14 @@ const ModalLoginError = ({error}) => {
     const {modals, openModal, closeModal} = useUI();
   return (
     <Modal
-        transparent={true}
-        onRequestClose={() => {
-          closeModal(MODALS.LOGIN_ERROR)
-          if(!serverIp){openModal(MODALS.CONFIG_IP)}
+      animationType='fade'
+      transparent={true}
+      visible={modals[MODALS.LOGIN_ERROR]}
+      statusBarTranslucent={true}
+      onRequestClose={() => {
+        closeModal(MODALS.LOGIN_ERROR)
+        if(!serverIp){openModal(MODALS.CONFIG_IP)}
       }}
-        visible={modals[MODALS.LOGIN_ERROR]}
     >
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -43,6 +45,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalView: {
     margin: 20,
