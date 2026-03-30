@@ -105,7 +105,10 @@ const login = () => {
       <View style={{flex:0.4}}>
         <Numpad
           value={numeroEmpleado}
-          onAppend={(d) => setNumeroEmpleado(prev => prev + d)}
+          onAppend={(d) => {
+            if (numeroEmpleado.length >= 6) return;
+            setNumeroEmpleado(prev => prev + d)
+          }}
           onBackspace={() => setNumeroEmpleado(prev => prev.slice(0, -1))}
   onClear={() => setNumeroEmpleado("")}
           onSubmit={handleLogin}
