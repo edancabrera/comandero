@@ -4,11 +4,7 @@ import { getServerIp, saveServerIp, clearIp } from "../utils/apiConfig";
 const LoginContext = createContext(null);
 
 export const LoginProvider = ({children}) => {
-    const [numeroEmpleado, setNumeroEmpleado] = useState("");
     const [serverIp, setServerIp] = useState(null);
-    const [error, setError] = useState(null);
-    const [modalLoginErrorVisible, setModalLoginErrorVisible] = useState(false);
-    const [modalConfiguracionDeIPVisible, setModalConfiguracionDeIPVisible] = useState(false);
 
     //Cargar ip al iniciarl el layout, una sola vez
     useEffect(()=>{
@@ -30,21 +26,11 @@ export const LoginProvider = ({children}) => {
     }
 
     const value = useMemo(() => ({
-        numeroEmpleado,
-        setNumeroEmpleado,
-
         serverIp, 
         saveIp,
         clearServerIp,
-
-        error,
-        setError,
-
-        modalConfiguracionDeIPVisible,
-        setModalConfiguracionDeIPVisible,
-        modalLoginErrorVisible,
-        setModalLoginErrorVisible
-    }), [numeroEmpleado, modalConfiguracionDeIPVisible, serverIp, modalLoginErrorVisible, error]);
+       
+    }), [ serverIp ]);
 
         return (
         <LoginContext.Provider value={value}>
