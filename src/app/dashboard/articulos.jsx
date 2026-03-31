@@ -48,7 +48,13 @@ const Articulos = () => {
           value={search}
           onChangeText={setSearch}
         />
-        <Pressable onPress={()=>setSearch('')} >
+        <Pressable 
+          onPress={()=>setSearch('')}
+          style = {({pressed}) => [
+            {borderRadius: 5},
+            pressed && {backgroundColor: "#35bbec"}
+          ]}
+        >
           <MaterialIcons name="cleaning-services" size={24} color="#fff" style={{margin:10}}  />
         </Pressable>
       </View>
