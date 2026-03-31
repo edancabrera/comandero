@@ -12,7 +12,7 @@ import ModalConfiguracionDeIP from "../../components/loginComponents/modalConfig
 import ModalLoginError from "../../components/loginComponents/modalLoginError";
 
 import Logo from "../../../assets/crovrestaurante.png";
-import { loginRequest } from "../../services/authService";
+import { checkServer, loginRequest } from "../../services/authService";
 
 const login = () => {
 
@@ -51,7 +51,24 @@ const login = () => {
         router.replace('/dashboard');
         
       } catch (error) {
-        setError({ message: error.message});
+        let title = "Error";
+        let message = error.message;
+
+        switch (error.type) {
+          case "NETWORK_ERROR":
+            title = "Servidor no disponible";            
+            break;
+        
+          case "TIMEOUT":
+            title = "Tiempo de espera agotado"
+            break;
+          
+          case "SERVER_ERROR":
+            title = "Error del servidor"
+            break;
+        }
+
+        setError({ title, message});
         openModal(MODALS.LOGIN_ERROR);
         setNumeroEmpleado("");
       } finally {
@@ -74,7 +91,7 @@ const login = () => {
           value={numeroEmpleado}
         />
         {serverIp ? (
-          <Text style = {{color: '#fff'}}>Conectado al servidor con la IP: {serverIp}</Text>
+          <Text style = {{color: '#fff'}}>Configurado con la IP: {serverIp}</Text>
           ) : (
           <Text style = {{color: '#fff'}}>No se ha configurado la IP</Text>
         )}

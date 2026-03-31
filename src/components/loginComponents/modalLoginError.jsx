@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
   },
   paragraph: {
     fontSize: 16,
-    color: 'red'
+    color: 'red',
+    textAlign: 'center'
   }
 });
