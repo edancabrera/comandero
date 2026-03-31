@@ -153,7 +153,13 @@ const Mesas = () => {
             {mesas.map((mesa)=>(
               <Pressable 
                 key={mesa.id} 
-                style={[styles.mesasButton, {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)}]}
+                style={({ pressed }) => [
+                  styles.mesasButton, 
+                  {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)},
+                  pressed && mesa.estatus === 'DISPONIBLE' && {backgroundColor: '#12ff12', opacity: 0.7},
+                  pressed && mesa.estatus === 'OCUPADO' && {backgroundColor: '#fe1616"', opacity: 0.7},
+                  pressed && mesa.estatus === 'UNIDA' && {backgroundColor:"#79caf5", opacity: 0.7}
+                ]}
                 onPress={async () => {
                   seleccionarMesa(mesa);
                   if(mesa.estatus === 'DISPONIBLE'){
