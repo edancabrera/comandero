@@ -22,9 +22,10 @@ const ModalVerCuenta = () => {
     },[modals[MODALS.VER_CUENTA], mesaSeleccionada])
   return (
     <Modal 
-        animationType="slide" 
+        animationType="fade" 
         transparent={true} 
         visible={modals[MODALS.VER_CUENTA]}
+        statusBarTranslucent={true}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -38,7 +39,10 @@ const ModalVerCuenta = () => {
           </ScrollView>
           <View style={{ flexDirection: "row" }}>
             <Pressable
-              style={styles.button}
+              style={({ pressed }) => [
+                styles.button,
+                pressed && styles.buttonPressed
+              ]}
               onPress={() => {
                 closeModal(MODALS.VER_CUENTA);
                 setCuentaTexto("");
@@ -60,6 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)"
   },
   modalView: {
     maxHeight: '90%',
@@ -79,14 +84,18 @@ const styles = StyleSheet.create({
     width: '50%'
   },
   button: {
-    padding: 20,
+    padding: 10,
     margin: 5,
     elevation: 2,
     flex: 1,
-    backgroundColor: "#fffff0"
+    backgroundColor: "rgb(255, 0, 0)",
+    borderRadius: 5
+  },
+  buttonPressed: {
+    backgroundColor: "rgba(255, 0, 0, 0.5)"
   },
   buttonText: {
-    color: "#000",
+    color: "#fff",
     fontWeight: "bold",
     textAlign: "center",
     fontSize: 18

@@ -18,19 +18,23 @@ const ModalOpcionesDeMesa = () => {
    const router = useRouter();
   return (
     <Modal 
-        animationType="slide" 
+        animationType="fade" 
         transparent={true} 
         visible={modals[MODALS.OPCIONES_MESA]}
+        statusBarTranslucent={true}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
             <Pressable 
                 onPress={()=> closeModal(MODALS.OPCIONES_MESA) }
-                style={{ position: 'absolute', top: 5, right: 10}}
+                style={({ pressed }) => [
+                    { position: 'absolute', top: 5, right: 10, borderRadius: 5},
+                    pressed && {backgroundColor: 'rgba(255,0,0,0.5)'}
+                ]}
             >
                 <Ionicons name="close" size={36} color="red" />
             </Pressable>
-            <View style={{flexDirection:'row', flexWrap: 'wrap'}}>
+            <View style={{flexDirection:'row', flexWrap: 'wrap', justifyContent: 'center'}}>
                 <OpcionesDeMesaButton
                     icono={<AntDesign name="printer" size={24} color="black" />}
                     opcion={'IMPRIMIR CUENTA'}
@@ -129,9 +133,10 @@ const ModalOpcionesDeMesa = () => {
 const OpcionesDeMesaButton = ({icono, opcion, action, disabled = false}) => {
     return (
         <Pressable 
-            style={[
+            style={({ pressed }) => [
                 styles.button,
-                disabled && styles.buttonDisabled
+                disabled && styles.buttonDisabled,
+                pressed && {backgroundColor: "#35bbec" }
             ]}
             onPress={action}
             disabled={disabled}
@@ -152,6 +157,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalView: {
     margin: 20,

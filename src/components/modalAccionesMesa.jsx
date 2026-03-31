@@ -50,9 +50,10 @@ const ModalAccionesMesa = ({
 
   return (
     <Modal 
-        animationType="slide" 
+        animationType="fade" 
         transparent={true} 
         visible={visible}
+        statusBarTranslucent={true}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -82,7 +83,10 @@ const ModalAccionesMesa = ({
 
             <View style={{flexDirection: 'row'}}>
                 <Pressable
-                    style = {styles.button}
+                    style = {({ pressed }) => [
+                        styles.button,
+                        pressed && styles.buttonPressed
+                    ]}
                     onPress = {async () => {
                         const idsMesasSeleccionadas = mesasSeleccionadas.map(m => m.id);
                         if(mode === "DESUNIR"){
@@ -146,7 +150,10 @@ const ModalAccionesMesa = ({
                     <Text style = {styles.buttonText}>Guardar</Text>
                 </Pressable>
                 <Pressable
-                    style = {styles.button}
+                    style = {({ pressed }) => [
+                        styles.button,
+                        pressed && styles.buttonPressed
+                    ]}
                     onPress={() => {
                         onClose();
                         setMesasSeleccionadas([]);
@@ -170,14 +177,15 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.5)"
     },
     modalView: {
         width: '50%',
-        maxHeight: '99%',
+        maxHeight: '90%',
         margin: 20,
         backgroundColor: "white",
-        borderRadius: 20,
-        padding: 30,
+        borderRadius: 5,
+        padding: 10,
         alignItems: "center",
         shadowColor: "#000",
         shadowOffset: {
@@ -193,7 +201,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: 32,
         textAlign: 'center',
-        backgroundColor: "#faa80f"
+        backgroundColor: "#faa80f",
+        borderTopLeftRadius: 5,
+        borderTopRightRadius: 5
     },
     mesaInfo:{
         fontWeight: 'bold',
@@ -211,7 +221,11 @@ const styles = StyleSheet.create({
         margin: 5,
         elevation: 2,
         alignItems:'center',
-        backgroundColor: 'lightgrey'
+        backgroundColor: 'lightgrey',
+        borderRadius: 5
+  },
+  buttonPressed: {
+    backgroundColor: 'rgba(179, 179, 179, 0.5)'
   },
   buttonText: {
         fontWeight: 'bold'

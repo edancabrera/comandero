@@ -268,10 +268,11 @@ const ModalDividirComanda = () => {
 
   return (
     <Modal
-      animationType="slide"
+      animationType="fade"
       transparent={true}
       visible={modals[MODALS.DIVIDIR_COMANDA]}
       //onRequestClose={() => setModalDividirComandaVisible(false)}
+      statusBarTranslucent={true}
     >
       <ModalAccionesDividirComanda 
         title="Advertencia"
@@ -505,8 +506,8 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalView: {
-    width: "98%",
-    height: "90%",
+    width: "90%",
+    height: "85%",
     margin: 20,
     backgroundColor: "white",
     borderRadius: 10,

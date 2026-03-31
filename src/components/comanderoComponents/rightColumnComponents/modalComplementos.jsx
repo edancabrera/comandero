@@ -72,9 +72,11 @@ const ModalComplementos = () => {
 
   return (
     <Modal
-        animationType='slide'
+        animationType='fade'
         transparent={true}
         visible={ modals[MODALS.COMPLEMENTOS] }
+        statusBarTranslucent={true}
+        onRequestClose={()=>{closeModal(MODALS.COMPLEMENTOS)}}
     >
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -102,9 +104,12 @@ const ModalComplementos = () => {
                         setSeleccionados([]);
                         closeModal(MODALS.COMPLEMENTOS);
                     }}
-                    style={styles.button}
+                    style={({ pressed }) => [
+                        styles.button,
+                        pressed && {backgroundColor: 'rgba(250, 168, 15, 0.5)'}
+                    ]}
                 >
-                    <Text>Confirmar</Text>
+                    <Text style={{color: '#fff'}}>Confirmar</Text>
                 </Pressable>
             </View>
         </View>
@@ -119,6 +124,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   modalView: {
     margin: 40,
@@ -145,7 +151,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   button:{
-    backgroundColor: '#faa80f',
+    backgroundColor: 'rgb(250, 168, 15)',
     borderRadius: 5,
     padding: 15,
     marginTop: 10

@@ -15,9 +15,11 @@ const ModalCancelarComanda = () => {
     const router = useRouter();
   return (
     <Modal 
-            animationType="slide"
+            animationType="fade"
             transparent={true} 
             visible={ modals[MODALS.CANCELAR_COMANDA]}
+            statusBarTranslucent={true}
+            onRequestClose={()=>{closeModal(MODALS.CANCELAR_COMANDA)}}
         >
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -26,14 +28,22 @@ const ModalCancelarComanda = () => {
               <View style={{flexDirection: 'row'}}>
                 {pedidoACancelarEnviadoACocina &&
                     <Pressable
-                        style={[styles.button, styles.buttonNo]}
+                        style={({ pressed }) => [
+                        styles.button, 
+                        styles.buttonNo,
+                        pressed && styles.buttonNoPressed
+                      ]}
                         onPress={()=>{closeModal(MODALS.CANCELAR_COMANDA)}}
                     >
                         <Text style={styles.buttonText}>NO</Text>
                     </Pressable>
                 }
                 <Pressable
-                    style={[styles.button, styles.buttonSi]}
+                    style={({ pressed }) => [
+                      styles.button, 
+                      styles.buttonSi,
+                      pressed && styles.buttonSiPressed
+                    ]}
                     onPress={ async () => {
                       try {
                         await cancelarComanda();
@@ -61,6 +71,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: 'rgba(0, 0, 0, 0.5)'
   },
   modalView: {
     margin: 20,
@@ -83,12 +94,19 @@ const styles = StyleSheet.create({
     margin: 5,
     elevation: 2,
     flex: 1,
+    borderRadius: 5
   },
   buttonSi: {
-    backgroundColor: "green",
+      backgroundColor: 'green',
+  },
+  buttonSiPressed: {
+    backgroundColor: 'rgba(0, 128, 0, 0.5)',
   },
   buttonNo: {
     backgroundColor: "red",
+  },
+  buttonNoPressed: {
+    backgroundColor: 'rgba(128, 0, 0, 0.5)',
   },
   buttonText: {
     color: "#fff",

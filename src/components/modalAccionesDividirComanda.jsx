@@ -5,9 +5,10 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 const ModalAccionesDividirComanda  = ({title, paragraph, action, visiblity, setVisiblity, infoOnlyModal = false, infoAndActionModal = false, alert = false, question = false, successfull = false, titleColor = 'red'}) => {
   return (
     <Modal 
-        animationType="slide" 
+        animationType="fade" 
         transparent={true} 
         visible={visiblity}
+        statusBarTranslucent={true}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -23,7 +24,11 @@ const ModalAccionesDividirComanda  = ({title, paragraph, action, visiblity, setV
 
           <View style={{ flexDirection: "row" }}>
             <Pressable
-              style={[styles.button, styles.buttonNo]}
+              style={({ pressed }) => [
+                styles.button, 
+                styles.buttonNo,
+                pressed && styles.buttonNoPressed
+              ]}
               onPress={() => {
                 if(infoAndActionModal){
                     action();
@@ -35,7 +40,11 @@ const ModalAccionesDividirComanda  = ({title, paragraph, action, visiblity, setV
             </Pressable>
             {!infoOnlyModal &&
               <Pressable
-                style={[styles.button, styles.buttonSi]}
+                style={({ pressed }) => [
+                styles.button, 
+                styles.buttonSi,
+                pressed && styles.buttonSiPressed
+              ]}
                 onPress={() => {
                   action();
                   setVisiblity(!visiblity)
@@ -59,6 +68,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalView: {
     margin: 20,
@@ -85,8 +95,14 @@ const styles = StyleSheet.create({
   buttonSi: {
     backgroundColor: "green",
   },
+  buttonSiPressed: {
+    backgroundColor: "rgba(0, 255, 0, 0.5)"
+  },
   buttonNo: {
     backgroundColor: "red",
+  },
+  buttonNoPressed: {
+    backgroundColor: "rgba(255, 0, 0, 0.5)"
   },
   buttonText: {
     color: "white",

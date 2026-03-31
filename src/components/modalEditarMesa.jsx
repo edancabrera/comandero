@@ -11,14 +11,15 @@ const ModalEditarMesa = () => {
 
   return (
     <Modal 
-        animationType="slide" 
+        animationType="fade" 
         transparent={true} 
         visible={modals[MODALS.EDITAR_MESA]}
+        statusBarTranslucent={true}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
             <FontAwesome name="plus" size={36} color="green" />
-            <Text style={{fontWeight: 'bold', fontSize: 24}}>Añade una descripción</Text>
+            <Text style={{fontWeight: 'bold', fontSize: 24, textAlign: 'center'}}>Añade una descripción</Text>
             <TextInput 
                 style={styles.input}
                 value={descripcionMesa}
@@ -26,13 +27,21 @@ const ModalEditarMesa = () => {
             />
             <View style={{flexDirection: 'row'}}>
                 <Pressable 
-                    style={[styles.button, {backgroundColor: 'red'}]}
+                    style={({ pressed }) => [
+                        styles.button, 
+                        {backgroundColor: 'red'},
+                        pressed && {backgroundColor:'rgba(255,0,0,0.5)'}
+                    ]}
                     onPress={() => closeModal(MODALS.EDITAR_MESA)}
                 >
                     <Text style={{color: '#fff', fontWeight: 'bold'}}>Cancelar</Text>
                 </Pressable>
                 <Pressable 
-                    style={[styles.button, {backgroundColor: 'green'}]}
+                    style={({ pressed }) => [
+                        styles.button, 
+                        {backgroundColor: 'green'},
+                        pressed && {backgroundColor:'rgba(0,255,0,0.5)'}
+                    ]}
                     onPress={async () => {
                         if(!descripcionMesa){closeModal(MODALS.EDITAR_MESA); return}
                         
@@ -71,6 +80,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: "center",
         alignItems: "center",
+        backgroundColor: "rgba(0,0,0,0.5)",
     },
     modalView: {
         margin: 20,
@@ -79,8 +89,8 @@ const styles = StyleSheet.create({
         padding: 30,
         alignItems: "center",
         shadowColor: "#000",
-        maxWidth:"30%",
-        minWidth:"30%",
+        maxWidth:"40%",
+        minWidth:"40%",
         shadowOffset: {
         width: 0,
         height: 2,
@@ -101,6 +111,7 @@ const styles = StyleSheet.create({
         margin: 5,
         elevation: 2,
         flex: 1,
-        alignItems:'center'
+        alignItems:'center',
+        borderRadius: 5
   },
 })

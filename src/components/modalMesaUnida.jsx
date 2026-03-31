@@ -9,9 +9,10 @@ const ModalMesaUnida = ({mesa}) => {
 
   return (
     <Modal 
-        animationType="slide" 
+        animationType="fade" 
         transparent={true} 
         visible={ modals[MODALS.MESA_UNIDA] }
+        statusBarTranslucent={true}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -25,7 +26,10 @@ const ModalMesaUnida = ({mesa}) => {
 
           <View style={{ flexDirection: "row" }}>
             <Pressable
-              style={styles.button}
+              style={({ pressed }) => [
+                styles.button,
+                pressed && styles.buttonPressed
+              ]}
               onPress={ () => toggleModal(MODALS.MESA_UNIDA) }
             >
               <Text style={styles.buttonText}>OK</Text>
@@ -45,11 +49,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalView: {
     margin: 20,
     backgroundColor: "white",
-    borderRadius: 20,
+    borderRadius: 5,
     padding: 30,
     alignItems: "center",
     shadowColor: "#000",
@@ -67,7 +72,10 @@ const styles = StyleSheet.create({
     margin: 5,
     elevation: 2,
     flex: 1,
-    backgroundColor: "#12ff12"
+    backgroundColor: "rgb(18, 255, 18)"
+  },
+  buttonPressed: {
+    backgroundColor: "rgba(18, 255, 18,0.5)"
   },
   buttonText: {
     color: "white",

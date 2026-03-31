@@ -4,9 +4,10 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 const ModalConfirmarAccion = ({title, paragraph, onConfirm, visible, onClose, infoOnlyModal = false}) => {
   return (
     <Modal 
-        animationType="slide" 
+        animationType="fade" 
         transparent={true} 
         visible={visible}
+        statusBarTranslucent={true}
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
@@ -20,14 +21,22 @@ const ModalConfirmarAccion = ({title, paragraph, onConfirm, visible, onClose, in
 
           <View style={{ flexDirection: "row" }}>
             <Pressable
-              style={[styles.button, styles.buttonNo]}
+              style={({ pressed }) => [
+                styles.button, 
+                styles.buttonNo,
+                pressed && styles.buttonNoPressed
+              ]}
               onPress={onClose}
             >
               <Text style={styles.buttonText}>{infoOnlyModal? "Aceptar": "No"}</Text>
             </Pressable>
             {!infoOnlyModal &&
               <Pressable
-                style={[styles.button, styles.buttonSi]}
+                style={({ pressed }) => [
+                  styles.button, 
+                  styles.buttonSi,
+                  pressed && styles.buttonSiPressed
+                ]}
                 onPress={() => {
                   onConfirm?.();
                   onClose();
@@ -51,11 +60,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
   },
   modalView: {
     margin: 20,
     backgroundColor: "white",
-    borderRadius: 20,
+    borderRadius: 5,
     padding: 30,
     alignItems: "center",
     shadowColor: "#000",
@@ -73,12 +83,19 @@ const styles = StyleSheet.create({
     margin: 5,
     elevation: 2,
     flex: 1,
+    borderRadius: 5
   },
   buttonSi: {
-    backgroundColor: "green",
+    backgroundColor: "green"
+  },
+  buttonSiPressed: {
+    backgroundColor: 'rgba(0,255,0,0.5)'
   },
   buttonNo: {
-    backgroundColor: "red",
+    backgroundColor:'red'
+  },
+  buttonNoPressed: {
+    backgroundColor:'rgba(255,0,0,0.5)'
   },
   buttonText: {
     color: "white",
