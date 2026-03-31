@@ -34,7 +34,9 @@ const dashbaordLayout = () => {
                     }} 
                     style={{marginRight: 60}}
                 >
-                    <AntDesign name="poweroff" size={24} color="#fff" />
+                    {({ pressed }) => (
+                        <AntDesign name="poweroff" size={24} color={pressed ? "#c0baba" :"#fff"} />
+                    )}
                 </Pressable>
             ),
             tabBarActiveTintColor: "#faa80f",

@@ -43,11 +43,10 @@ const Comandero = () => {
                     onPress={() =>{ openModal(MODALS.SALIR_COMANDA) }}
                     style={{ marginRight: 60 }}
                 >
-                    <Ionicons
-                        name = "arrow-back"
-                        size = {24}
-                        color = '#fff'
-                    />
+                    {({ pressed }) => (
+                        <Ionicons name = "arrow-back"
+                        size = {24} color={pressed ? "#c0baba" :"#fff"} />
+                    )}
                 </Pressable>
             )
         }}
