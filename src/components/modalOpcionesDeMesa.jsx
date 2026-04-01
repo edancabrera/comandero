@@ -36,6 +36,16 @@ const ModalOpcionesDeMesa = () => {
             </Pressable>
             <View style={{flexDirection:'row', flexWrap: 'wrap', justifyContent: 'center'}}>
                 <OpcionesDeMesaButton
+                    icono={<Foundation name="clipboard-pencil" size={24} color="black" />}
+                    opcion={'ABRIR COMANDA'}
+                    action={async () =>{
+                        await abrirComandaMesa();
+                        router.replace("/dashboard/comandero");
+                        closeModal(MODALS.OPCIONES_MESA);
+                    }}
+                    bgColors={{normal:"#faa80f", disabled: "#c38512", pressed: "#f6ba4a"}}
+                />
+                <OpcionesDeMesaButton
                     icono={<AntDesign name="printer" size={24} color="black" />}
                     opcion={'IMPRIMIR CUENTA'}
                     action={async () => {
@@ -49,6 +59,7 @@ const ModalOpcionesDeMesa = () => {
                         }
                         closeModal(MODALS.OPCIONES_MESA);
                     }}
+                    bgColors={{normal:"#faa80f", disabled: "#c38512", pressed: "#f6ba4a"}}
                 />
                 <OpcionesDeMesaButton
                     icono={<MaterialIcons name="account-balance-wallet" size={24} color="black" />}
@@ -56,15 +67,6 @@ const ModalOpcionesDeMesa = () => {
                     action={async () => {
                         closeModal(MODALS.OPCIONES_MESA);
                         openModal(MODALS.VER_CUENTA);
-                    }}
-                />
-                <OpcionesDeMesaButton
-                    icono={<Foundation name="clipboard-pencil" size={24} color="black" />}
-                    opcion={'ABRIR COMANDA'}
-                    action={async () =>{
-                        await abrirComandaMesa();
-                        router.replace("/dashboard/comandero");
-                        closeModal(MODALS.OPCIONES_MESA);
                     }}
                 />
                 <OpcionesDeMesaButton
@@ -130,13 +132,14 @@ const ModalOpcionesDeMesa = () => {
   );
 };
 
-const OpcionesDeMesaButton = ({icono, opcion, action, disabled = false}) => {
+const OpcionesDeMesaButton = ({icono, opcion, action, disabled = false, bgColors = {normal: "#2596be", disabled: "#185e78", pressed: "#35bbec"}}) => {
     return (
         <Pressable 
             style={({ pressed }) => [
                 styles.button,
-                disabled && styles.buttonDisabled,
-                pressed && {backgroundColor: "#35bbec" }
+                {backgroundColor: bgColors.normal},
+                disabled && {backgroundColor: bgColors.disabled},
+                pressed && {backgroundColor: bgColors.pressed}
             ]}
             onPress={action}
             disabled={disabled}
@@ -178,13 +181,9 @@ const styles = StyleSheet.create({
     padding: 10,
     margin: 5,
     elevation: 2,
-    backgroundColor: "#2596be",
     alignItems: 'center',
     borderRadius: 5,
     width: 120
-  },
-  buttonDisabled:{
-    backgroundColor: "#185e78",
   },
   buttonText: {
     color: "white",
