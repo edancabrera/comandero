@@ -20,6 +20,7 @@ export const MODALS = {
     DIVIDIR_COMANDA: 'dividirComanda',
     ERROR_IMPRESORA: 'errorConfiguracionImpresora',
     VERIFICAR_ESTATUS_MESA: 'verificarEstatusMesa',
+    CERRAR_SESION: 'cerrarSesion',
 
     LOGIN_ERROR: 'loginError',
     CONFIG_IP: 'configuracionDeIp'

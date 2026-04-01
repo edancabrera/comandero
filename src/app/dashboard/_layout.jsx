@@ -3,11 +3,12 @@ import { Tabs, useRouter, Redirect } from 'expo-router';
 import { Ionicons } from "@expo/vector-icons";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { useComandero } from '../../context/ComanderoContext';
+import { useUI, MODALS } from '../../context/UIContext';
 
 
 const dashbaordLayout = () => {
-    const {seleccionarArea, usuario, setUsuario} = useComandero();
-    const router = useRouter();
+    const { usuario } = useComandero();
+    const { openModal } = useUI();
     if (!usuario) {
         return <Redirect href="/login" />;
     }
@@ -27,11 +28,7 @@ const dashbaordLayout = () => {
             },
             headerRight: () => (
                 <Pressable 
-                    onPress={()=> {
-                        seleccionarArea(null);
-                        setUsuario(null);
-                        router.replace('/login')
-                    }} 
+                    onPress={()=> openModal(MODALS.CERRAR_SESION)} 
                     style={{marginRight: 60}}
                 >
                     {({ pressed }) => (

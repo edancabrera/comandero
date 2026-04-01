@@ -30,7 +30,9 @@ const Mesas = () => {
     mesaSeleccionada, 
     pedido,
     imprimirCuenta,
-    verificarEstatusMesa
+    verificarEstatusMesa,
+    setUsuario,
+    seleccionarArea
   } = useComandero();
 
   const { modals, openModal, closeModal, descripcionMesa } = useUI();
@@ -120,6 +122,17 @@ const Mesas = () => {
         visible={ modals[MODALS.VERIFICAR_ESTATUS_MESA] }
         onClose={ () => closeModal(MODALS.VERIFICAR_ESTATUS_MESA) }
         infoOnlyModal = {true}
+      />
+      <ModalConfirmarAccion 
+        title={"Cerrar sesión"}
+        paragraph={"¿Está seguro que desea cerrar sesión?"}
+        visible={ modals[MODALS.CERRAR_SESION] }
+        onClose={ () => closeModal(MODALS.CERRAR_SESION) }
+        onConfirm={() => {
+          seleccionarArea(null);
+          setUsuario(null);
+          router.replace('/login')
+        }}
       />
       
 
