@@ -16,15 +16,15 @@ const FinalizarComanda = () => {
       <Pressable
         style={{alignItems: 'center'}}
         onPress={async () => {
-          if(calcularAgregados().length === 0 && detallesAEliminar.length === 0) {
-            openModal(MODALS.COMANDA_SIN_CAMBIOS);
-            return;
-          };
           try {
             if(!pedido.length){
               openModal(MODALS.COMANDA_VACIA);
               return;
             }
+            if(calcularAgregados().length === 0 && detallesAEliminar.length === 0) {
+              openModal(MODALS.COMANDA_SIN_CAMBIOS);
+              return;
+            };
             await verificarImpresora("COCINA");
             openModal(MODALS.ENVIAR_COCINA);
           } catch (error) {
@@ -39,15 +39,15 @@ const FinalizarComanda = () => {
       <Pressable 
         style={{alignItems: 'center'}}
         onPress={async () => {
-          if(calcularAgregados().length === 0 && detallesAEliminar.length === 0) {
-            openModal(MODALS.COMANDA_SIN_CAMBIOS);
-            return;
-          };
           try {
             if(!pedido.length){
               openModal(MODALS.COMANDA_VACIA);
               return;
             }
+            if(calcularAgregados().length === 0 && detallesAEliminar.length === 0) {
+              openModal(MODALS.COMANDA_SIN_CAMBIOS);
+              return;
+            };
             await verificarImpresora("COCINA");
             openModal(MODALS.ENVIAR_URGENTE)
           } catch (error) {
