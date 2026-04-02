@@ -112,6 +112,13 @@ const Comandero = () => {
             onClose={ () => closeModal(MODALS.ENVIAR_URGENTE) }
         />
         <ModalConfirmarAccion 
+            title='No se editó la comanda'
+            paragraph='Ningún producto se envió a cocina'
+            visible={ modals[MODALS.COMANDA_SIN_CAMBIOS] }
+            onClose={ () => closeModal(MODALS.COMANDA_SIN_CAMBIOS) }
+            infoOnlyModal = {true}
+        />
+        <ModalConfirmarAccion 
             title='Comanda vacía'
             paragraph='Comanda vacia, agrega platillo/bebida para enviar a cocina'
             visible={ modals[MODALS.COMANDA_VACIA] }

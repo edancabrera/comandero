@@ -7,15 +7,19 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 const FinalizarComanda = () => {
-  const {pedido, setPedidoACancelarEnviadoACocina, verificarImpresora} = useComandero();
+  const {pedido, setPedidoACancelarEnviadoACocina, verificarImpresora, calcularAgregados, detallesAEliminar} = useComandero();
 
   const { openModal, setPrintConfErrorMsg } = useUI();
 
   return (
     <View style={{flex:1, flexDirection:'row', justifyContent: 'space-around', alignItems: 'center'}}>
-      <Pressable 
+      <Pressable
         style={{alignItems: 'center'}}
-        onPress={async () => { 
+        onPress={async () => {
+          if(calcularAgregados().length === 0 && detallesAEliminar.length === 0) {
+            openModal(MODALS.COMANDA_SIN_CAMBIOS);
+            return;
+          };
           try {
             if(!pedido.length){
               openModal(MODALS.COMANDA_VACIA);
@@ -34,7 +38,11 @@ const FinalizarComanda = () => {
       </Pressable>
       <Pressable 
         style={{alignItems: 'center'}}
-        onPress={async () => { 
+        onPress={async () => {
+          if(calcularAgregados().length === 0 && detallesAEliminar.length === 0) {
+            openModal(MODALS.COMANDA_SIN_CAMBIOS);
+            return;
+          };
           try {
             if(!pedido.length){
               openModal(MODALS.COMANDA_VACIA);

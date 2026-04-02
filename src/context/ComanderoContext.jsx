@@ -612,6 +612,8 @@ export const ComanderoProvider = ({children}) => {
         enviarComandaACocinaYCobrarCuenta,
         verificarImpresora,
         verificarEstatusMesa,
+        calcularAgregados,
+        detallesAEliminar,
 
         cancelarComanda,
 

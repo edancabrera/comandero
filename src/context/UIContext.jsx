@@ -8,6 +8,7 @@ export const MODALS = {
     COMPLEMENTOS: 'complementos',
     ENVIAR_COCINA: 'enviarACocina',
     ENVIAR_URGENTE: 'enviarACocinaUrgente',
+    COMANDA_SIN_CAMBIOS: 'comandaSinCambios',
     ENVIAR_Y_COBRAR: 'enviarYCobrar',
     COMANDA_VACIA: 'comandaVacia',
     MESA_UNIDA: 'mesaUnida',
