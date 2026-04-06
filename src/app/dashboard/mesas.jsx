@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useComandero } from '../../context/ComanderoContext';
 import { useUI, MODALS } from '../../context/UIContext';
 
-import { StyleSheet, Text, View, ScrollView, Pressable } from 'react-native'
+import { StyleSheet, Text, View, ScrollView, Pressable, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from 'expo-router';
 
@@ -40,6 +40,7 @@ const Mesas = () => {
   const [mesas, setMesas] = useState([]);
   const [mesaUnida, setMesaUnida] = useState(null);
   const [estatusMesaResponse, setEstatusMesaResponse] = useState(null);
+  const [loading, setLoading] = useState(false);
 
     const getMesasButtonBackgroundColor = (estatus) => {
       switch(estatus){
@@ -80,6 +81,11 @@ const Mesas = () => {
       style={styles.container}
       edges={["left", "right", "bottom"]}
     >
+      {loading && (
+        <View style={styles.loadingOverlay}>
+          <ActivityIndicator size='120' />
+        </View>
+      )}
       <ModalOpcionesDeMesa />
       <ModalEditarMesa />
       <ModalMesaUnida mesa={mesaUnida}/>
@@ -145,11 +151,20 @@ const Mesas = () => {
             <Text style={styles.mesasTitle}>{areaSeleccionada?.nombre}</Text>
             {areaSeleccionada && 
               <Pressable 
-                onPress={obtenerMesasPorArea}
+                onPress={async () => {
+                  try {
+                    setLoading(true);
+                    await obtenerMesasPorArea();
+                  } catch {
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
                 style={({ pressed }) => [
                   styles.refreshButton,
-                  pressed && styles.refreshButtonPressed
+                  pressed || loading && styles.refreshButtonPressed
                 ]}
+                disabled={loading}
               >
                 <View style={{flexDirection: 'row', alignItems: 'center'}}>
                   <Text style={styles.refreshButtonText}
@@ -165,18 +180,23 @@ const Mesas = () => {
             <View style={styles.mesasButtonsContainer}>
             {mesas.map((mesa)=>(
               <Pressable 
-                key={mesa.id} 
+                key={mesa.id}
+                disabled={loading} 
                 style={({ pressed }) => [
                   styles.mesasButton, 
                   {backgroundColor: getMesasButtonBackgroundColor(mesa.estatus)},
                   pressed && mesa.estatus === 'DISPONIBLE' && {backgroundColor: '#12ff12', opacity: 0.7},
-                  pressed && mesa.estatus === 'OCUPADO' && {backgroundColor: '#fe1616"', opacity: 0.7},
-                  pressed && mesa.estatus === 'UNIDA' && {backgroundColor:"#79caf5", opacity: 0.7}
+                  pressed && mesa.estatus === 'OCUPADO' && {backgroundColor: '#fe1616', opacity: 0.7},
+                  pressed && mesa.estatus === 'UNIDA' && {backgroundColor:"#79caf5", opacity: 0.7},
+                  loading && mesa.estatus === 'DISPONIBLE' && {backgroundColor: '#17ca17', opacity: 0.7},
+                  loading && mesa.estatus === 'OCUPADO' && {backgroundColor: '#8f2b2b"', opacity: 0.7},
+                  loading && mesa.estatus === 'UNIDA' && {backgroundColor:"#79caf5", opacity: 0.7}
                 ]}
                 onPress={async () => {
                   seleccionarMesa(mesa);
                   if(mesa.estatus === 'DISPONIBLE'){
                     try {
+                      setLoading(true);
                       const response = await verificarEstatusMesa(mesa.id);
                       if(!response.disponible){
                         setEstatusMesaResponse(response);
@@ -186,9 +206,12 @@ const Mesas = () => {
                       }
                     } catch (error) {
                       console.error(error)
+                    } finally {
+                      setLoading(false);
                     }
                   } else if(mesa.estatus === 'OCUPADO'){
                     try {
+                      setLoading(true);
                       const response = await verificarEstatusMesa(mesa.id);
                       if(!response.ocupada){
                         setEstatusMesaResponse(response);
@@ -198,18 +221,31 @@ const Mesas = () => {
                       }
                     } catch (error) {
                       console.error(error)
+                    } finally {
+                      setLoading(false);
                     }
                   } else if(mesa.estatus === 'UNIDA'){
-                    const mesaPrincipal = mesas.find(
-                      m => m.id === mesa.mesaPrincipalId
-                    );
-                    setMesaUnida({
-                      ...mesa,
-                      mesaPrincipal
-                    });
-                    openModal(MODALS.MESA_UNIDA);
-                  }
-                }}
+                    try {
+                      setLoading(true);
+                      const response = await verificarEstatusMesa(mesa.id);
+                      if(response.estatus !== "UNIDA"){
+                        return;
+                      } else {
+                        const mesaPrincipal = mesas.find(
+                          m => m.id === mesa.mesaPrincipalId
+                        );
+                        setMesaUnida({
+                          ...mesa,
+                          mesaPrincipal
+                        });
+                        openModal(MODALS.MESA_UNIDA);
+                      }
+                    } catch (error) {
+                      console.error(error)
+                    } finally {
+                      setLoading(false);
+                    }
+                }}}
               >
                 <MaterialIcons name="table-bar" size={32} color="#cf8a5e" />
                 <Text 
@@ -297,5 +333,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     color: '#fff'
+  },
+  loadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10
   }
 })
