@@ -27,7 +27,16 @@ export const MODALS = {
     CONFIG_IP: 'configuracionDeIp'
 };
 
+export const LOADINGS = {
+    OPCIONES_MESA: 'opcionesDeMesaLoading'
+}
+
 const initialModals = Object.values(MODALS).reduce((acc, key) => {
+    acc[key] = false;
+    return acc;
+}, {});
+
+const initialLoadings = Object.values(LOADINGS).reduce((acc, key) => {
     acc[key] = false;
     return acc;
 }, {});
@@ -40,6 +49,7 @@ export const UIProvider = ({ children }) => {
     const [printConfErrorMsg, setPrintConfErrorMsg] = useState("");
 
     const [modals, setModals] = useState(initialModals);
+    const [loadings, setLoadings] = useState(initialLoadings);
 
     const openModal = useCallback((name) => {
         setModals(prev => ({ ...prev, [name]: true }));
@@ -53,15 +63,26 @@ export const UIProvider = ({ children }) => {
         setModals(prev => ({ ...prev, [name]: !prev[name] }));
     }, []);
 
+    const startLoading = useCallback((name) => {
+        setLoadings(prev => ({ ...prev, [name]: true }));
+    })
+
+    const finishLoading = useCallback((name) => {
+        setLoadings(prev => ({ ...prev, [name]: false }));
+    })
+
 
     const value = useMemo( () => ({
         modals,
         openModal,
         closeModal,
         toggleModal,
+        loadings,
+        startLoading,
+        finishLoading,
         descripcionMesa, setDescripcionMesa,
-        printConfErrorMsg, setPrintConfErrorMsg
-    }), [modals, openModal, closeModal, toggleModal, descripcionMesa, printConfErrorMsg ]);
+        printConfErrorMsg, setPrintConfErrorMsg,
+    }), [modals, openModal, closeModal, toggleModal, descripcionMesa, printConfErrorMsg, loadings, startLoading, finishLoading ]);
 
     return (
         <UIContext.Provider value = {value}>

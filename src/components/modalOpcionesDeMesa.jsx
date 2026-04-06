@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, Modal, Pressable } from "react-native";
+import { StyleSheet, Text, View, Modal, Pressable, ActivityIndicator } from "react-native";
 import { useComandero } from "../context/ComanderoContext";
-import { useUI, MODALS } from "../context/UIContext";
+import { useUI, MODALS, LOADINGS } from "../context/UIContext";
 import { useRouter } from 'expo-router';
 
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -13,7 +13,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 const ModalOpcionesDeMesa = () => {
    const { abrirComandaMesa, reimprimirTicket, imprimirCuenta, verificarImpresora, mesaSeleccionada } = useComandero();
 
-   const { modals, openModal, closeModal, setPrintConfErrorMsg } = useUI();
+   const { modals, openModal, closeModal, setPrintConfErrorMsg, loadings, startLoading, finishLoading } = useUI();
 
    const router = useRouter();
   return (
@@ -25,6 +25,11 @@ const ModalOpcionesDeMesa = () => {
     >
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
+            {loadings[LOADINGS.OPCIONES_MESA] && (
+                <View style={styles.loadingOverlay}>
+                    <ActivityIndicator size='120' />
+                </View>
+            )}
             <Pressable 
                 onPress={()=> closeModal(MODALS.OPCIONES_MESA) }
                 style={({ pressed }) => [
@@ -39,9 +44,15 @@ const ModalOpcionesDeMesa = () => {
                     icono={<Foundation name="clipboard-pencil" size={24} color="black" />}
                     opcion={'ABRIR COMANDA'}
                     action={async () =>{
-                        await abrirComandaMesa();
-                        router.replace("/dashboard/comandero");
-                        closeModal(MODALS.OPCIONES_MESA);
+                        try {
+                            startLoading(LOADINGS.OPCIONES_MESA);
+                            await abrirComandaMesa();
+                        } catch {
+                        } finally {
+                            finishLoading(LOADINGS.OPCIONES_MESA);
+                            router.replace("/dashboard/comandero");
+                            closeModal(MODALS.OPCIONES_MESA);
+                        }
                     }}
                     bgColors={{normal:"#faa80f", disabled: "#c38512", pressed: "#f6ba4a"}}
                 />
@@ -50,14 +61,17 @@ const ModalOpcionesDeMesa = () => {
                     opcion={'IMPRIMIR CUENTA'}
                     action={async () => {
                         try {
+                            startLoading(LOADINGS.OPCIONES_MESA);
                             await verificarImpresora("COCINA");
                             await verificarImpresora("ADMIN");
                             await imprimirCuenta();
                         } catch (error) {
                             setPrintConfErrorMsg(error.message);
                             openModal(MODALS.ERROR_IMPRESORA);
+                        } finally {
+                            finishLoading(LOADINGS.OPCIONES_MESA);
+                            closeModal(MODALS.OPCIONES_MESA);
                         }
-                        closeModal(MODALS.OPCIONES_MESA);
                     }}
                     bgColors={{normal:"#faa80f", disabled: "#c38512", pressed: "#f6ba4a"}}
                 />
@@ -100,13 +114,16 @@ const ModalOpcionesDeMesa = () => {
                     opcion={'REIMPRIMIR PEDIDO'}
                     action={async () => {
                         try {
+                            startLoading(LOADINGS.OPCIONES_MESA);
                             await verificarImpresora("COCINA");
                             await reimprimirTicket();
                         } catch (error) {
                             setPrintConfErrorMsg(error.message);
                             openModal(MODALS.ERROR_IMPRESORA);
+                        } finally {
+                            finishLoading(LOADINGS.OPCIONES_MESA);
+                            closeModal(MODALS.OPCIONES_MESA);
                         }
-                        closeModal(MODALS.OPCIONES_MESA);
                     }}
                 />
                 <OpcionesDeMesaButton
@@ -133,16 +150,18 @@ const ModalOpcionesDeMesa = () => {
 };
 
 const OpcionesDeMesaButton = ({icono, opcion, action, disabled = false, bgColors = {normal: "#2596be", disabled: "#185e78", pressed: "#35bbec"}}) => {
+    const { loadings } = useUI();
     return (
         <Pressable 
             style={({ pressed }) => [
                 styles.button,
                 {backgroundColor: bgColors.normal},
                 disabled && {backgroundColor: bgColors.disabled},
+                loadings[LOADINGS.OPCIONES_MESA] && {backgroundColor: bgColors.disabled},
                 pressed && {backgroundColor: bgColors.pressed}
             ]}
             onPress={action}
-            disabled={disabled}
+            disabled={disabled || loadings[LOADINGS.OPCIONES_MESA]}
         >
             {icono}
             <Text style={[
@@ -192,5 +211,11 @@ const styles = StyleSheet.create({
   },
   buttonDisabledText: {
     color: "#cabebe"
+  },
+  loadingOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 10
   }
 });
