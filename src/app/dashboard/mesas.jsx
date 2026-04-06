@@ -76,6 +76,84 @@ const Mesas = () => {
     obtenerMesasPorArea();
   }, [areaSeleccionada, pedido, descripcionMesa, mesaSeleccionada, imprimirCuenta, modals[MODALS.OPCIONES_MESA], modals[MODALS.DIVIDIR_COMANDA]]); //remover eventualmente del arreglo de dependencias las modals, por algo más específico
 
+  const handleMesaPress = async (mesa) => {
+    seleccionarMesa(mesa);
+
+    switch (mesa.estatus) {
+      case 'DISPONIBLE':
+        await handleMesaDisponible(mesa);
+        break;
+
+      case 'OCUPADO':
+        await handleMesaOcupada(mesa);
+        break;
+
+      case 'UNIDA':
+        await handleMesaUnida(mesa);
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  const handleMesaDisponible = async (mesa) => {
+    try {
+      setLoading(true);
+      const response = await verificarEstatusMesa(mesa.id);
+      if(!response.disponible){
+        setEstatusMesaResponse(response);
+        openModal(MODALS.VERIFICAR_ESTATUS_MESA);
+      } else {
+        router.push('dashboard/comandero');
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMesaOcupada = async (mesa) => {
+    try {
+      setLoading(true);
+      const response = await verificarEstatusMesa(mesa.id);
+      if(!response.ocupada){
+        setEstatusMesaResponse(response);
+        openModal(MODALS.VERIFICAR_ESTATUS_MESA);
+      } else {
+        openModal(MODALS.OPCIONES_MESA);
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleMesaUnida = async (mesa) => {
+    try {
+      setLoading(true);
+      const response = await verificarEstatusMesa(mesa.id);
+      if(response.estatus !== "UNIDA"){
+        return;
+      } else {
+        const mesaPrincipal = mesas.find(
+          m => m.id === mesa.mesaPrincipalId
+        );
+        setMesaUnida({
+          ...mesa,
+          mesaPrincipal
+        });
+        openModal(MODALS.MESA_UNIDA);
+      }
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <SafeAreaView 
       style={styles.container}
@@ -192,60 +270,7 @@ const Mesas = () => {
                   loading && mesa.estatus === 'OCUPADO' && {backgroundColor: '#8f2b2b"', opacity: 0.7},
                   loading && mesa.estatus === 'UNIDA' && {backgroundColor:"#79caf5", opacity: 0.7}
                 ]}
-                onPress={async () => {
-                  seleccionarMesa(mesa);
-                  if(mesa.estatus === 'DISPONIBLE'){
-                    try {
-                      setLoading(true);
-                      const response = await verificarEstatusMesa(mesa.id);
-                      if(!response.disponible){
-                        setEstatusMesaResponse(response);
-                        openModal(MODALS.VERIFICAR_ESTATUS_MESA);
-                      } else {
-                        router.push('dashboard/comandero');
-                      }
-                    } catch (error) {
-                      console.error(error)
-                    } finally {
-                      setLoading(false);
-                    }
-                  } else if(mesa.estatus === 'OCUPADO'){
-                    try {
-                      setLoading(true);
-                      const response = await verificarEstatusMesa(mesa.id);
-                      if(!response.ocupada){
-                        setEstatusMesaResponse(response);
-                        openModal(MODALS.VERIFICAR_ESTATUS_MESA);
-                      } else {
-                        openModal(MODALS.OPCIONES_MESA);
-                      }
-                    } catch (error) {
-                      console.error(error)
-                    } finally {
-                      setLoading(false);
-                    }
-                  } else if(mesa.estatus === 'UNIDA'){
-                    try {
-                      setLoading(true);
-                      const response = await verificarEstatusMesa(mesa.id);
-                      if(response.estatus !== "UNIDA"){
-                        return;
-                      } else {
-                        const mesaPrincipal = mesas.find(
-                          m => m.id === mesa.mesaPrincipalId
-                        );
-                        setMesaUnida({
-                          ...mesa,
-                          mesaPrincipal
-                        });
-                        openModal(MODALS.MESA_UNIDA);
-                      }
-                    } catch (error) {
-                      console.error(error)
-                    } finally {
-                      setLoading(false);
-                    }
-                }}}
+                onPress={async () => handleMesaPress(mesa)}
               >
                 <MaterialIcons name="table-bar" size={32} color="#cf8a5e" />
                 <Text 
