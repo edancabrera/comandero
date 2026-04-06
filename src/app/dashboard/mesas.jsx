@@ -41,40 +41,40 @@ const Mesas = () => {
   const [mesaUnida, setMesaUnida] = useState(null);
   const [estatusMesaResponse, setEstatusMesaResponse] = useState(null);
   const [loading, setLoading] = useState(false);
-
-    const getMesasButtonBackgroundColor = (estatus) => {
-      switch(estatus){
-        case 'DISPONIBLE':
-          return "#12ff12";
-        case 'OCUPADO':
-          return "#fe1616";
-        case 'COBRANDO':
-          return "#fbfb1b";
-        case 'UNIDA':
-          return "#79caf5";
-        default:
-          return "#12ff12"
-      }
+  
+  const getMesasButtonBackgroundColor = (estatus) => {
+    switch(estatus){
+      case 'DISPONIBLE':
+        return "#12ff12";
+      case 'OCUPADO':
+        return "#fe1616";
+      case 'COBRANDO':
+        return "#fbfb1b";
+      case 'UNIDA':
+        return "#79caf5";
+      default:
+        return "#12ff12"
     }
-
-      const obtenerMesasPorArea = async () => {
-        if(!areaSeleccionada) return;
-        try {
-          const url = await buildApiUrl(`/areas/${areaSeleccionada.id}/mesas`)
-          const response = await fetch(url)
-          if(!response.ok){
-            throw new Error ('Error en la respuesta del servidor');
-          }
-          const data = await response.json();
-          setMesas(data);
-        } catch (error) {
-          console.error('Error al obtener mesas', error)
+  }
+  
+  const obtenerMesasPorArea = async () => {
+    if(!areaSeleccionada) return;
+      try {
+        const url = await buildApiUrl(`/areas/${areaSeleccionada.id}/mesas`)
+        const response = await fetch(url)
+        if(!response.ok){
+          throw new Error ('Error en la respuesta del servidor');
         }
+        const data = await response.json();
+        setMesas(data);
+      } catch (error) {
+        console.error('Error al obtener mesas', error)
       }
-
-      useEffect( () => {
-        obtenerMesasPorArea();
-      }, [areaSeleccionada, pedido, descripcionMesa, mesaSeleccionada, imprimirCuenta, modals[MODALS.OPCIONES_MESA], modals[MODALS.DIVIDIR_COMANDA]]); //remover eventualmente del arreglo de dependencias las modals, por algo más específico
+  }
+  
+  useEffect( () => {
+    obtenerMesasPorArea();
+  }, [areaSeleccionada, pedido, descripcionMesa, mesaSeleccionada, imprimirCuenta, modals[MODALS.OPCIONES_MESA], modals[MODALS.DIVIDIR_COMANDA]]); //remover eventualmente del arreglo de dependencias las modals, por algo más específico
 
   return (
     <SafeAreaView 
