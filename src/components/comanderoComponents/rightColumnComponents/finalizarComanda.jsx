@@ -11,6 +11,52 @@ const FinalizarComanda = () => {
 
   const { openModal, setPrintConfErrorMsg } = useUI();
 
+  const handleEnviarCocina = async () => {
+    try {
+      if(!pedido.length){
+        openModal(MODALS.COMANDA_VACIA);
+        return;
+      }
+      if(calcularAgregados().length === 0 && detallesAEliminar.length === 0) {
+        openModal(MODALS.COMANDA_SIN_CAMBIOS);
+        return;
+      };
+      await verificarImpresora("COCINA");
+      openModal(MODALS.ENVIAR_COCINA);
+    } catch (error) {
+      setPrintConfErrorMsg(error.message);
+      openModal(MODALS.ERROR_IMPRESORA);
+    }
+  }
+
+  const handleEnviarUrgente = async () => {
+    try {
+      if(!pedido.length){
+        openModal(MODALS.COMANDA_VACIA);
+        return;
+      }
+      if(calcularAgregados().length === 0 && detallesAEliminar.length === 0) {
+        openModal(MODALS.COMANDA_SIN_CAMBIOS);
+        return;
+      };
+      await verificarImpresora("COCINA");
+      openModal(MODALS.ENVIAR_URGENTE)
+    } catch (error) {
+      setPrintConfErrorMsg(error.message);
+      openModal(MODALS.ERROR_IMPRESORA);
+    }
+  }
+
+  const handleCancelar = () => {
+    if(pedido.length===0)return;
+    if(pedido.every(item => item.estatusCocina === 0)){
+      setPedidoACancelarEnviadoACocina(false)
+    } else {
+      setPedidoACancelarEnviadoACocina(true)
+    }
+    openModal(MODALS.CANCELAR_COMANDA);    
+  }
+
   return (
     <View style={styles.buttonsContainer}>
       <Pressable
@@ -21,23 +67,7 @@ const FinalizarComanda = () => {
             backgroundColor: pressed ? '#faa80f' : '#2596be' 
           }
         ])}
-        onPress={async () => {
-          try {
-            if(!pedido.length){
-              openModal(MODALS.COMANDA_VACIA);
-              return;
-            }
-            if(calcularAgregados().length === 0 && detallesAEliminar.length === 0) {
-              openModal(MODALS.COMANDA_SIN_CAMBIOS);
-              return;
-            };
-            await verificarImpresora("COCINA");
-            openModal(MODALS.ENVIAR_COCINA);
-          } catch (error) {
-            setPrintConfErrorMsg(error.message);
-            openModal(MODALS.ERROR_IMPRESORA);
-          }
-        }}
+        onPress={handleEnviarCocina}
       >
         {({ pressed }) => (
           <>
@@ -51,23 +81,7 @@ const FinalizarComanda = () => {
           styles.button,
           { backgroundColor: pressed ? '#faa80f' : '#2596be' }
         ])}
-        onPress={async () => {
-          try {
-            if(!pedido.length){
-              openModal(MODALS.COMANDA_VACIA);
-              return;
-            }
-            if(calcularAgregados().length === 0 && detallesAEliminar.length === 0) {
-              openModal(MODALS.COMANDA_SIN_CAMBIOS);
-              return;
-            };
-            await verificarImpresora("COCINA");
-            openModal(MODALS.ENVIAR_URGENTE)
-          } catch (error) {
-            setPrintConfErrorMsg(error.message);
-            openModal(MODALS.ERROR_IMPRESORA);
-          }
-        }}
+        onPress={handleEnviarUrgente}
       >
         {({ pressed }) => (
           <>
@@ -84,15 +98,7 @@ const FinalizarComanda = () => {
             backgroundColor: pressed ? 'red' : '#2596be' 
           }
         ])}
-        onPress={()=>{
-          if(pedido.length===0)return;
-          if(pedido.every(item => item.estatusCocina === 0)){
-            setPedidoACancelarEnviadoACocina(false)
-          } else {
-            setPedidoACancelarEnviadoACocina(true)
-          }
-          openModal(MODALS.CANCELAR_COMANDA);
-        }}
+        onPress={handleCancelar}
       >
         {({ pressed }) => (
           <>
