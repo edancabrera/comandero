@@ -1,7 +1,7 @@
 import { useComandero } from '../../context/ComanderoContext';
-import { useUI, MODALS } from '../../context/UIContext';
+import { useUI, MODALS, LOADINGS } from '../../context/UIContext';
 
-import { StyleSheet, Text, View, Pressable } from 'react-native'
+import { StyleSheet, Text, View, Pressable, ActivityIndicator } from 'react-native'
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Tabs, useRouter } from 'expo-router';
 
@@ -30,7 +30,7 @@ const Comandero = () => {
         enviarComandaACocinaYCobrarCuenta
     } = useComandero();
     
-    const { modals, openModal, closeModal, printConfErrorMsg } = useUI();
+    const { modals, openModal, closeModal, printConfErrorMsg, loadings, startLoading, finishLoading } = useUI();
 
     const router = useRouter();
 
@@ -56,6 +56,11 @@ const Comandero = () => {
         style={styles.container}
         edges={["left", "right", "bottom"]}
     >
+        {loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA] && (
+            <View style={styles.loadingOverlay}>
+                <ActivityIndicator size='120' />
+            </View>
+        )}
         <ModalConfirmarAccion 
             title='¿Estás seguro de salir de la comanda?'
             paragraph='Los datos no guardados se perderan'
@@ -86,11 +91,14 @@ const Comandero = () => {
             paragraph='La Comanda se generará para empezar a cocinarla'
             onConfirm={async ()=> {
                 try {
+                    startLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
                     await enviarComanda();
                     limpiarEstado();
                     router.replace("/dashboard/mesas")
                 } catch (error) {
                     console.error("Error al enviar comanda:", error);
+                } finally {
+                    finishLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
                 }
             }}
             visible={ modals[MODALS.ENVIAR_COCINA] }
@@ -101,11 +109,14 @@ const Comandero = () => {
             paragraph='La Comanda se generará para empezar a cocinarla'
             onConfirm={async ()=> {
                 try {
+                    startLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
                     await enviarComanda(true);
                     limpiarEstado();
                     router.replace("/dashboard/mesas")
                 } catch (error) {
                     console.error("Error al enviar comanda:", error);
+                } finally {
+                    finishLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
                 }
             }}
             visible={ modals[MODALS.ENVIAR_URGENTE] }
@@ -130,11 +141,14 @@ const Comandero = () => {
             paragraph='Se enviarán los platillos restantes a la cocina y se enviará a cobrar la cuenta'
             onConfirm={async ()=> {
                 try {
+                    startLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
                     await enviarComandaACocinaYCobrarCuenta();
                     limpiarEstado();
                     router.replace("/dashboard/mesas")
                 } catch (error) {
                     console.error("Error al cobrar cuenta:", error);
+                } finally {
+                    finishLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
                 }
             } }
             visible={ modals[MODALS.ENVIAR_Y_COBRAR] }
@@ -210,5 +224,11 @@ const styles = StyleSheet.create({
     },
     rightColumnContainer: {
         flex:0.45,
+    },
+    loadingOverlay: {
+      ...StyleSheet.absoluteFillObject,
+      justifyContent: 'center',
+      alignItems: 'center',
+      zIndex: 10,
     }
 })
