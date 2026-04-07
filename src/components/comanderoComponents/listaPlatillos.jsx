@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useComandero } from "../../context/ComanderoContext";
+import { useUI, LOADINGS } from '../../context/UIContext';
 
 import { StyleSheet, Text, View, Pressable, ScrollView } from "react-native";
 import { buildApiUrl } from "../../utils/apiConfig";
@@ -8,6 +9,7 @@ const ListaPlatillos = () => {
   const [platillos, setPlatillos] = useState([]);
 
   const { categoriaSeleccionada, agregarPlatillo } = useComandero();
+  const { loadings } = useUI();
 
   const obtenerPlatillos = async () => {
     try {
@@ -42,10 +44,12 @@ const ListaPlatillos = () => {
                 key={platillo.idProducto}
                 style={({ pressed }) => [
                   styles.platilloButton,
-                  pressed && styles.platilloButtonPressed
+                  pressed && styles.platilloButtonPressed,
+                  loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA] && styles.platilloButtonPressed
                 ]
                 }
                 onPress={()=> agregarPlatillo(platillo)}
+                disabled={loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA]}
             >
                 <Text style={styles.platilloButtonText}>{platillo.nombre}</Text>
               </Pressable>
