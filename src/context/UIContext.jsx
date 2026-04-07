@@ -28,7 +28,8 @@ export const MODALS = {
 };
 
 export const LOADINGS = {
-    OPCIONES_MESA: 'opcionesDeMesaLoading'
+    OPCIONES_MESA: 'opcionesDeMesaLoading',
+    ENVIAR_O_COBRAR_COMANDA: 'enviarOCobrarComanda'
 }
 
 const initialModals = Object.values(MODALS).reduce((acc, key) => {
