@@ -12,9 +12,15 @@ const FinalizarComanda = () => {
   const { openModal, setPrintConfErrorMsg } = useUI();
 
   return (
-    <View style={{flex:1, flexDirection:'row', justifyContent: 'space-around', alignItems: 'center'}}>
+    <View style={styles.buttonsContainer}>
       <Pressable
-        style={{alignItems: 'center'}}
+        style={({ pressed }) => ([
+          styles.button,
+          {
+            marginLeft: 0,
+            backgroundColor: pressed ? '#faa80f' : '#2596be' 
+          }
+        ])}
         onPress={async () => {
           try {
             if(!pedido.length){
@@ -33,11 +39,18 @@ const FinalizarComanda = () => {
           }
         }}
       >
-        <MaterialCommunityIcons name="chef-hat" size={24} color="black" />
-        <Text>Enviar a cocina</Text>
+        {({ pressed }) => (
+          <>
+            <MaterialCommunityIcons name="chef-hat" size={24} color={ pressed ? "#fff" : '#000'} />
+            <Text style={styles.buttonText}>Enviar a cocina</Text>
+          </>
+        )} 
       </Pressable>
       <Pressable 
-        style={{alignItems: 'center'}}
+        style={({ pressed }) => ([
+          styles.button,
+          { backgroundColor: pressed ? '#faa80f' : '#2596be' }
+        ])}
         onPress={async () => {
           try {
             if(!pedido.length){
@@ -56,11 +69,21 @@ const FinalizarComanda = () => {
           }
         }}
       >
-        <AntDesign name="fire" size={24} color="red" />
-        <Text>Enviar urgente</Text>
+        {({ pressed }) => (
+          <>
+            <AntDesign name="fire" size={24} color={ pressed ? "red" : '#000'} />
+            <Text style={styles.buttonText}>Enviar urgente</Text>
+          </>
+        )} 
       </Pressable>
       <Pressable 
-        style={{alignItems: 'center'}}
+        style={({ pressed }) => ([
+          styles.button,
+          {
+            marginRight: 0,
+            backgroundColor: pressed ? 'red' : '#2596be' 
+          }
+        ])}
         onPress={()=>{
           if(pedido.length===0)return;
           if(pedido.every(item => item.estatusCocina === 0)){
@@ -71,8 +94,12 @@ const FinalizarComanda = () => {
           openModal(MODALS.CANCELAR_COMANDA);
         }}
       >
-        <MaterialCommunityIcons name="printer-pos-cancel-outline" size={24} color="black" />
-        <Text>Cancelar</Text>
+        {({ pressed }) => (
+          <>
+            <MaterialCommunityIcons name="printer-pos-cancel-outline" size={24} color={ pressed ? "#fff" : '#000'} />
+            <Text style={styles.buttonText}>Cancelar</Text>
+          </>
+        )} 
       </Pressable>
     </View>
   )
@@ -80,4 +107,21 @@ const FinalizarComanda = () => {
 
 export default FinalizarComanda
 
-const styles = StyleSheet.create({})
+const styles = StyleSheet.create({
+  buttonsContainer:{
+    flex:1,
+    flexDirection:'row',
+    paddingTop: 10,
+    paddingBottom: 2
+  },
+  button: {
+    flex: 1,
+    marginHorizontal: 4,
+    alignItems: 'center',
+    borderRadius: 5,
+    paddingVertical: 5
+  },
+  buttonText: {
+    color: '#fff'
+  }
+})
