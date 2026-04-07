@@ -50,6 +50,7 @@ export const ComanderoProvider = ({children}) => {
                     console.log("Detalle marcado para eliminación:", linea);
                 }                
             });
+            setLineaPedidoSeleccionadaId(null);
             return [];
         });
     }
