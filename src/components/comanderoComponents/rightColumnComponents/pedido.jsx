@@ -40,18 +40,16 @@ const Pedido = () => {
 
   return (
     
-    <View style={{flex:1}}> {/* Parte superior (Tabla completa: Encabezado, filas) */}
-      {/* Tabla */}
-      <View style={{flex:1, backgroundColor: '#fff'}}>
-        {/* Encabezado */}
+    <View style={{flex:1 /* Parte superior (Tabla completa: Encabezado, filas) */}}>
+      <View style={{flex:1, backgroundColor: '#fff', /* Tabla */}}>
         <View style={styles.tableHeader}>
           <Text style={styles.colPersona}>Persona</Text>
           <Text style={styles.colPlatillo}>Platillo</Text>
           <Text style={styles.colCantidad}>Cant.</Text>
           <Text style={styles.colComentarios}>Comentarios</Text>
         </View>
-        {/* Filas */}
-        <ScrollView>
+
+        <ScrollView style={{/* Filas */}}>
           {pedido.sort((a,b) => a.persona - b.persona)?.map(item => (
             <Pressable 
               key={item.idLinea} 
@@ -70,89 +68,111 @@ const Pedido = () => {
         </ScrollView>
       </View>
 
-      {/* Parte Inferior (Botones de la taba, sección de comentario y sus botones) */}
-      <View style={{flex:1}}> 
+      <View style={{flex:1, /* Parte Inferior (Botones de la taba, sección de comentario y sus botones) */}}> 
         {/* Botones*/}
-        <View style={{ flexDirection: "row", justifyContent: 'space-around', marginVertical: 5 }}>
-          <Pressable onPress={()=> {
-            if(pedido.length <= 0) return;
-            openModal(MODALS.BORRAR_PEDIDO);
+        <View style={{ flexDirection: "row", marginVertical: 5 }}>
+          <Pressable 
+            onPress={()=> {
+              if(pedido.length <= 0) return;
+              openModal(MODALS.BORRAR_PEDIDO);
             }}
+
+            style={({ pressed }) => ([
+              styles.button,
+              { backgroundColor: pressed ? 'red' : '#2596be' }
+            ])}
           >
             {({ pressed }) => (
               <Ionicons 
                 name="trash-outline" 
                 size={24} 
-                color={pressed ? "red" : "black"}
+                color={pressed ? "#fff" : '#000'}
               />
             )}
           </Pressable>
           <Pressable
-            onPress={() => openModal(MODALS.COMPLEMENTOS) }
+            onPress={() => {
+              if(pedido.length === 0) return;
+              openModal(MODALS.COMPLEMENTOS)
+            }}
+
+            style={({ pressed }) => ([
+              styles.button,
+              { backgroundColor: pressed ? 'green' : '#2596be' }
+            ])}
           >
             {({ pressed }) => (
               <MaterialCommunityIcons
                 name="food-variant"
                 size={24}
-                color={pressed ? "lightblue" : "black"}
+                color={pressed ? "#fff" : '#000'}
               />
             )}
           </Pressable>
-          <View style={{flexDirection: 'row'}}>
-            <View>
-              <DropDownPicker 
-                open = {dropDownPersonasOpen}
-                value = {personaActiva}
-                items = {personas.map(persona => ({ label:persona, value: persona}))}
-                setOpen={setDropDownPersonasOpen}
-                setValue={seleccionarPersona}
-                placeholder={personaActiva}
-                dropDownDirection="BOTTOM" 
-                style={{
-                  backgroundColor: "#fff",
-                  borderColor: "#ccc",
-                  minHeight: 20,
-                  width: 80,
-                  marginRight: 5
-                }}
-                dropDownContainerStyle={{
-                  borderColor: "#ccc",
-                  maxHeight: 120,
-                  width: 80,
-                }}
-                textStyle={{
-                  fontSize: 14
-                }}
-              />
-            </View>
-            <Pressable onPress={()=>{agregarPersona()}}>
-              {({ pressed }) => (
-              <Feather 
-                name="user-plus" 
-                size={24} 
-                color={pressed ? "green" : "black"}
-              />
-            )}
-              
-            </Pressable>
+          <View>
+            <DropDownPicker 
+              open = {dropDownPersonasOpen}
+              value = {personaActiva}
+              items = {personas.map(persona => ({ label:persona, value: persona}))}
+              setOpen={setDropDownPersonasOpen}
+              setValue={seleccionarPersona}
+              placeholder={personaActiva}
+              dropDownDirection="BOTTOM" 
+              style={{
+                backgroundColor: "#fff",
+                borderColor: "#ccc",
+                minHeight: 20,
+                width: 80,
+                paddingVertical: 7,
+              }}
+              dropDownContainerStyle={{
+                borderColor: "#ccc",
+                maxHeight: 120,
+                width: 80, 
+              }}
+              textStyle={{
+                fontSize: 14
+              }}
+            />
           </View>
-          <Pressable onPress={()=> {
+          <Pressable 
+            onPress={()=>{agregarPersona()}}
+
+            style={({ pressed }) => ([
+              styles.button,
+              { backgroundColor: pressed ? 'green' : '#2596be' }
+            ])}
+          >
+            {({ pressed }) => (
+            <Feather 
+              name="user-plus" 
+              size={24} 
+              color={pressed ? "#fff" : '#000'}
+            />
+          )}
+          </Pressable>
+          <Pressable 
+          onPress={()=> {
             if(!lineaPedidoSeleccionadaId)return;
             openModal(MODALS.QUITAR_PLATILLO);
           }}
+
+          style={({ pressed }) => ([
+            styles.button,
+            { backgroundColor: pressed ? 'red' : '#2596be' }
+          ])}
           >
             {({ pressed }) => (
               <AntDesign 
-                name="close" 
-                size={24} 
-                color={pressed ? "red" : "black"} 
+              name="close" 
+              size={24} 
+                color={pressed ? "#fff" : '#000'}
               />
             )}
           </Pressable>
         </View>
 
-        {/* Input para comentarios */}
-        <View>
+        <View style={{/*Input para comentarios */}}>
           <Text style={{ fontWeight: "bold" }}>Comentarios</Text>
           <TextInput 
             style={styles.inputComentarios}
@@ -161,10 +181,17 @@ const Pedido = () => {
             placeholder="Agregar comentario..."
           />
           <View
-            style={{ flexDirection: "row", justifyContent: "space-around", marginTop: '5' }}
+            style={{ flexDirection: "row", marginTop: 5 }}
           >
             <Pressable 
-              style={{ flexDirection: "row", alignItems: 'center'}}
+              style={({ pressed }) => ([
+                styles.button,
+                {
+                  marginLeft: 0,
+                  paddingVertical: 1,
+                  backgroundColor: pressed ? 'green' : '#2596be'
+                }
+              ])}
               onPress={() => {
                 if (!lineaPedidoSeleccionadaId) return;
                 if (!comentario.trim()) return;
@@ -172,19 +199,42 @@ const Pedido = () => {
                 setComentario("");
               }}
             >
-              <Feather name="plus" size={24} color="green" />
-              <Text style={{marginLeft: 5}}>Agregar</Text>
+              {({ pressed }) => (
+                <>
+                  <Feather 
+                    name="plus" 
+                    size={24} 
+                    color={pressed ? "#fff" : 'green'}
+                  />
+                  <Text style={{marginLeft: 5, color: '#fff'}}>Agregar</Text>
+                </>
+              )}
             </Pressable>
             <Pressable 
-              style={{ flexDirection: "row", alignItems: 'center' }}
+              style={({ pressed }) => ([
+                styles.button,
+                {
+                  marginRight: 0,
+                  paddingVertical: 1,
+                  backgroundColor: pressed ? 'red' : '#2596be' 
+                }
+              ])}
               onPress={() => {
                 if (!lineaPedidoSeleccionadaId || !comentario.trim()) return;
                 borrarComentarioLinea();
                 setComentario("");
               }}
             >
-              <AntDesign name="close-circle" size={24} color="red" />
-              <Text style={{marginLeft: 5}}>Borrar</Text>
+              {({ pressed }) => (
+                <>
+                  <AntDesign 
+                    name="close-circle" 
+                    size={24} 
+                    color={pressed ? "#fff" : 'red'}
+                  />
+                  <Text style={{marginLeft: 5, color: '#fff'}}>Borrar</Text>
+                </>
+              )}
             </Pressable>
           </View>
         </View>
@@ -232,4 +282,13 @@ const styles = StyleSheet.create({
     padding: 5,
     borderRadius: 5,
   },
+  button:{
+    flex: 1, 
+    marginHorizontal: 4,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    borderRadius: 5,
+    paddingVertical: 5
+  }
 });
