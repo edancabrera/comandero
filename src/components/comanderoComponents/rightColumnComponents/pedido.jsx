@@ -41,7 +41,7 @@ const Pedido = () => {
   return (
     
     <View style={{flex:1 /* Parte superior (Tabla completa: Encabezado, filas) */}}>
-      <View style={{flex:1, backgroundColor: '#fff', /* Tabla */}}>
+      <View style={{flex:1, backgroundColor: '#fff' /* Tabla */}}>
         <View style={styles.tableHeader}>
           <Text style={styles.colPersona}>Persona</Text>
           <Text style={styles.colPlatillo}>Platillo</Text>
@@ -60,9 +60,21 @@ const Pedido = () => {
               onPress={() => seleccionarLineaPedido(item.idLinea)}
             >
               <Text style={styles.colPersona}>{item.persona}</Text>
-              <Text style={styles.colPlatillo}>{item.nombre}</Text>
+              <Text 
+                style={styles.colPlatillo}
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {item.nombre}
+              </Text>
               <Text style={styles.colCantidad}>{item.cantidad}</Text>
-              <Text style={styles.colComentarios}>{item.comentarios}</Text>
+              <Text 
+                style={styles.colComentarios} 
+                numberOfLines={1}
+                ellipsizeMode="tail"
+              >
+                {item.comentarios}
+              </Text>
             </Pressable>
           ))}
         </ScrollView>
