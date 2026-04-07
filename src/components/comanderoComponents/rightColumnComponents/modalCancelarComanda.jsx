@@ -1,5 +1,5 @@
 import { useComandero } from '../../../context/ComanderoContext'
-import { useUI, MODALS } from '../../../context/UIContext';
+import { useUI, MODALS, LOADINGS } from '../../../context/UIContext';
 import { StyleSheet, Text, View, Modal, Pressable } from 'react-native'
 import { useRouter } from 'expo-router';
 
@@ -10,7 +10,7 @@ const ModalCancelarComanda = () => {
       limpiarEstado
     } = useComandero();
 
-    const { modals, closeModal } = useUI();
+    const { modals, closeModal, loadings, startLoading, finishLoading } = useUI();
 
     const router = useRouter();
   return (
@@ -42,18 +42,23 @@ const ModalCancelarComanda = () => {
                     style={({ pressed }) => [
                       styles.button, 
                       styles.buttonSi,
-                      pressed && styles.buttonSiPressed
+                      pressed && styles.buttonSiPressed,
+                      loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA] && styles.buttonSiPressed
                     ]}
                     onPress={ async () => {
                       try {
+                        startLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
                         await cancelarComanda();
                         limpiarEstado();
                         router.replace("/dashboard/mesas");
                         closeModal(MODALS.CANCELAR_COMANDA);
                       } catch (error) {
                         console.error('Error', error)
+                      } finally {
+                        finishLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
                       }
                     }}
+                    disabled={loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA]}
                 >
                     <Text style={styles.buttonText}>{pedidoACancelarEnviadoACocina? "Si" : "Aceptar"}</Text>
                 </Pressable>

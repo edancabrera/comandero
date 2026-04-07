@@ -1,20 +1,22 @@
-import { StyleSheet, Text, Pressable, Alert } from 'react-native'
+import { StyleSheet, Text, Pressable } from 'react-native'
 import { useComandero } from '../../context/ComanderoContext';
-import { useUI, MODALS } from '../../context/UIContext';
+import { useUI, MODALS, LOADINGS } from '../../context/UIContext';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 const BotonCobrarCuenta = () => {
     const { pedido, verificarImpresora } = useComandero();
-    const { openModal, setPrintConfErrorMsg } = useUI();
+    const { openModal, setPrintConfErrorMsg, loadings, startLoading, finishLoading } = useUI();
   return (
     <Pressable 
         style={({ pressed }) => [
             styles.button,
-            pressed && styles.buttonPressed
+            pressed && styles.buttonPressed,
+            loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA] && styles.buttonPressed
         ]}
 
          onPress={async () => { 
             try {
+                startLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
                 if(!pedido.length){
                 openModal(MODALS.COMANDA_VACIA);
                 return;
@@ -25,6 +27,8 @@ const BotonCobrarCuenta = () => {
             } catch (error) {
                 setPrintConfErrorMsg(error.message);
                 openModal(MODALS.ERROR_IMPRESORA);
+            } finally {
+                finishLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
             }
         }}
     >

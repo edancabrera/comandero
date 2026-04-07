@@ -1,7 +1,7 @@
 import { useComandero } from '../../../context/ComanderoContext';
-import { useUI, MODALS } from '../../../context/UIContext';
+import { useUI, MODALS, LOADINGS } from '../../../context/UIContext';
 
-import { StyleSheet, Text, View, Pressable, Alert } from 'react-native'
+import { StyleSheet, Text, View, Pressable } from 'react-native'
 
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -9,10 +9,11 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 const FinalizarComanda = () => {
   const {pedido, setPedidoACancelarEnviadoACocina, verificarImpresora, calcularAgregados, detallesAEliminar} = useComandero();
 
-  const { openModal, setPrintConfErrorMsg } = useUI();
+  const { openModal, setPrintConfErrorMsg, loadings, startLoading, finishLoading } = useUI();
 
   const handleEnviarCocina = async () => {
     try {
+      startLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
       if(!pedido.length){
         openModal(MODALS.COMANDA_VACIA);
         return;
@@ -26,11 +27,14 @@ const FinalizarComanda = () => {
     } catch (error) {
       setPrintConfErrorMsg(error.message);
       openModal(MODALS.ERROR_IMPRESORA);
+    } finally {
+      finishLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
     }
   }
 
   const handleEnviarUrgente = async () => {
     try {
+      startLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
       if(!pedido.length){
         openModal(MODALS.COMANDA_VACIA);
         return;
@@ -44,6 +48,8 @@ const FinalizarComanda = () => {
     } catch (error) {
       setPrintConfErrorMsg(error.message);
       openModal(MODALS.ERROR_IMPRESORA);
+    } finally {
+      finishLoading(LOADINGS.ENVIAR_O_COBRAR_COMANDA);
     }
   }
 
@@ -65,23 +71,28 @@ const FinalizarComanda = () => {
           {
             marginLeft: 0,
             backgroundColor: pressed ? '#faa80f' : '#2596be' 
-          }
+          },
+          loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA] && styles.buttonDisabled 
         ])}
         onPress={handleEnviarCocina}
+        disabled={loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA]}
       >
         {({ pressed }) => (
           <>
             <MaterialCommunityIcons name="chef-hat" size={24} color={ pressed ? "#fff" : '#000'} />
             <Text style={styles.buttonText}>Enviar a cocina</Text>
           </>
-        )} 
+        )}
+
       </Pressable>
       <Pressable 
         style={({ pressed }) => ([
           styles.button,
-          { backgroundColor: pressed ? '#faa80f' : '#2596be' }
+          { backgroundColor: pressed ? '#faa80f' : '#2596be' },
+          loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA] && styles.buttonDisabled 
         ])}
         onPress={handleEnviarUrgente}
+        disabled={loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA]}
       >
         {({ pressed }) => (
           <>
@@ -96,9 +107,11 @@ const FinalizarComanda = () => {
           {
             marginRight: 0,
             backgroundColor: pressed ? 'red' : '#2596be' 
-          }
+          },
+          loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA] && styles.buttonDisabled 
         ])}
         onPress={handleCancelar}
+        disabled={loadings[LOADINGS.ENVIAR_O_COBRAR_COMANDA]}
       >
         {({ pressed }) => (
           <>
@@ -126,6 +139,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 5,
     paddingVertical: 5
+  },
+  buttonDisabled:{
+    backgroundColor: '#0c485e'
   },
   buttonText: {
     color: '#fff'
