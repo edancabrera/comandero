@@ -110,14 +110,14 @@ const login = () => {
             </Text>
         </Pressable>
 
-        <Pressable 
+        {/* <Pressable 
           style = {styles.configButton}
           onPress={clearServerIp}
         >
           <Text style = {styles.configButtonText}>
             Borrar IP
           </Text>
-        </Pressable>
+        </Pressable> */}
       </View>
       <View style={{flex:0.4}}>
         <Numpad
