@@ -79,8 +79,11 @@ const Pedido = () => {
 
             style={({ pressed }) => ([
               styles.button,
-              { backgroundColor: pressed ? 'red' : '#2596be' }
+              { backgroundColor: pressed ? 'red' : '#2596be' },
+              pedido.length === 0 && styles.buttonDisabled
             ])}
+
+            disabled={pedido.length === 0}
           >
             {({ pressed }) => (
               <Ionicons 
@@ -98,8 +101,11 @@ const Pedido = () => {
 
             style={({ pressed }) => ([
               styles.button,
-              { backgroundColor: pressed ? 'green' : '#2596be' }
+              { backgroundColor: pressed ? 'green' : '#2596be' },
+              !lineaPedidoSeleccionadaId && styles.buttonDisabled
             ])}
+
+            disabled={!lineaPedidoSeleccionadaId}
           >
             {({ pressed }) => (
               <MaterialCommunityIcons
@@ -159,8 +165,11 @@ const Pedido = () => {
 
           style={({ pressed }) => ([
             styles.button,
-            { backgroundColor: pressed ? 'red' : '#2596be' }
+            { backgroundColor: pressed ? 'red' : '#2596be' },
+            !lineaPedidoSeleccionadaId && styles.buttonDisabled
           ])}
+          
+          disabled={!lineaPedidoSeleccionadaId}
           >
             {({ pressed }) => (
               <AntDesign 
@@ -179,6 +188,7 @@ const Pedido = () => {
             value={comentario}
             onChangeText={setComentario}
             placeholder="Agregar comentario..."
+            editable={Boolean(lineaPedidoSeleccionadaId)}
           />
           <View
             style={{ flexDirection: "row", marginTop: 5 }}
@@ -190,7 +200,8 @@ const Pedido = () => {
                   marginLeft: 0,
                   paddingVertical: 1,
                   backgroundColor: pressed ? 'green' : '#2596be'
-                }
+                },
+                !comentario && styles.buttonDisabled
               ])}
               onPress={() => {
                 if (!lineaPedidoSeleccionadaId) return;
@@ -198,15 +209,20 @@ const Pedido = () => {
                 agregarComentarioLinea(comentario);
                 setComentario("");
               }}
+
+              disabled={!comentario}
             >
               {({ pressed }) => (
                 <>
                   <Feather 
                     name="plus" 
                     size={24} 
-                    color={pressed ? "#fff" : 'green'}
+                    color={!comentario ? 'grey': pressed ? "#fff" : 'green'}
                   />
-                  <Text style={{marginLeft: 5, color: '#fff'}}>Agregar</Text>
+                  <Text style={[
+                    {marginLeft: 5, color: '#fff'},
+                    !comentario && {color: 'grey'}
+                  ]}>Agregar</Text>
                 </>
               )}
             </Pressable>
@@ -217,22 +233,28 @@ const Pedido = () => {
                   marginRight: 0,
                   paddingVertical: 1,
                   backgroundColor: pressed ? 'red' : '#2596be' 
-                }
+                },
+                !comentario && styles.buttonDisabled
               ])}
               onPress={() => {
                 if (!lineaPedidoSeleccionadaId || !comentario.trim()) return;
                 borrarComentarioLinea();
                 setComentario("");
               }}
+
+              disabled={!comentario}
             >
               {({ pressed }) => (
                 <>
                   <AntDesign 
                     name="close-circle" 
                     size={24} 
-                    color={pressed ? "#fff" : 'red'}
+                    color={!comentario ? 'grey': pressed ? "#fff" : 'red'}
                   />
-                  <Text style={{marginLeft: 5, color: '#fff'}}>Borrar</Text>
+                  <Text style={[
+                    {marginLeft: 5, color: '#fff'},
+                    !comentario && {color: 'grey'}
+                  ]}>Borrar</Text>
                 </>
               )}
             </Pressable>
@@ -290,5 +312,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderRadius: 5,
     paddingVertical: 5
+  },
+  buttonDisabled:{
+    backgroundColor: '#0c485e'
   }
 });
