@@ -21,7 +21,8 @@
         "foregroundImage": "./assets/logo.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "package": "com.cabrerait.comandero"
     },
     "web": {
       "favicon": "./assets/favicon.png"
