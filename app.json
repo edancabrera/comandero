@@ -1,6 +1,6 @@
 {
   "expo": {
-    "scheme":"comandero",
+    "scheme": "comandero",
     "name": "CROV comandero",
     "slug": "comandero",
     "version": "1.0.0",
@@ -28,6 +28,12 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "67865b5f-820d-4a55-86a7-d951e0fd9035"
+      }
+    }
   }
 }
