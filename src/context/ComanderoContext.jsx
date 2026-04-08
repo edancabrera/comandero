@@ -563,8 +563,6 @@ export const ComanderoProvider = ({children}) => {
                 separador,
                 `TOTAL: $${detalleComanda.total.toFixed(2)}`,
                 separador,
-                'Colocar aquí el TOTAL en números, eventualmente',
-                separador
             ].join("\n");
 
             return cuenta;
