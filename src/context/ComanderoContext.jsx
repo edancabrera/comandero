@@ -375,7 +375,9 @@ export const ComanderoProvider = ({children}) => {
 
             const claveRaiz = categoria === "ZARANDEADOS" 
                 ? "ZARANDEADOS"
-                : menu;
+                : menu === "BEBIDA"
+                    ? "BEBIDA"
+                    : "COMIDA";
             
             if(!acc[claveRaiz]) {
                 acc[claveRaiz] = {};
